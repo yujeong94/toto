@@ -1,0 +1,260 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean');
+
+*, *::before, *::after {
+	box-sizing : border-box;
+}
+
+html {
+	font-size:10px;
+}
+
+body {
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size : 1.2rem;
+	line-height : 1.5;
+	color: #444;
+}
+
+/* 링크 */
+a{
+	text-decoration: none;
+	color: inherit;
+}
+
+a:hover{
+	/* text-decoration: underline; */
+}
+
+img {
+	max-width : 100%;
+}
+
+/* 숨김처리 */
+.blind {
+	width: 1px;
+  	height: 1px;
+  	overflow: hidden;
+  	margin: -1px;
+  	position: absolute;
+  	clip: rect(0, 0, 0, 0);
+}
+
+/* 플로트 해제 */
+.clear-fix:after {
+	content : "";
+	display : block;
+	clear :both;
+}
+
+
+/* ============================================================================= */
+
+
+/* 레이아웃 기본 */
+.wrapper {
+	width:100%;
+}
+
+.header, .best-rank, .contents, .footer{
+	max-width : 1000px;
+	width : 90%;
+	margin : 0 auto;
+}
+
+.visual {
+	width : 100%;
+}
+
+/* 헤더 */
+.logo {
+	width : 200px;
+	position : absolute;
+}
+
+.util { 
+	float : right;
+	margin : 20px 0 50px;
+}
+
+.util li {
+	display : inline-block;
+	margin : 0 10px;
+}
+
+.util li:last-child {
+	margin-right : 0;
+}
+
+.util a {
+	padding : 3px 5px;
+}
+
+.util a:hover {
+	background : #1c4c85;
+	color : #fff;
+	border-radius : 3px;
+}
+
+/* 메인메뉴 */
+.navi {
+	float : right;
+}
+.main-menu {
+}
+.main-menu > li {
+	float : left;
+	position : relative;
+	border-bottom : 2px solid #1c4c85;
+	margin-right : 2px;
+}
+.menu-item {
+	display : block;
+	padding : 8px 32px 4px;
+	font-size : 1.3rem;
+	font-weight : 700;
+	text-align : center;
+}
+.menu-item:hover {
+	background : #1c4c85;
+	color : #fff;
+}
+
+/* 서브메뉴 */
+.sub-menu {
+	position : absolute;
+	top : 40px;
+	white-space: nowrap;
+}
+.sub-menu > li {
+	display : inline-block;
+	padding : 5px 10px;
+}
+
+/* 푸터  */
+.footer {
+	border-top : 1px solid #cbcbcb;
+	padding : 30px 0 0;
+	margin-top : 30px;
+} 
+.footer-logo, .footer-text {
+	float : left;
+}
+.footer-menu {
+	float : right;
+	margin-right : 30px;
+}
+
+.footer-logo {
+	margin-right : 30px;
+	margin-top : -15px;
+	margin-left : 20px;
+}
+.footer-logo img {
+	width : 100px;
+}
+.footer-text {
+	text-align : center;
+	border-left : 1px solid #cbcbcb;
+	border-right : 1px solid #cbcbcb;
+	padding : 0 150px;
+}
+
+
+/* ============================================================================= */
+
+
+/* 페이지 타이틀 기본 */
+h2 {
+	font-size : 2.4rem;
+	font-weight : 800;	
+	margin-top : 50px;
+	margin-bottom : 50px;
+	color : #333f50;
+}
+
+h2 span {
+	display : inline-block;
+	border-bottom : 3px solid #333f50;
+	padding-bottom : 10px;
+}
+
+/* 테이블 기본 */
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table, th, td {
+	border: none;
+}
+
+th, td{
+	padding: 15px;
+}
+
+caption {
+	display : none;	
+}
+
+th {
+	font-weight : 700;
+}
+
+thead th {
+	background : #f2f2f2;
+	border-top : 2px solid #cbcbcb;
+	border-bottom : 1px solid #cbcbcb;
+}
+
+/* 폼 */
+legend { 
+	width: 1px;
+  	height: 1px;
+  	overflow: hidden;
+  	margin: -1px;
+  	position: absolute;
+  	clip: rect(0, 0, 0, 0);
+}
+
+button.is-act {
+	background : #595959;
+	color : #fff;
+}
+
+button {
+	padding : 10px 20px;
+	border : 1px solid #cbcbcb;
+	border-radius : 5px;
+	background : #f2f2f2;
+}
+
+input, select, textarea {
+	padding : 8px 18px;
+	border : 1px solid #cbcbcb;
+	border-radius : 5px;
+	background : #fff;
+	box-shadow : inset 1px 1px 3px #e6e6e6;
+}
+
+input[type="button"], button {
+	cursor: pointer;
+}
+
+form input, form button, form textarea, form select {
+	color: inherit;
+	font: inherit;
+}
+
+input, button{
+	vertical-align: middle;
+}
+
+input:focus, textarea:focus, button:focus, select:focus {
+	outline: none;
+}
+
+
+
+
