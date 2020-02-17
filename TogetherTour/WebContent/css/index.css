@@ -1,19 +1,68 @@
 @charset "UTF-8";
 
 @import url("reset.css");
-@import url("common.css");
 
-/* 슬라이드 쇼 */
-.visual { 
-	margin : 80px 0 0 0;
-	height : 440px;
-}
-.slideshow {
-	position : relative;
+/*동행찾기*/
+.contents { 
+	padding-top: 1px;
 }
 
-.slideshow img {
-	position : absolute;
+.total-search {
+	position: relative;
+	height: 550px;
+	margin-top: 100px;
+	margin-bottom: 180px;
+}
+
+.total-search > div{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+.total-search h3 {
+	font-size: 1.3rem;
+	font-weight: 700;
+	background: rgba(0, 0, 0, 0.5);
+	padding: 10px 20px;
+}
+
+.total-search form {
+	padding: 20px 30px;
+	background: rgba(255, 255, 255, 0.5);
+	color: #000;
+}
+
+.total-search h4 {
+	margin: 10px 0;
+	padding: 3px 3px;
+	background: #eaeaea;
+	font-weight: 700;
+}
+
+.total-search div {
+	margin-bottom: 10px;
+}
+
+.total-search button {
+	color: #fff;
+	float: right;
+	margin-left: 20px;
+}
+
+.domestic .local {
+	width : calc(100% - 83px);	
+}
+
+.overseas {
+	display: none;
+}
+.overseas select {
+	width : calc((100% - 86px) / 2);	
+}
+
+.total-search input[type="date"] {
+	width: 150px;
 }
 
 .best {
