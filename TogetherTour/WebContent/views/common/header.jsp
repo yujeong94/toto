@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 	<header class="header">
@@ -13,8 +14,8 @@
 					<a href="<%= request.getContextPath() %>/index.jsp"><img src="<%= request.getContextPath() %>/images/logo-o.png"></a>
 				</h1>
 				<ul class="util">
-					<li><a href="">로그인</a></li>
-					<li><a href="">회원가입</a></li>
+					<li><a href="javascript:void(0)" onclick="login();">로그인</a></li>
+					<li><a href="<%= request.getContextPath() %>/views/member/joinForm.jsp">회원가입</a></li> <!-- 유정: 회원가입 페이지 연결 -->
 					<li><a href="">마이페이지</a></li>
 				</ul>
 				<br clear="both">
@@ -115,7 +116,19 @@
 					});
 
 			});
-
+			
+			// 유정: 주석함
+			<%-- function login(){
+				window.open('<%= request.getContextPath() %>/login.me', 'loginForm', 'width=500, height=300');
+			} --%>
+			// 유정
+			
+			// 유정: 로그인페이지 연결
+			function login(){
+				location.href='<%= request.getContextPath() %>/views/member/loginView.jsp';
+			}
+			// 유정
+			
 		</script>
 </body>
 </html>
