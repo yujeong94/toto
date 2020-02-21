@@ -21,7 +21,7 @@
 	<%@ include file="../common/header.jsp"%>
 	<br>
 	<br>
-	<br>
+	<br> 
 	<hr>
 	<div class="contents">
 		<div id="insertbuddy">

@@ -29,7 +29,7 @@ public class buddyBoardService {
 		Connection conn = getConnection();
 		ArrayList<buddyBoard> list = new buddyBoardDAO().selectList(conn, currentPage);
 		close(conn);
-		
+		 
 		return list;
 	
 	}

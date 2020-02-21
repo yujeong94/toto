@@ -16,7 +16,7 @@
 	href="<%=request.getContextPath()%>/css/buddy/buddyInsertForm.css">
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.min.js"></script>
 <style>
-	table{width:100%}
+	table{width:100%} 
 </style>
 </head>
 <body>

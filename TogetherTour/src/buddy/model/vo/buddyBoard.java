@@ -22,7 +22,7 @@ public class buddyBoard {
 	private String kakao; 		// 계정연결
 	private int kind; 			// 국내해외 구분
 	private int head_cnt;       // 동행인원
-	
+	 
 	// 기본생성자
 	public buddyBoard() {}
 

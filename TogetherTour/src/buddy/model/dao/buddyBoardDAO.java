@@ -29,7 +29,7 @@ public class buddyBoardDAO {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	}	
+	}	 
 	
 	
 	public int getListCount(Connection conn) {

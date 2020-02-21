@@ -29,7 +29,7 @@
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.min.js"></script>
 
 </head>
-<body>
+<body> 
 	<%@ include file="../common/header.jsp"%>
 	<br><br><br>
 	<hr>

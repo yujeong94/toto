@@ -20,7 +20,7 @@ import buddy.model.vo.buddyBoard;
 @WebServlet("/list.buddy")
 public class buddyBoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+        
     /**
      * @see HttpServlet#HttpServlet()
      */

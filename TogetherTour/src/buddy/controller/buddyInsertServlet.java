@@ -19,7 +19,7 @@ import buddy.model.vo.buddyBoard;
 public class buddyInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
+    /**ddd
      * @see HttpServlet#HttpServlet()
      */
     public buddyInsertServlet() {
