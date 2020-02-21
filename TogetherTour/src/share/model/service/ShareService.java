@@ -16,7 +16,7 @@ public class ShareService {
 		int result1 = sDAO.insertShare(conn, share) ;
 		int result2 = sDAO.insertSattachment(conn, fileList, share) ;
 		if(result1>0 && result2>0)	commit(conn) ;
-		else						rollback(conn) ;
+		else						rollback(conn) ; 
 		return result1 ;
 	}
 

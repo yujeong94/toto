@@ -15,7 +15,7 @@ import share.model.service.ShareService ;
 import share.model.vo.* ;
 
 /** Servlet implementation class DetailShareServlet */
-@WebServlet("/detail.share")
+@WebServlet("/detail.share") 
 public class DetailShareServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

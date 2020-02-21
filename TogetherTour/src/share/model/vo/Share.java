@@ -29,7 +29,7 @@ public	class Share {
 	public	void	setStatus(String status)	 { this.status = status; }
 	public	void	setSCount(int sCount)		 { this.sCount = sCount; }
 	public	void	setKakao(String kakao)		 { this.kakao = kakao; }
-	public	void	setKind(int	kind)		 	 { this.kind = kind; }
+	public	void	setKind(int	kind)		 	 { this.kind = kind; } 
 	public	void	setCountry(String country)	 { this.country = country; }
 	public	void	setCity(String city)		 { this.city = city; }
 	

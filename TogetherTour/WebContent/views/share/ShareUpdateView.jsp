@@ -6,7 +6,7 @@
 	<title>나눔 게시판 수정하기</title>
 	<link rel="stylesheet" type="text/css" href="../../css/share/share_board.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head>
+</head> 
 <body>
 	<div id="wrapper">
 		<div class="header">

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"> 
 	<title>나눔 게시판 확인하기</title>
 	<link rel="stylesheet" type="text/css" href="../../css/share/share_board.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

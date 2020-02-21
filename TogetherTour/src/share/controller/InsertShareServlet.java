@@ -23,7 +23,7 @@ import member.model.vo.* ;
 /** Servlet implementation class InsertShareServlet */
 @WebServlet("/insert.share")
 public class InsertShareServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L ;
+	private static final long serialVersionUID = 1L ; 
        
     /** @see HttpServlet#HttpServlet() */
     public InsertShareServlet() {

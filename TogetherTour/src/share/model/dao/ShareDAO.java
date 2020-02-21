@@ -12,7 +12,7 @@ public	class ShareDAO {
 	public	ShareDAO() {
 		String fileName = ShareDAO.class.getResource("/sql/share/share_query.properties").getPath() ;
 		try {
-			prop.load(new FileReader(fileName)) ;
+			prop.load(new FileReader(fileName)) ; 
 		} catch (FileNotFoundException e) {
 			System.out.println("------------[ERROR]------------") ;
 			System.out.println(e.getMessage()) ;
