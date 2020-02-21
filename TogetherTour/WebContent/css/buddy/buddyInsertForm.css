@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+@import url("reset.css");
+@import url("common.css");
+
+
+table{border:1px solid black; width:100%; align:center; border-collapse:collapse; }
+
+th{ font-family:'맑은 고딕'; border:1px solid black;}
+	
+td{border:1px solid black; height:50px;  padding-left:10px;}
+
+.user{align:center;}
+	
+.enrollBtn{align:center; background:skyblue;}
+	
+.editBtn{background:skyblue;}
+
+.wrapper{width:60%; margin-left:auto; margin-right:auto;}
+
+#insertbuddy{width:100%; margin-left:auto; margin-right:auto;}
+
+h2{text-align:center;}	
