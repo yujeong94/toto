@@ -1,0 +1,73 @@
+@charset "UTF-8" ;
+@import url("reset.css") ;
+@import url("common.css") ;
+
+.myPage-menu {}
+
+
+.myPage-menu > li {
+	float : left ;
+	position : relative ;
+	padding-bottom: 50px ;
+}
+.myPage-item {
+	display : block ;
+	padding : 8px 40px 9px ;
+	font-size : 1.3rem ;
+	font-weight : 700 ;
+	text-align : center ;
+	border-bottom : 1px solid rgba(0, 0, 0, 0.7) ;
+}
+
+.menu-item:hover, .menu-item.is-act {
+	border-bottom : 5px solid rgba(0, 0, 0, 0.7) ;
+	padding : 8px 40px 4px ;
+}
+
+#profileArea {
+	text-align:center ;
+/* 	box-sizing: border-box ; */
+/* 	width:200px ; */
+/* 	height:200px ; */
+	margin:20px auto ;
+/* 	border-radius:50px ; */
+	width:150px ;
+    height:150px ;  
+    border-radius:70% ;
+    overflow:hidden ;
+}
+
+#profile {
+	
+}
+
+#contentArea {
+	border:1px solid black ;
+	text-align:center ;
+}
+
+.myContent {
+	width:100% ;
+}
+
+#gradeArea {
+	border:1px solid black ;
+	text-align:center ; 
+}
+
+.star {
+	font-size:4rem ;
+}
+
+.grade {
+	font-size:2.5rem ;
+}
+
+span.aa {
+	vertical-align:middle ;
+}
+
+span.bb {
+	border:1px solid black ;
+	padding-top:0px ;
+}

@@ -1,0 +1,42 @@
+	@charset "utf-8";
+@import url("reset.css") ;
+@import url("common.css") ;
+
+#pageName {display:inline;}
+
+#button 	{border:1px solid black; background:#119AFD; color:white;
+			 width:100px; height:30px; text-align:center; vertical-align:middle;}
+
+#schArea	{width:100%; align:center;}
+.schLogo	{border:1px solid black; color:white; text-align:center;
+			 width:100px; height:30px; algin:center;}
+#schKind	{}
+#schTitle	{}
+#schWrite	{}
+#schLook	{}
+#schState	{}
+.search		{background:#cae8fc; border:0.7px solid #858585; color:black;}
+#shareContent {border:1px solid black; width:100%; text-align:center;}
+
+#titleText	{margin-top:20px; font-size:1rem; font-weight:normal; text-align:center;}
+#content	{width:99%; height:300px; resize:none;}
+#wrtButton	{text-align:center;}
+.wrtInput	{width:100%;}
+/* #wrtArea	{border:1px solid black; width:100%;} */
+/* #wrtList	{text-align:center; width:20%;} */
+/* .wrtInput	{width:99%; height:30px;} */
+/* #content	{width:99%; height:300px; resize:none;} */
+/* #fileText	{font-size:7px;} */
+/* */
+/* .wrt#button	{width:auto; margin:0 auto ;} */
+/* .outer {width:1000px; height:650px; background:rgba(255,255,255,0.4); border:5px solid white; margin-left:auto; margin-right:auto; margin-top:50px;} */
+/* .insertArea {width:500px; height:450px; margin-left:auto; marin-right:auto;} */
+/* .btnArea {width:180px; margin-left:auto; margin-right:auto;} */
+#titleImgArea {width:350px; height:200px; border:2px dashed darkgray; text-align:center; display:table-cell; vertical-align:middle;}
+/* #titleImgArea:hover, #contentImgArea1:hover, #contentImgArea2:hover, #contentImgArea3:hover {cursor:pointer;} */
+/* #contentImgArea1, #contentImgArea2, #contentImgArea3 {width:150px; height:100px; border:2px dashed darkgray; */
+/* 													  text-align:center; display:table-cell; vertical-align:middle;} */
+/* #insertBtn, #cancelBtn {background: #D1B2FF; width: 80px; height: 25px; color: white; border-radius: 15px; text-align: center; display: inline-block;} */
+/* #cancelBtn {background: #B2CCFF} */
+/* #insertBtn:hover, #cancelBtn:hover {cursor: pointer;} */
+/* #insertThumbTable {margin: auto;} */
