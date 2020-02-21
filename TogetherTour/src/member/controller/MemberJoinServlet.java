@@ -21,7 +21,7 @@ import member.model.vo.mAttachment;
 
 /**
  * Servlet implementation class LoginServlet
- */
+ */ 
 @WebServlet(name="MemberJoinServlet", urlPatterns="/insert.me")
 public class MemberJoinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
