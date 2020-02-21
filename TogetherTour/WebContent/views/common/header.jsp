@@ -42,7 +42,7 @@
 					<% } else { %> 
 						<li><span><%= Strkind %>회원 <%= loginUser.getNickName() %>님</span></li>
 						<li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
-						<li><a href="">마이페이지</a></li>
+						<li><a href="<%= request.getContextPath() %>/views/myPage/MyPageContentView.jsp">마이페이지</a></li> 
 					<% } %>
 				</ul>
 				<br clear="both">
@@ -79,8 +79,8 @@
 						
 						<li><a href="" class="menu-item">나눔</a>
 							<ul class="sub-menu">
-								<li><a href="<%=request.getContextPath()%>/list.sh"  id="review">나눔 리스트</a></li>
-                 				<li><a href="<%=request.getContextPath()%>/insert.sh"  id="review">나눔 등록</a></li>
+								<li><a href="<%=request.getContextPath()%>/list.share"  id="review">나눔 리스트</a></li>
+                 				<li><a href="<%=request.getContextPath()%>/insert.share"  id="review">나눔 등록</a></li>
 							</ul>						
 						</li>
 						
