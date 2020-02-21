@@ -275,6 +275,9 @@
 		if(isUsable && isIdChecked && isNickChecked){
 			return true;
 		} else {
+			console.log(isUable);
+			console.log(isIdChecked);
+			console.log(isNickChecked);
 			alert('중복확인을 해주세요.');
 			return false;
 		}
