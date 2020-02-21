@@ -1,4 +1,4 @@
-package myPage.controller; 
+package myPage.controller;  
 
 import java.io.IOException;
 import javax.servlet.ServletException;

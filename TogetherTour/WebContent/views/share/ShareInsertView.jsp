@@ -60,7 +60,7 @@
 						</tr>
 						<tr id="insertArea">
 							<th id="wrtList">대표 이미지</th>
-							<td>
+							<td> 
 								<div id="titleImgArea" style="width:200px; height:200px; border:2px dashed darkgray; text-align:center; display:table-cell; vertical-align:middle;">
 									<img id="titleImg" style="width:200px; height:200px; border:1px solid  black; text-align:center; display:table-cell; vertical-align:middle;" src="<%= request.getContextPath() %>/images/PageIcon.png">
 								</div>

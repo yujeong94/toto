@@ -21,7 +21,7 @@ public class DetailShareServlet extends HttpServlet {
        
     /** @see HttpServlet#HttpServlet() */
     public DetailShareServlet() {
-        super() ;
+        super() ; 
     }
 
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */

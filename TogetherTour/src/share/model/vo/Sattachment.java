@@ -12,7 +12,7 @@ public class Sattachment {
 	private	int		fileLevel ;
 	private	int		downloadCount ;
 	private	String	status ;
-	 
+	
 	public	Sattachment() {}
 	public	Sattachment(int sbNum, String changeName) { super(); this.sbNum = sbNum; this.changeName = changeName; }
 	public	Sattachment(int fId, int sbNum, String originName, String changeName, String filePath, Date uploadDate, int fileLevel, int downloadCount, String status) { super(); this.fId = fId; this.sbNum = sbNum; this.originName = originName; this.changeName = changeName; this.filePath = filePath; this.uploadDate = uploadDate; this.fileLevel = fileLevel; this.downloadCount = downloadCount; this.status = status; }

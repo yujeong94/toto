@@ -4,7 +4,7 @@
 	ArrayList<Share> sList = (ArrayList<Share>)request.getAttribute("sList") ;
 	System.out.println(sList);
 	ArrayList<Sattachment> fList = (ArrayList<Sattachment>)request.getAttribute("fList") ;
-%> 
+%>
 <!DOCTYPE html>
 <html>
 <head>
