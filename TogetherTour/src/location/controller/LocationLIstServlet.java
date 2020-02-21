@@ -1,28 +1,27 @@
-package member.controller;
+package location.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import location.model.service.LocationService;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class LocationLIstServlet
  */
-@WebServlet("/findID.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/list.loca")
+public class LocationLIstServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public LocationLIstServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,23 +30,19 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String findName = request.getParameter("findName"); 
-		String findEmail = request.getParameter("findEmail");
 		
-		Member member = new MemberService().findId(findName,findEmail);
+		// 분류리스트 
+		ArrayList<Integer> kind = new LocationService().kindList();
 		
-		String page = null;
-		if(member != null) {
-			page="views/member/findResult.jsp";
-			request.setAttribute("userName",member.getUserName());
-			request.setAttribute("resultID",member.getmId());
-		} else {
-			page="views/member/findResult.jsp";
-			request.setAttribute("msg", "존재하지 않는 회원입니다.");
-		}
+		// 국가리스트
+		ArrayList<String> conList = new LocationService().conList();
 		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
+		// 국내도시리스트
+		ArrayList<String> inCityList = new LocationService().inCityList();
+		//해외도시리스트
+		ArrayList<String> outCityList = new LocationService().outCityList();
+		
+		
 	}
 
 	/**

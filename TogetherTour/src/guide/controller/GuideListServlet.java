@@ -33,8 +33,8 @@ public class GuideListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// paging처리 : 게시물리스트 페이지 넘기기
-				GuideService service = new GuideService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성, 전체개수와 리스트 정보 가져올 것이기 때문에 두개호출
+				// paging처리 
+				GuideService service = new GuideService(); 
 				
 				int listCount = service.getListCount(); // 게시판 리스트 개수
 				
@@ -53,7 +53,6 @@ public class GuideListServlet extends HttpServlet {
 				limit = 10;
 				
 				maxPage = (int)((double)listCount/limit + 0.9); 
-				// 121개의 게시글 있을 때 10으로 나누면 12.1 총 13페이지 필요하므로 0.9 더함. 12.2일땐 13.1이 되므로 int로 형변환해서 소수점 없애줌
 				startPage = ((int)((double)currentPage/limit + 0.9)-1)*limit + 1;
 				endPage = startPage + limit - 1;
 				if(maxPage < endPage) {

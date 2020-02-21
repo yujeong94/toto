@@ -1,28 +1,31 @@
-package member.controller;
+package guide.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import guide.model.service.GuideService;
+import guide.model.vo.gReply;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class GuideReplyServlet
  */
-@WebServlet("/findID.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/insertReply.guide")
+public class GuideReplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public GuideReplyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,23 +34,20 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String findName = request.getParameter("findName"); 
-		String findEmail = request.getParameter("findEmail");
+		String writer = request.getParameter("writer");
+		String content = request.getParameter("content");
+		int gbNum = Integer.parseInt(request.getParameter("gbNum"));
 		
-		Member member = new MemberService().findId(findName,findEmail);
+		gReply reply = new gReply();
+		reply.setWriter(writer);
+		reply.setGrContent(content);
+		reply.setRefGid(gbNum);
 		
-		String page = null;
-		if(member != null) {
-			page="views/member/findResult.jsp";
-			request.setAttribute("userName",member.getUserName());
-			request.setAttribute("resultID",member.getmId());
-		} else {
-			page="views/member/findResult.jsp";
-			request.setAttribute("msg", "존재하지 않는 회원입니다.");
-		}
+		ArrayList<gReply> rList = new GuideService().insertReply(reply);
 		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rList,response.getWriter());
 	}
 
 	/**

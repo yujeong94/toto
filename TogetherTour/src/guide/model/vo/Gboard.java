@@ -15,11 +15,14 @@ public class Gboard {
 	private Date endDate;
 	private String status;
 	private int gCount;
+	private int kind;
+	private String kakao;
 	
 	public Gboard() {}
-
+	
+	// 전체 생성자
 	public Gboard(int gbNum, String gTitle, String gWriter, int price, String gContent, Date enrollDate, String country,
-			String city, Date startDate, Date endDate, String status, int gCount) {
+			String city, Date startDate, Date endDate, String status, int gCount, int kind, String kakao) {
 		super();
 		this.gbNum = gbNum;
 		this.gTitle = gTitle;
@@ -33,10 +36,32 @@ public class Gboard {
 		this.endDate = endDate;
 		this.status = status;
 		this.gCount = gCount;
+		this.kind = kind;
+		this.kakao = kakao;
+	}
+	
+	// status제외 생성자 (상세보기)
+	public Gboard(int gbNum, String gTitle, String gWriter, int price, String gContent, Date enrollDate, String country,
+			String city, Date startDate, Date endDate, int gCount, int kind, String kakao) {
+		super();
+		this.gbNum = gbNum;
+		this.gTitle = gTitle;
+		this.gWriter = gWriter;
+		this.price = price;
+		this.gContent = gContent;
+		this.enrollDate = enrollDate;
+		this.country = country;
+		this.city = city;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.gCount = gCount;
+		this.kind = kind;
+		this.kakao = kakao;
 	}
 
+	// 리스트 생성자
 	public Gboard(int gbNum, String gTitle, String gWriter, int price, Date enrollDate, String country, String city,
-			Date startDate, Date endDate, int gCount) {
+			Date startDate, Date endDate, int gCount, int kind) {
 		super();
 		this.gbNum = gbNum;
 		this.gTitle = gTitle;
@@ -47,8 +72,26 @@ public class Gboard {
 		this.city = city;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.gCount = gCount;
+		this.kind = kind;
 	}
-
+	
+	// 게시판 등록, 수정
+	public Gboard(String gTitle, String gWriter, int price, String gContent, String country, String city,
+			Date startDate, Date endDate, int kind, String kakao) {
+		super();
+		this.gTitle = gTitle;
+		this.gWriter = gWriter;
+		this.price = price;
+		this.gContent = gContent;
+		this.country = country;
+		this.city = city;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.kind = kind;
+		this.kakao = kakao;
+	}
+	
 	public int getGbNum() {
 		return gbNum;
 	}
@@ -143,6 +186,22 @@ public class Gboard {
 
 	public void setgCount(int gCount) {
 		this.gCount = gCount;
+	}
+
+	public int getKind() {
+		return kind;
+	}
+
+	public void setKind(int kind) {
+		this.kind = kind;
+	}
+
+	public String getKakao() {
+		return kakao;
+	}
+
+	public void setKakao(String kakao) {
+		this.kakao = kakao;
 	}
 	
 	

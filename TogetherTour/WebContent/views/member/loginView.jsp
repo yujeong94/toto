@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" import="member.model.vo.Member" %>
 <%
 	String msg = (String)request.getAttribute("msg");
-	Member loginUser = (Member)session.getAttribute("loginUser");
 %>
 <!DOCTYPE html>
 <html>
@@ -68,19 +67,13 @@
 			$(this).focus();
 			return false;
 		}
-		
 		return true;
 	}
 	
-	// 로그인 되는지 안되는지 알림창, 회원가입완료하면  가입축하 알림창
+	// 로그인 되는지 안되는지 알림창
 	var msg = "<%= msg %>";
 	
 	$(function(){
-		$('#loginBtn').click(function(){
-			if(msg != "null"){
-				alert(msg);
-			}
-		});
 		if(msg != "null"){
 			alert(msg);
 		}
