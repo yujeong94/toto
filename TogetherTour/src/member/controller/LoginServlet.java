@@ -16,7 +16,7 @@ import member.model.vo.Member;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/login.me")
+@WebServlet(name="MemberJoinServlet", urlPatterns="/login.me")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,14 +39,18 @@ public class LoginServlet extends HttpServlet {
 		
 		Member loginUser = new MemberService().loginMember(member);
 		
+		/*String page = null;*/
 		if(loginUser != null) {
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(3600);
 			session.setAttribute("loginUser", loginUser);
 			response.sendRedirect("index.jsp");
+			/*page = "views/common/header.jsp";
+			request.setAttribute("welcome", loginUser.getUserName()+"님 환영합니다♥");*/
 		} else {
+			/*page = "views/loginView.jsp";*/
 			request.setAttribute("msg", "존재하지 않는 회원입니다.");
-			RequestDispatcher view = request.getRequestDispatcher("views/loginView.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("views/member/loginView.jsp");
 			view.forward(request, response);
 		}
 		

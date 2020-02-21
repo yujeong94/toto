@@ -1,5 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<% 
+	Member loginUser = (Member)session.getAttribute("loginUser");
+	
+	// script에서 사용할 mKind 값
+	int mKind = 0;
+	
+	// 로그인 하면 정보 보여줄 String mKind 값
+	String Strkind = null;
+	
+	if(loginUser != null){
+		
+		mKind = loginUser.getmKind();
+		
+		if(loginUser.getmKind() == 1){
+			Strkind = "일반";
+		} else {
+			Strkind = "가이드";
+		}
+	}
+	
+	String welcome = (String)request.getAttribute("welcome");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,9 +36,14 @@
 					<a href="<%= request.getContextPath() %>/index.jsp"><img src="<%= request.getContextPath() %>/images/logo-o.png"></a>
 				</h1>
 				<ul class="util">
-					<li><a href="javascript:void(0)" onclick="login();">로그인</a></li>
-					<li><a href="<%= request.getContextPath() %>/views/member/joinForm.jsp">회원가입</a></li> <!-- 유정: 회원가입 페이지 연결 -->
-					<li><a href="">마이페이지</a></li>
+					<% if(loginUser == null) { %>
+						<li><a href="javascript:void(0)" onclick="login();">로그인</a></li>
+						<li><a href="<%= request.getContextPath() %>/views/member/joinForm.jsp">회원가입</a></li>
+					<% } else { %> 
+						<li><span><%= Strkind %>회원 <%= loginUser.getNickName() %>님</span></li>
+						<li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
+						<li><a href="">마이페이지</a></li>
+					<% } %>
 				</ul>
 				<br clear="both">
 				<nav class="navi">
@@ -37,7 +64,8 @@
 						<li><a href="" class="menu-item">한국인 가이드 찾기</a>
 							<ul class="sub-menu">
 								<li><a href="<%= request.getContextPath() %>/list.guide">가이드 리스트</a></li>
-                    			<li><a href="<%= request.getContextPath() %>/insert.guide">가이드 등록</a></li>
+                    			<li><a href="javascript:void(0)" onclick="guideCheck();">가이드 등록</a></li> <!-- 유정수정  -->
+								<%-- <li><a href="<%= request.getContextPath() %>/views/guide/GuideWrite.jsp">가이드 등록</a></li> --%>
 							</ul>
 						</li>
 						
@@ -126,7 +154,35 @@
 			// 유정: 로그인페이지 연결
 			function login(){
 				location.href='<%= request.getContextPath() %>/views/member/loginView.jsp';
+			};
+			// 유정
+			
+			// 로그인 시 알림창 
+			var welcome = "<%= welcome %>";
+			
+			if(welcome != "null"){
+				alert(welcome);
 			}
+			
+			// 유정: 로그아웃
+			function logout() {
+				location.href='<%= request.getContextPath() %>/logout.me';
+			}
+			//유정
+			
+			// 유정 : 가이드만 등록하기 할 수 있도록
+			function guideCheck(){
+				console.log(<%= mKind %>);
+				if('<%= loginUser %>' != 'null'){
+					if(<%= mKind %> == 2) { 
+						location.href="<%= request.getContextPath() %>/views/guide/GuideWrite.jsp";
+					} else { 
+						alert("가이드회원만 등록할 수 있습니다.");
+					}
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
+			}; 
 			// 유정
 			
 		</script>

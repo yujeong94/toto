@@ -67,6 +67,21 @@ public class Member {
 		this.mKind = mKind;
 		this.age = age;
 	}
+	// status만 없는 생성자
+	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind,
+			int follow, int grade, String age) {
+		super();
+		this.mId = mId;
+		this.nickName = nickName;
+		this.pwd = pwd;
+		this.userName = userName;
+		this.gender = gender;
+		this.email = email;
+		this.mKind = mKind;
+		this.follow = follow;
+		this.grade = grade;
+		this.age = age;
+	}
 
 	public String getmId() {
 		return mId;

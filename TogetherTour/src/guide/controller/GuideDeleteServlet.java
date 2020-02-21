@@ -1,4 +1,4 @@
-package member.controller;
+package guide.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import guide.model.service.GuideService;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class GuideDeleteServlet
  */
-@WebServlet("/findID.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/delete.guide")
+public class GuideDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public GuideDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,19 +30,17 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String findName = request.getParameter("findName"); 
-		String findEmail = request.getParameter("findEmail");
+		int gbNum = Integer.parseInt(request.getParameter("gbNum"));
 		
-		Member member = new MemberService().findId(findName,findEmail);
+		int result = new GuideService().deleteGuide(gbNum);
 		
-		String page = null;
-		if(member != null) {
-			page="views/member/findResult.jsp";
-			request.setAttribute("userName",member.getUserName());
-			request.setAttribute("resultID",member.getmId());
+		String page = "";
+		if(result > 0) {
+			page="/list.guide?gbNum=" + gbNum;
+			request.setAttribute("msg", "게시글이 삭제되었습니다.");
 		} else {
-			page="views/member/findResult.jsp";
-			request.setAttribute("msg", "존재하지 않는 회원입니다.");
+			page="views/guide/GuideDetail.jsp";
+			request.setAttribute("msg", "게시글 삭제에 실패했습니다.");
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);

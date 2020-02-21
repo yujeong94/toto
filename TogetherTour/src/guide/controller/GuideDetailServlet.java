@@ -1,6 +1,7 @@
-package member.controller;
+package guide.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,20 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import guide.model.service.GuideService;
+import guide.model.vo.Gboard;
+import guide.model.vo.gReply;
 
 /**
- * Servlet implementation class FindIdServlet
+ * Servlet implementation class GuideDetailServlet
  */
-@WebServlet("/findID.me")
-public class FindIdServlet extends HttpServlet {
+@WebServlet("/detail.guide")
+public class GuideDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FindIdServlet() {
+    public GuideDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,19 +33,20 @@ public class FindIdServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String findName = request.getParameter("findName"); 
-		String findEmail = request.getParameter("findEmail");
 		
-		Member member = new MemberService().findId(findName,findEmail);
+		int gNum = Integer.parseInt(request.getParameter("gbNum"));
 		
+		Gboard gboard = new GuideService().selectGboard(gNum);
+		
+		ArrayList<gReply> rList = new GuideService().selectReplyList(gNum);
 		String page = null;
-		if(member != null) {
-			page="views/member/findResult.jsp";
-			request.setAttribute("userName",member.getUserName());
-			request.setAttribute("resultID",member.getmId());
+		if(gboard != null) {
+			page="views/guide/GuideDetail.jsp";
+			request.setAttribute("gboard", gboard);
+			request.setAttribute("rList", rList);
 		} else {
-			page="views/member/findResult.jsp";
-			request.setAttribute("msg", "존재하지 않는 회원입니다.");
+			page="views/guide/GuideListView.jsp";
+			request.setAttribute("msg", "게시글 조회에 실패했습니다");
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);

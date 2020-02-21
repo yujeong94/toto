@@ -42,7 +42,16 @@ public class MemberDAO {
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
-				loginUser = new Member(rset.getString("mid"),rset.getString("pwd"));
+				loginUser = new Member(rset.getString("mid"),
+									   rset.getString("nick"),
+									   rset.getString("pwd"),
+									   rset.getString("name"),
+									   rset.getString("gender"),
+									   rset.getString("email"),
+									   rset.getInt("mkind"),
+									   rset.getInt("follow"),
+									   rset.getInt("grade"),
+									   rset.getString("age"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,6 +178,36 @@ public class MemberDAO {
 			
 			if(rset.next()) {
 				member = new Member(rset.getString("mid"),
+									rset.getString("name"),
+									rset.getString("email"),
+									rset.getInt("mkind"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return member;
+	}
+
+	public Member findPwd(Connection conn, String userFindId, String findEmail) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member member = null;
+		
+		String query = prop.getProperty("findPwd");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userFindId);
+			pstmt.setString(2, findEmail);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				member = new Member(rset.getString("mid"),
+									rset.getString("pwd"),
 									rset.getString("name"),
 									rset.getString("email"),
 									rset.getInt("mkind"));

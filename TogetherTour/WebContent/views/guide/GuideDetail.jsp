@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="guide.model.vo.*,java.util.ArrayList,java.util.Date" %>
+<%
+	Gboard gboard = (Gboard)request.getAttribute("gboard");
+	String gKind = null;
+	if(gboard != null){
+		if(gboard.getKind() == 1){
+			gKind = "국내";
+		} else {
+			gKind = "해외";
+		}
+	}
+	System.out.println(gboard);
+	ArrayList<gReply> list = (ArrayList<gReply>)request.getAttribute("rList");
+	
+	//게시글 수정 알림창
+	String msg = (String)request.getAttribute("msg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +24,35 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
- 	#img{text-align:center;}
  	table{border-top:1px solid; margin-top:100px;}
  	td,th{border-bottom:1px solid;}
- 	button{float: right; margin-top:30px;}
+ 	#gDetailForm{margin-bottom:100px;}
  	#introduce{text-align:center; margin-top:50px;}
- 	h2{margin-top:100px;}
- 	#gInsertForm{margin-bottom:100px;}
+ 	label{vertical-align:middle;}
+ 	.fixDetail{font-weight:bold; margin-right:50px;}
+ 	.term{margin-right:30px; vertical-aling:middle;}
+ 	#term2{margin-left:10px; margin-right:10px;}
+ 	#gBtnArea{margin-top:40px;}
+ 	#listBtn{
+	 	padding : 9px 20px;
+		border : none;
+	    background: #999999;
+	    color: #fff;
+	    box-sizing: border-box;
+	    display: inline-block;
+	    align-items: flex-start;
+	    letter-spacing: normal;
+	    word-spacing: normal;
+	    text-rendering: auto;
+	    cursor: pointer;
+	    vertical-align: middle;
+	    font: inherit;
+	    margin-top:20px;
+	    float:right;
+	}
+	#gBtn{margin-right:10px;}
+	#replySelectTable td{text-align:center;}
+	
 </style>
 </head>
 <body>
@@ -22,89 +60,154 @@
 	<%@ include file="../common/header.jsp" %>
 	<div class='contents'>
 		<h2>가이드 상세</h2>
-		<form action="<%= request.getContextPath() %>/update.guide" id=gInsertForm>
-			<table id=gWrite>
+		<form action="<%= request.getContextPath() %>/views/guide/GuideUpdate.jsp" id=gDetailForm method=post>
+			<table id=gDetail>
 				<tr>
-				<th width=200px><label>가이드명</label></th>
-				<td><input type=text name=gName id=gName></td>
+					<th width=200px><label>제목</label></th>
+					<td colspan=3><%= gboard.getgTitle() %>
+						<input type=hidden value="<%= gboard.getgTitle() %>" name=gTitle>
+						<input type=hidden value="<%= gboard.getGbNum() %>" name=gbNum>
+					</td>
 				</tr>
 				<tr>
-				<th><label>활동장소</label></th>
-				<td>
-				<select name=cate id=cate>
-					<option>국내</option>
-					<option>해외</option>
-				</select>
-				<select name=nation id=nation>
-					<option>한국</option>
-					<option>미국</option>
-					<option>중국</option>
-					<option>일본</option>
-					<option>프랑스</option>
-					<option>이탈리아</option>
-					<option>영국</option>
-					<option>호주</option>
-					<option>러시아</option>
-				</select>
-				<select name=city id=city>
-					<option>제주도</option>
-					<option>뉴욕</option>
-					<option>상해</option>
-					<option>도쿄</option>
-					<option>파리</option>
-					<option>로마</option>
-					<option>런던</option>
-					<option>시드니</option>
-					<option>모스크바</option>
-				</select>
-				</td>
+					<th>작성자</th>
+					<td><%= gboard.getgWriter() %></td>
+					<td><span class=fixDetail>조회수 </span><%= gboard.getgCount() %></td>
+					<td><span class=fixDetail>작성일 </span><%= gboard.getEnrollDate() %></td>
 				</tr>
 				<tr>
-					<th><label>여행테마</label></th>
+					<th><label>활동장소</label></th>
 					<td>
-					<input type=checkbox name=tema value=relax><label>휴식</label>
-					<input type=checkbox name=tema value=tour><label>관광</label>
-					<input type=checkbox name=tema value=food><label>식도락</label>
-					<input type=checkbox name=tema value=shopping><label>쇼핑</label>
-					<input type=checkbox name=tema value=performing/arts><label>공연/예술</label>
-					<input type=checkbox name=tema value=etc><label>기타 : </label><input type=text>
+						<label class=term><%= gKind %></label>
+						<input type=hidden value="<%= gboard.getKind() %>" name=kind>
+					</td>
+					<td>	
+						<label class=term><%= gboard.getCountry() %></label>
+						<input type=hidden value="<%= gboard.getCountry() %>" name=country>
+					</td>
+					<td>	
+						<label><%= gboard.getCity() %></label>
+						<input type=hidden value="<%= gboard.getCity() %>" name=city>
+					</td>
+				</tr>
+				<tr>
+					<th>여행기간</th>
+					<td>
+						<label class=term>여행시작일</label><%= gboard.getStartDate() %>
+						<input type=hidden value="<%= gboard.getStartDate() %>" name=gStart>
+					</td>
+					<td><label id=term2>~</label></td>
+					<td>	
+						<label class=term>여행종료일</label><%= gboard.getEndDate() %>
+						<input type=hidden value="<%= gboard.getEndDate() %>" name=gEnd>
 					</td>
 				</tr>
 				<tr>
 					<th><label>가격</label></th>
-					<td><input type=text name=price id=price></td>
-				</tr>
-				<tr>
-					<th><label>성별</label></th>
-					<td>
-					<input type=radio name=gender value=M><label>남자</label>
-					<input type=radio name=gender value=F><label>여자</label>
-					</td>
-				</tr>
-				<tr>
-					<th><label>연락처</label></th>
-					<td>
-					<select name=Phone id=Phone>
-						<option>국가번호</option>
-						<option>+82</option>
-					</select>&nbsp;&nbsp;
-					<input type=text name=phone class=phone size=5> - 
-					<input type=text name=phone class=phone size=5> - <input type=text name=phone class=phone size=5>
+					<td colspan=3>
+					<%= gboard.getPrice() %>
+					<input type=hidden value="<%= gboard.getPrice() %>" name=price> 원
 					</td>
 				</tr>
 				<tr>
 					<th><label>오픈카카오톡주소</label></th>
-					<td><a href=https://open.kakao.com/o/s5T7IsXb>클릭</a></td>
+					<td colspan=3>
+					<% if(gboard.getKakao() != null) { %>
+							<%= gboard.getKakao() %>
+							<input type=hidden value="<%= gboard.getKakao() %>" name=kakao>
+					<% } else { %>
+							<label>없음</label>
+					<% } %>
+					</td>
 				</tr>
 			</table>
 			<div id=introduce>
-				<p>여행소개</p><br>
-				<textarea rows=20 cols=140 style='resize:none;'>내용입력</textarea>
+				<p style="font-size:12pt;">여행소개</p><br>
+				<textarea rows=50 cols=140 style="resize:none;" name=gContents readonly>
+				<%= gboard.getgContent() %>
+				</textarea>
 			</div>
-			<button type=submit id=gBtn>수정</button><br>
+			<div id=gBtnArea align=center>
+				<button type=submit id=gBtn>수정하기</button>
+				<button type=button id=delBtn onclick="deleteGboard();">삭제하기</button><br>
+				<div onclick='location.href="<%= request.getContextPath() %>/list.guide"' id=listBtn>목록으로</div>
+			</div>
 		</form>
+		<div class=replyArea>
+			<div class=replyWriterArea> <!-- 댓글 작성 부분 -->
+				<table>
+					<tr>
+						<td>댓글 작성</td>
+						<td><textarea rows=3 cols=80 id=replyContent stype="resize:none;"></textarea></td>
+						<td><button id=addReply>댓글등록</button></td>
+				</table>
+			</div>
+		</div>
+		<div id=replySelectArea> <!-- 댓글 조회부분 -->
+			<table id=replySelectTable>
+				<% if(list.isEmpty()){ %>
+					<tr><td colspan=3>댓글이 없습니다.</td></tr>
+				<% } else { %>
+					<% for(int i = 0; i < list.size(); i++) { %>
+						<tr>
+							<td width=100px><%= list.get(i).getWriter() %></td>
+							<td width=400px><%= list.get(i).getGrContent() %></td>
+							<td width=200px><%= list.get(i).getCreatDate() %></td>
+							</tr>
+					<% } %>
+				<% } %>
+			</table>
+		</div>
 	</div>
 	<%@ include file="../common/footer.jsp" %>
 </div>
+<script>
+	function deleteGboard() {
+		var bool = confirm("정말로 삭제하시겠습니까?");
+		
+		if(bool) {
+			$('#gDetailForm').attr('action','<%= request.getContextPath() %>/delete.guide?gNum=' + <%= gboard.getGbNum() %>);
+			$('#gDetailForm').submit();
+		}
+	}
+	
+	$('#addReply').click(function(){
+		var writer ='<%= loginUser.getmId() %>';
+		var gbNum = <%= gboard.getGbNum() %>;
+		var content = $('#replyContent').val();
+		
+		$.ajax({
+			url: '<%= request.getContextPath() %>/insertReply.guide',
+		 	type: 'post',
+		 	data: {writer: writer, content: content, gbNum:gbNum},
+		 	success: function(data){
+		 		$replyTable = $('#replySelectTable');
+		 		$replyTable.html("");
+		 		
+		 		for(var key in data){
+		 			var $tr = $('<tr>');
+		 			var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px');
+		 			var $contentTd = $('<td>').text(data[key].rContent).css('width','400px');
+		 			var $dateTd = $('<td>').text(data[key].createDate).css('width','200px');
+		 			
+		 			$tr.append($writerTd);
+		 			$tr.append($contentTd);
+		 			$tr.append($dateTd);
+		 			$replyTable.append($tr);
+		 		}
+		 		
+		 		$('#replyContent').val('');
+		 	}
+		});
+	}); 
+	
+	var msg = "<%= msg %>";
+	
+	$(function(){
+		if(msg != "null"){
+			alert(msg);
+		}
+	});
+</script>
 </body>
 </html>

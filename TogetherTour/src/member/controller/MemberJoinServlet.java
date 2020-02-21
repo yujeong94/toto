@@ -41,8 +41,8 @@ public class MemberJoinServlet extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 1024 * 1024 * 10;
 			
-			String root = request.getSession().getServletContext().getRealPath("/"); // 절대경로 맨 위 / 웹 서버 컨테이너 경로 추출
-			String savePath = root + "uploadFiles/"; // 파일 저장 경로
+			/*String root = request.getSession().getServletContext().getRealPath("/"); // 절대경로 맨 위 / 웹 서버 컨테이너 경로 추출
+*/			String savePath = "C:/KH/uploadFiles"; // 파일 저장 경로
 			
 			MultipartRequest multipartRequest
 			= new MultipartRequest(request,savePath, maxSize, "UTF-8", new MyFileRenamePolicy()); 
