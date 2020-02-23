@@ -1,77 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.Connection,java.sql.PreparedStatement,
-	java.sql.ResultSet,java.sql.SQLException,java.sql.Statement,static common.JDBCTemplate.*,
-	java.util.ArrayList"%>
-<%
-	// db에서 정보 얻어와 테이블에 출력하기
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	ArrayList<String> kindArr = new ArrayList<String>();
-	ArrayList<String> countryArr = new ArrayList<String>();
-	ArrayList<String> cityArr = new ArrayList<String>();
-	
-	// 중복제거 담기
-	ArrayList<String> kindArr2 = new ArrayList<String>();
-	ArrayList<String> countryArr2 = new ArrayList<String>();
-	ArrayList<String> cityArr2 = new ArrayList<String>();
-	
-	
-	try {
-		conn = getConnection();
-		String sql = "SELECT * FROM LOCATION";
-		
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-		
-		while (rs.next()) {
-			// 결과 담기
-			int kind = rs.getInt("kind");
-			String country = rs.getString("country");
-			String city = rs.getString("city");
-			
-			// 분류 번호에 국내/해외 string값 넣기
-			String strKind = null;
-			if(kind == 1) {
-				strKind = "국내";
-			} else {
-				strKind = "해외";
-			}
-			
-			kindArr.add(strKind);
-			countryArr.add(country);
-			cityArr.add(city);
-			
-		}
-			// 중복 제거하여 담기 
-			for(int i = 0; i < kindArr.size(); i++){
-				if(!kindArr2.contains(kindArr.get(i))){
-					kindArr2.add(kindArr.get(i));
-				} 
-			}
-			
-			for(int i =0; i < countryArr.size(); i++){
-				if(!countryArr2.contains(countryArr.get(i))){
-					countryArr2.add(countryArr.get(i));
-				}
-			}
-			
-			for(int i = 0; i < cityArr.size(); i++){
-				if(!cityArr2.contains(cityArr.get(i))){
-					cityArr2.add(cityArr.get(i));
-				}
-			} 
-		
-	} catch (SQLException e) {
-		e.printStackTrace();
-	} finally {
-		close(rs);
-		close(pstmt);
-		close(conn);
-	}
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,27 +48,15 @@
 				<tr>
 					<th><label>활동장소</label></th>
 					<td>
-						<select name=kind id=kind>
-						<% for(int i = 0; i < kindArr2.size(); i++){ %>
-							<option><%= kindArr2.get(i) %></option>
+						<select name=kind id=kindList>
+						<option>분류</option>
 						</select>
-							<select name=country id=country>
-							<% for(int j = 0; j < countryArr2.size(); j++){ %>
-								<% if(kindArr2.get(i).equals("국내")){ %>
-									<option><%= countryArr2.get(0) %></option> <!-- 한국만 들어감  -->
-									<% break; %>
-								<% } else { %>
-									<option><%= countryArr2.get(j) %></option>
-							<% } %>
-							</select>
-							<select name=city id=city>
-							<% for(int k = 0; k < cityArr2.size(); k++){ %>
-								<option><%= cityArr2.get(k) %></option>
-							<% } %>
-							</select>
-							<% } %>
-							<% } %>
-						
+						<select name=country id=countryList>
+						<option>국가</option>
+						</select>
+						<select name=city id=cityList>
+						<option>도시</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -179,7 +95,74 @@
 			url: '<%= request.getContextPath() %>/list.loca',
 		 	type: 'post',
 		 	success: function(data){
-		 		//옵션에 뿌릴거
+		 		$selectKind = $('#kindList');
+				$selectCountry = $('#countryList');
+				$selectCity = $('#cityList');
+				for(var i in data[0]){
+					var $option = $('<option>');
+					$option.val(data[0][i]);
+					var con = null;
+					if(data[0][i] == 1){
+						con = "국내";
+					} else {
+						con = "해외";
+					}
+					$option.text(con);
+					$selectKind.append($option);
+				}
+				
+				// county변경
+				$('#kindList').change(function(){
+					var kindSel = $('#kindList option:selected').text();
+					if(kindSel == "국내"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						var $option = $('<option>');
+						$option.val('한국');
+						$option.text('한국');
+						$selectCountry.append($option);
+					} else if(kindSel == "해외"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						for(var i in data[1]){
+							var $option = $('<option>');
+							$option.val(data[1][i]);
+							$option.text(data[1][i]);
+							$selectCountry.append($option);
+						}
+					} else {
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.text('국가');
+						$selectCountry.append($option);
+					}
+				});
+					// 해외city변경
+					$('#countryList').change(function(){ 
+						var countrySel = $('#countryList option:selected').text();
+						$('#cityList').find('option').remove();
+						for(var i in data[2]){
+							if(data[2][i].country == countrySel){
+								var $option = $('<option>');
+								$option.val(data[2][i].city);
+								$option.text(data[2][i].city);
+								$selectCity.append($option);
+							}
+						}
+						$('#kindList').change(function(){
+							$('#cityList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('도시');
+							$option.text('도시');
+							$selectCity.append($option);
+						});
+					});
 		 	},
 		 	error: function(data){
 		 		console.log('error');

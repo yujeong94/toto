@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import location.model.dao.LocationDAO;
+import location.model.vo.Location;
 
 public class LocationService {
 
@@ -24,18 +25,11 @@ public class LocationService {
 		return conList;
 	}
 
-	public ArrayList<String> inCityList() {
+	public ArrayList<Location> cityList() {
 		Connection conn = getConnection();
-		ArrayList<String> inCityList = new LocationDAO().inCityList(conn);
+		ArrayList<Location> cityList = new LocationDAO().cityList(conn);
 		close(conn);
-		return inCityList;
-	}
-
-	public ArrayList<String> outCityList() {
-		Connection conn = getConnection();
-		ArrayList<String> outCityList = new LocationDAO().outCityList(conn);
-		close(conn);
-		return outCityList;
+		return cityList;
 	}
 
 }
