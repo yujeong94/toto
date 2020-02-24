@@ -288,6 +288,116 @@ public class ReviewDAO {
 		
 		return list;
 	}
+
+	public int updateRpoint(Connection conn, Review review) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateRpoint");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, review.getrNum());
+			
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Review> searchList(Connection conn, int currentPage, String menu, String content) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Review> list = null;
+		int posts = 10; // 한 페이지에 보여질 게시글 개수
+		
+		int startRow = (currentPage - 1) * posts + 1;
+		int endRow = startRow + posts - 1;
+		
+		String query = "";
+		
+		switch(menu) {
+		case "TITLE" : query = prop.getProperty("searchTitle"); break;
+		case "NICK" : query = prop.getProperty("searchNick"); break;
+		case "LOCATION" : query = prop.getProperty("searchLocation"); break;
+		}
+		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+content+'%');
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<Review>();
+			
+			while(rset.next()) {
+				Review r = new Review(rset.getInt("rnum"),
+									rset.getString("title"),
+									rset.getString("nick"),
+									rset.getInt("rcount"),
+									rset.getInt("rpoint"),
+									rset.getString("location"),
+									rset.getDate("create_date"),
+									rset.getString("status"));
+				list.add(r);
+				
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public int getSearchCount(Connection conn, String menu, String content) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		//String query = prop.getProperty("getSearchCount");
+		String query="";
+		switch(menu) {
+		case "TITLE" : query = prop.getProperty("getTitleCount"); break;
+		case "NICK" : query = prop.getProperty("getNickCount"); break;
+		case "LOCATION" : query = prop.getProperty("getLocationCount"); break;
+		}
+		
+		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+content+'%');
+			
+			
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	
 	
 
