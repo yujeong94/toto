@@ -1,7 +1,6 @@
-package review.controller;
+package follow.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import follow.model.service.FollowService;
+import follow.model.vo.Follow;
 import review.model.service.ReviewService;
-import review.model.vo.Reply;
-import review.model.vo.Review;
 
 /**
- * Servlet implementation class ReviewDetailServlet
+ * Servlet implementation class InsertFollowServlet
  */
-@WebServlet("/detail.rv")
-public class ReviewDetailServlet extends HttpServlet {
+@WebServlet("/insert.fo")
+public class InsertFollowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewDetailServlet() {
+    public InsertFollowServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +32,28 @@ public class ReviewDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
 		int rNum = Integer.parseInt(request.getParameter("rnum"));
+		String mId = request.getParameter("mId");
+		String fId = request.getParameter("fId");
 		
-		Review review = new ReviewService().selectReview(rNum);
+		Follow follow = new Follow(mId, fId);
 		
+		int result = new FollowService().insertFollow(follow);
 		
-		// 댓글달기 
-		ArrayList<Reply> list = new ReviewService().selectReplyList(rNum);
+		String page="";
 		
-		/* System.out.println("가이드 : " +review.getGuide()); */
-		
-		String page = null;
-		if(review != null) {
-			page = "views/trip_review/reviewDetailView.jsp";
-			request.setAttribute("review", review);
-			request.setAttribute("list", list); // 댓글 보내기
+		if(result > 0) {
+			page = "/detail.rv?rNum=" + rNum;
 		} else {
 			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시글 상세보기에 실패하였습니다.");
+			request.setAttribute("msg", "팔로우 등록에 실패하였습니다.");
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
+		
 	}
 
 	/**
