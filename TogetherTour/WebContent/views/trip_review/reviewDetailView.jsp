@@ -4,7 +4,7 @@
 <%
 	Review review = (Review)request.getAttribute("review");
 	ArrayList<Review> list = new ArrayList<Review>();
-	Member loginUser = (Member)session.getAttribute("loginUser");
+	/* Member loginUser = (Member)session.getAttribute("loginUser"); */
 	
 	ArrayList<Reply> rlist = (ArrayList<Reply>)request.getAttribute("list");
 	String gCheck ="";
@@ -32,8 +32,21 @@
 			<table>
 				<tr>
 					<th>작성일자</th>
-					<td><%= review.getCreateDate() %> <input type="hidden" name ="rnum" value="<%= review.getrNum()%>"></td>
+					<td><%= review.getCreateDate() %> <input type="hidden" id ="rnum" name ="rnum" value="<%= review.getrNum()%>"></td>
 				</tr>
+				
+				<tr>
+					<th>작성자 <input type="hidden" id= "mId" name= "mId" value='<%= loginUser.getmId()%>'></th>
+					<td><%= review.getmId() %><input type="hidden" id ="fId" name ="fId" value="<%= review.getmId()%>"></td>
+				</tr>
+				
+				
+				
+				<tr>
+					<th>추천수</th>
+					<td><%= review.getrPoint() %> <input type="hidden" id ="rPoint" name ="rPoint" value="<%= review.getrPoint()%>"></td>
+				</tr>
+				
 				
 				<tr>
 					<th>조회수</th>
@@ -41,10 +54,6 @@
 					
 				</tr>
 				
-				<tr>
-					<th>평점</th>
-					<td><%= review.getrPoint() %>/5.0</td>
-				</tr>
 				
 				
 				
@@ -90,16 +99,21 @@
 				<tr>
 					<th>추천</th>
 					<td> 
-						좋아요<input type="checkbox" name = "rpoint" value="rpoint"> 
+						<input type="button" id="good" value= "추천하기">
 					</td>
 				</tr>
 				 
 				<tr>
 					<th>팔로우 신청</th>
-					<td><button type="submit" >팔로우하기</button></td>
+					<td>
+						<input type="button" id="follow" value= "팔로우하기">
+					</td>
 				</tr>
 				<%} %>
 			</table>
+			
+			
+			
 			
 			<div align="center">
 			<% if(review.getmId().equals(loginUser.getmId())){ %>
@@ -110,7 +124,7 @@
 				<%-- <input type="button" onclick="location.href='<%= request.getContextPath() %>/list.rv'" id="menuBtn" value="메뉴로">
 				<input type="button" onclick="back();" id="menuBtn" value="메뉴로"> --%>
 			</div>	
-		</form>	
+			</form>	
 		
 		<script>
 			function deleteReview(){
@@ -125,6 +139,39 @@
 				$('#detailForm').attr('action', '<%= request.getContextPath() %>/list.rv');
 				$('#detailForm').submit();
 			}
+			
+			$('#good').click(function(){
+				var rnum = $('#rnum').val();
+				var rPoint = $('#rPoint').val();
+				$.ajax({
+					url:'<%=request.getContextPath()%>/good.rv',
+					type:'post',
+					data:{rnum : rnum,rPoint:rPoint},
+					success:function(data){
+						alert("<%= review.getmId()%>님의 게시물을 추천하셨습니다.");
+						$('#good').val('추천됨');
+						$('#good').attr("disabled","disabled");
+					}
+				});
+			});
+			
+			
+			$('#follow').click(function(){
+				var rnum = $('#rnum').val();
+				var mId ='<%= loginUser.getmId()%>';
+				var fId = '<%= review.getmId()%>';
+				$.ajax({
+					url:'<%=request.getContextPath()%>/insert.fo',
+					type:'post',
+					data:{mId : mId,fId:fId, rnum:rnum},
+					success:function(data){
+						alert("<%= review.getmId()%>님을 팔로우 하셨습니다.");
+						$('#follow').val('팔로우됨');
+						$('#follow').attr("disabled","disabled");
+					}
+				});
+			});
+			
 			
 		</script>
 	

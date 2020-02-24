@@ -53,7 +53,7 @@ public class ReviewInsertServlet extends HttpServlet {
 		
 		
 		
-		System.out.println("확인 : " + guide);
+		//System.out.println("확인 : " + guide);
 		
 		Date sqlStartDate = null;
 		Date sqlLastDate = null;

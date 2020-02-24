@@ -121,6 +121,37 @@ public class ReviewService {
 		
 		return list;
 	}
+
+	public int updateRpoint(Review review) {
+		
+		Connection conn = getConnection();
+		ReviewDAO dao = new ReviewDAO();
+		
+		int result = dao.updateRpoint(conn, review);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Review> searchList(int currentPage, String menu, String content) {
+		Connection conn = getConnection();
+		ArrayList<Review> list = new ReviewDAO().searchList(conn, currentPage, menu, content);
+		close(conn);
+		return list;
+	}
+
+	public int getSearchCount(String menu, String content) {
+		Connection conn = getConnection();
+		
+		int result = new ReviewDAO().getSearchCount(conn, menu, content);
+		close(conn);
+		return result;
+	}
 	
 	
 }

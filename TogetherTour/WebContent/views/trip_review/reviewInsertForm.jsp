@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import = "member.model.vo.*"%>
 <%
-	Member loginUser = (Member)session.getAttribute("loginUser");
+	/* Member loginUser = (Member)session.getAttribute("loginUser"); */
 %>
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,7 @@
 		<br>
 		<h2>여행 후기 & 팁 작성</h2>
 		<hr>
-		<form action="<%= request.getContextPath() %>/insert.rv" method="post" id ="insertForm" encType="multipart/form-data">
+		<form action="<%= request.getContextPath() %>/insert.rv" method="post" id ="insertForm">
 			<table>
 				<tr>
 					<th>여행지</th>
@@ -42,6 +42,7 @@
 					<th>제목</th>
 					<td colspan="3"><input type="text" size="58" name="title"></td>
 				</tr>
+				
 				<tr>
 					<th>내용</th>
 					<td colspan="3">
@@ -49,28 +50,31 @@
 					</td>
 				</tr>
 				
+		
+				
 				<tr>
-					<th>사진첨부</th>
-					<!-- <td colspan ="3">
+					<th>사진 첨부</th>
+					<td colspan="3">  
 						<div id="contentImgArea1" class="ImgArea">
-							<img id="Img1" > 
+							<img id="Img1"> 
 						</div>
-					
+
 						<div id="contentImgArea2" class="ImgArea">
-							<img id="Img2" > 
+							<img id="Img2"> 
 						</div>
-					
+	
 						<div id="contentImgArea3" class="ImgArea">
 							<img id="Img3"> 
 						</div>
-					</td> -->
-					
-					<td><input type="file"></td>
-				</tr>	
+					</td>
+				</tr>
+				
+				
+	
 			</table>
 			
-			
-			<!-- <div id="fileArea">
+			<!-- 파일 업로드 하는 부분 -->
+			<div id="fileArea">
 				<input type="file" id="thumbnailImg1" multiple="multiple" name="thumbnailImg1" onchange="LoadImg(this,1)">
 				<input type="file" id="thumbnailImg2" multiple="multiple" name="thumbnailImg2" onchange="LoadImg(this,2)">
 				<input type="file" id="thumbnailImg3" multiple="multiple" name="thumbnailImg3" onchange="LoadImg(this,3)">
@@ -100,13 +104,13 @@
 						reader.onload = function(e){								
 							switch(num){
 							case 1:
-								$("#contentImg1").attr("src", e.target.result);
+								$("#Img1").attr("src", e.target.result);
 								break;
 							case 2: 
-								$("#contentImg2").attr("src", e.target.result);
+								$("#Img2").attr("src", e.target.result);
 								break;
 							case 3:
-								$("#contentImg3").attr("src", e.target.result);
+								$("#Img3").attr("src", e.target.result);
 								break;
 							}
 						}
@@ -114,19 +118,16 @@
 						reader.readAsDataURL(value.files[0]);
 					}
 				}
-			</script> -->
+			</script>	
 			
 			
-			
-			
+						
 			<div align="center">
 				<button type="submit" id="insertBtn">등록하기</button>
 					<div id="cancelBtn" onclick="location.href='<%= request.getContextPath()%>/list.rv'">취소</div> 
 			</div>
 		</form>
-		
-	
-			
+	</div>	
 		
 		
 	<%@ include file="../common/footer.jsp" %> 
