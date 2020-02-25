@@ -69,7 +69,7 @@ public class GuideListServlet extends HttpServlet {
 					request.setAttribute("list", list);
 					request.setAttribute("pi", pi);
 				} else {
-					page = "views/guide/GuideListView.jsp";
+					page = "views/common/errorPage.jsp";
 					request.setAttribute("msg", "게시판 조회에 실패했습니다.");
 				}
 				

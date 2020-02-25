@@ -221,5 +221,25 @@ public class MemberDAO {
 		return member;
 	}
 
+	public int fakePwd(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("fakePwd");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getPwd());
+			pstmt.setString(2, member.getmId());
+			
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 
 }

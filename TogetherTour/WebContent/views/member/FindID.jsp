@@ -16,10 +16,10 @@
 		margin-top: 20px;
 	}
 	table {
-	border-collapse: collapse;
-	margin-left: 120px;
-	margin-bottom: 50px;
-	width:70%;
+		border-collapse: collapse;
+		margin-left: 120px;
+		margin-bottom: 50px;
+		width:70%;
 	}
 	th, td{
 		padding: 15px;
@@ -39,6 +39,7 @@
 		font-weight : 700;
 		font-size : 13pt;
 		width: 80px; height:40px;
+		cursor:pointer;
 	}
 	input {width:70%; height:30px;}
 </style>
@@ -65,5 +66,4 @@
 	</div>
 </div>
 </body>	
-</body>
 </html>

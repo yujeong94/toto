@@ -37,7 +37,7 @@ public class GuideInsertServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String gTitle = request.getParameter("gTitle");
-		String kind = request.getParameter("kind");
+		int kind = Integer.parseInt(request.getParameter("kind"));
 		String country = request.getParameter("country");
 		String city = request.getParameter("city");
 		String gStart = request.getParameter("gStart");
@@ -46,13 +46,7 @@ public class GuideInsertServlet extends HttpServlet {
 		String kakao = request.getParameter("kakao");
 		String gContents = request.getParameter("gContents");
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
-		System.out.println(request.getParameter("price"));
-		int kindNum = 0;
-		if(kind.equals("국내")) {
-			kindNum = 1;
-		} else {
-			kindNum = 2;
-		}
+
 		Date sqlSdate = null;
 		Date sqlEdate = null;
 		
@@ -75,10 +69,9 @@ public class GuideInsertServlet extends HttpServlet {
 			sqlEdate = new Date(new GregorianCalendar().getTimeInMillis());
 		}
 		
-		Gboard gboard = new Gboard(gTitle,userId,price,gContents,country,city,sqlSdate,sqlEdate,kindNum,kakao);
+		Gboard gboard = new Gboard(gTitle,userId,price,gContents,country,city,sqlSdate,sqlEdate,kind,kakao);
 		
 		int result = new GuideService().insertGuide(gboard);
-		System.out.println(result);
 		if(result > 0) {
 			response.sendRedirect("list.guide");
 		} else {

@@ -43,7 +43,8 @@ public class GuideUpdateServlet extends HttpServlet {
 		int price = Integer.parseInt(request.getParameter("price"));
 		String kakao = request.getParameter("kakao");
 		String gContent = request.getParameter("gContents");
-		
+		System.out.println(kind);
+		System.out.println(gTitle);
 		int kindInt = 0;
 		if(kind.equals("국내")) {
 			kindInt = 1;
@@ -90,7 +91,7 @@ public class GuideUpdateServlet extends HttpServlet {
 		String page = null;
 		if(result > 0) {
 			request.setAttribute("msg", "게시글이 수정되었습니다.");
-			page = "/detail.bo?=" + gNum;
+			page = "/detail.guide?=" + gNum;
 		} else {
 			request.setAttribute("msg", "게시글 수정에 실패하였습니다.");
 			page = "views/guide/GuideDetail.jsp";

@@ -16,7 +16,7 @@ import member.model.vo.Member;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet(name="MemberJoinServlet", urlPatterns="/login.me")
+@WebServlet(name="LoginServlet", urlPatterns="/login.me")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
 		Member member = new Member(loginUserId,loginUserPwd);
 		
 		Member loginUser = new MemberService().loginMember(member);
-		
+		System.out.println("로그인 비번" + loginUserPwd);
 		/*String page = null;*/
 		if(loginUser != null) {
 			HttpSession session = request.getSession();

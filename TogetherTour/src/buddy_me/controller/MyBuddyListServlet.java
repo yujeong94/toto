@@ -1,27 +1,29 @@
-package guide.controller;
+package buddy_me.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import guide.model.service.GuideService;
+import buddy_me.model.vo.Buddy;
+import buddy_me.model.service.BuddyService;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class GuideDeleteServlet
+ * Servlet implementation class MyBuddyListServlet
  */
-@WebServlet("/delete.guide")
-public class GuideDeleteServlet extends HttpServlet {
+@WebServlet("/list.myBuddy")
+public class MyBuddyListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GuideDeleteServlet() {
+    public MyBuddyListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,21 +32,8 @@ public class GuideDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int gbNum = Integer.parseInt(request.getParameter("gNum"));
-		System.out.println(gbNum);
-		int result = new GuideService().deleteGuide(gbNum);
-		
-		String page = "";
-		if(result > 0) {
-			page="/list.guide?gbNum=" + gbNum;
-			request.setAttribute("msg", "게시글이 삭제되었습니다.");
-		} else {
-			page="views/guide/GuideDetail.jsp";
-			request.setAttribute("msg", "게시글 삭제에 실패했습니다.");
-		}
-		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		ArrayList<Buddy> mybuddyList =new BuddyService().mybuddyList(userId);
 	}
 
 	/**
