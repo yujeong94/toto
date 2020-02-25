@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import follow.model.vo.Follow;
 import review.model.service.ReviewService;
 import review.model.vo.PageInfo;
 import review.model.vo.Review;
@@ -66,6 +67,8 @@ public class ReviewListServlet extends HttpServlet {
 		
 		
 		ArrayList<Review> list = service.selectList(currentPage);
+		
+		
 		
 		
 		String page = null;

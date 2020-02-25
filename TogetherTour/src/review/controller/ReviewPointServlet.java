@@ -33,8 +33,10 @@ public class ReviewPointServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		int rPoint = Integer.parseInt(request.getParameter("rPoint"));
 		int rNum = Integer.parseInt(request.getParameter("rnum"));
+		
 		
 		Review review = new Review();
 		

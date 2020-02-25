@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="review.model.vo.*, java.util.ArrayList, member.model.vo.*"%>
+    pageEncoding="UTF-8" import="review.model.vo.*, java.util.ArrayList, member.model.vo.*, follow.model.vo.*"%>
     
 <%
 	Review review = (Review)request.getAttribute("review");
@@ -11,6 +11,22 @@
 	if(review.getGuide().equals("Y")){
 		gCheck="checked";
 	}
+	
+	ArrayList<Follow> flist = (ArrayList<Follow>)request.getAttribute("flist");
+	
+	/* String floginUser = (String)request.getAttribute("loginUser");
+	
+	int count =0;
+	
+	for(int i = 0; i < flist.size(); i++){
+		if(floginUser.equals(flist.get(i).getmId())){
+			if(flist.get(i).getfId().equals(review.getmId())){
+				count= 1;
+			}
+		}
+	} */
+	
+
 %>
 <!DOCTYPE html>
 <html>
@@ -36,9 +52,11 @@
 				</tr>
 				
 				<tr>
-					<th>작성자 <input type="hidden" id= "mId" name= "mId" value='<%= loginUser.getmId()%>'></th>
-					<td><%= review.getmId() %><input type="hidden" id ="fId" name ="fId" value="<%= review.getmId()%>"></td>
+					<th>작성자</th>
+					<td><%= review.getmId() %></td>
 				</tr>
+				
+				
 				
 				
 				
@@ -105,9 +123,19 @@
 				 
 				<tr>
 					<th>팔로우 신청</th>
+					
+					<%-- <% if(count == 0) {%> --%>
+					
 					<td>
 						<input type="button" id="follow" value= "팔로우하기">
 					</td>
+					
+					<%-- <%} else{ %>
+					<td>
+						<input type="button" id="follow" value= "팔로우 됨" disabled>
+					</td>
+					<%} %> --%>
+					
 				</tr>
 				<%} %>
 			</table>
@@ -143,6 +171,7 @@
 			$('#good').click(function(){
 				var rnum = $('#rnum').val();
 				var rPoint = $('#rPoint').val();
+				
 				$.ajax({
 					url:'<%=request.getContextPath()%>/good.rv',
 					type:'post',

@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class mAttachment {
 	private int fId;
-	private int bId;
+	private String mId;
 	private String originName;
 	private String changeName;
 	private String filePath;
@@ -14,17 +14,26 @@ public class mAttachment {
 	
 	public mAttachment() {}
 
-	public mAttachment(int bId, String changeName) {
+	public mAttachment(String mId, String changeName) {
 		super();
-		this.bId = bId;
+		this.mId = mId;
 		this.changeName = changeName;
 	}
+	
+	public mAttachment(int fId, String mId, String originName, String changeName, String filePath) {
+		super();
+		this.fId = fId;
+		this.mId = mId;
+		this.originName = originName;
+		this.changeName = changeName;
+		this.filePath = filePath;
+	}
 
-	public mAttachment(int fId, int bId, String originName, String changeName, String filePath, Date uploadDate,
+	public mAttachment(int fId, String mId, String originName, String changeName, String filePath, Date uploadDate,
 			int downloadCount, String status) {
 		super();
 		this.fId = fId;
-		this.bId = bId;
+		this.mId = mId;
 		this.originName = originName;
 		this.changeName = changeName;
 		this.filePath = filePath;
@@ -41,12 +50,12 @@ public class mAttachment {
 		this.fId = fId;
 	}
 
-	public int getbId() {
-		return bId;
+	public String getmId() {
+		return mId;
 	}
 
-	public void setbId(int bId) {
-		this.bId = bId;
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 
 	public String getOriginName() {

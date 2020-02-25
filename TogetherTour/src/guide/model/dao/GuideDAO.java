@@ -15,6 +15,7 @@ import java.util.Properties;
 
 import guide.model.vo.Gboard;
 import guide.model.vo.gReply;
+import review.model.vo.Review;
 
 public class GuideDAO {
 	private Properties prop = new Properties();
@@ -193,6 +194,8 @@ public class GuideDAO {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, gbNum);
+			
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -283,6 +286,95 @@ public class GuideDAO {
 		}
 		
 		return result;
+	}
+
+	public int getSearchCount(Connection conn, String menu, String content) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		//String query = prop.getProperty("getSearchCount");
+		String query="";
+		switch(menu) {
+		case "TITLE" : query = prop.getProperty("getTitleCount"); break;
+		case "NICK" : query = prop.getProperty("getNickCount"); break;
+		case "LOCATION" : query = prop.getProperty("getLocationCount"); break;
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+content+'%');
+
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Gboard> searchList(Connection conn, int currentPage, String menu, String content) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Gboard> list = null;
+		int posts = 10; // 한 페이지에 보여질 게시글 개수
+		
+		int startRow = (currentPage - 1) * posts + 1;
+		int endRow = startRow + posts - 1;
+		
+		String query = "";
+		
+		switch(menu) {
+		case "TITLE" : query = prop.getProperty("searchTitle"); break;
+		case "NICK" : query = prop.getProperty("searchNick"); break;
+		case "LOCATION" : query = prop.getProperty("searchLocation"); break;
+		}
+
+		try {
+			if(menu.equals("LOCATION")) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setString(2, '%'+content+'%');
+				pstmt.setInt(3, startRow);
+				pstmt.setInt(4, endRow);				
+			} else {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			}
+			
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<Gboard>();
+			
+			while(rset.next()) {
+				list.add(new Gboard(rset.getInt("gbnum"),
+						rset.getString("title"),
+						rset.getString("nick"),
+						rset.getInt("price"),
+						rset.getDate("create_date"),
+						rset.getString("country"),
+						rset.getString("city"),
+						rset.getDate("start_date"),
+						rset.getDate("end_date"),
+						rset.getInt("gcount"),
+						rset.getInt("kind")
+			));	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 
 }

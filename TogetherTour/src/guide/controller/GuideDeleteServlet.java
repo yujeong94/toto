@@ -30,8 +30,8 @@ public class GuideDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int gbNum = Integer.parseInt(request.getParameter("gbNum"));
-		
+		int gbNum = Integer.parseInt(request.getParameter("gNum"));
+		System.out.println(gbNum);
 		int result = new GuideService().deleteGuide(gbNum);
 		
 		String page = "";

@@ -13,7 +13,7 @@
 		<table class="myPage-menu">
 			<tr>
 				<td><a href="<%= request.getContextPath() %>/viewSelf.myPage" class="myPage-item">내 정보 보기</a></td>
-				<td><a href="" class="myPage-item">함께한 동행자</a></td>
+				<td><a href="<%= request.getContextPath() %>/list.myBuddy" class="myPage-item">함께한 동행자</a></td>
 				<td><a href="" class="myPage-item">팔로우한 작성자</a></td>
 			</tr>
 		</table>

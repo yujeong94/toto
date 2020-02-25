@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import follow.model.vo.Follow;
 import review.model.service.ReviewService;
 import review.model.vo.Reply;
 import review.model.vo.Review;
@@ -34,12 +35,19 @@ public class ReviewDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int rNum = Integer.parseInt(request.getParameter("rnum"));
-		
+		//String loginUser = request.getParameter("loginUser");
+		//String mid = request.getParameter("mid");
 		Review review = new ReviewService().selectReview(rNum);
+		
+		//System.out.println(loginUser);
 		
 		
 		// 댓글달기 
 		ArrayList<Reply> list = new ReviewService().selectReplyList(rNum);
+		
+		//ArrayList<Follow> flist = new ReviewService().selectFollowList();
+		
+		
 		
 		/* System.out.println("가이드 : " +review.getGuide()); */
 		
@@ -48,6 +56,8 @@ public class ReviewDetailServlet extends HttpServlet {
 			page = "views/trip_review/reviewDetailView.jsp";
 			request.setAttribute("review", review);
 			request.setAttribute("list", list); // 댓글 보내기
+			//request.setAttribute("flist", flist); // 팔로우 조합보내기
+			//request.setAttribute("loginUser", loginUser);
 		} else {
 			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 상세보기에 실패하였습니다.");
