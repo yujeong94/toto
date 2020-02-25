@@ -1,4 +1,4 @@
-package review.controller;
+package qna.controller;
 
 import java.io.IOException;
 
@@ -9,22 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import review.model.service.ReviewService;
-import review.model.vo.Review;
+import qna.model.service.QnaService;
+import qna.model.vo.Qna;
 
 /**
- * Servlet implementation class ReviewPointServlet
+ * Servlet implementation class QnaUpdateServlet
  */
-@WebServlet("/good.rv")
-public class ReviewPointServlet extends HttpServlet {
+@WebServlet("/update.qna")
+public class QnaUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewPointServlet() {
+    public QnaUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,26 +32,24 @@ public class ReviewPointServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		int rPoint = Integer.parseInt(request.getParameter("rPoint"));
-		int rNum = Integer.parseInt(request.getParameter("rnum"));
+		int qNum = Integer.parseInt(request.getParameter("qnum"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
 		
+		Qna qna = new Qna();
+		qna.setqNum(qNum);
+		qna.setTitle(title);
+		qna.setContent(content);
 		
-		Review review = new Review();
-		
-		review.setrNum(rNum);
-		review.setrPoint(rPoint);
-		
-		int result = new ReviewService().updateRpoint(review);
-		
+		int result = new QnaService().updateQna(qna);
 		String page = null;
 		
 		if(result > 0) {
-			page = "/detail.rv?rNum=" + rNum;
+			page = "/detail.qna?qNum=" + qNum;
 		} else {
 			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시판 수정에 실패하였습니다.");
 		}
-		
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
 	}

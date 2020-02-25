@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@ page import="java.util.ArrayList, review.model.vo.*, member.model.vo.*" %>
+<%@ page import="java.util.ArrayList, review.model.vo.*, member.model.vo.*, follow.model.vo.*" %>
 
 <%
 	ArrayList<Review> list = (ArrayList<Review>)request.getAttribute("list");
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	/* Member loginUser = (Member)session.getAttribute("loginUser"); */
+	
 	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
@@ -36,13 +37,17 @@
 			<div class='searchArea' align='left'>
 				<table>
 					<tr>
-						<select name ="menu" id="menu">
-							<option value ="TITLE">제목</option>
-							<option value ="NICK">작성자</option>
-							<option value ="LOCATION">여행지</option>
-						</select>
-						<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
-						<input type="submit" id="search" value= "검색">
+						<td>
+							<select name ="menu" id="menu">
+								<option value ="TITLE">제목</option>
+								<option value ="NICK">작성자</option>
+								<option value ="LOCATION">여행지</option>
+							</select>
+							<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
+							<input type="submit" id="search" value= "검색">
+
+						</td>
+						
 					</tr>
 				</table>
 			</div>
@@ -92,8 +97,10 @@
 			</tr>
 			<% } else{
 					for(Review r : list) {
+						
 			%>
 			<tr>
+				
 				<td align="center"><%= r.getrNum() %><input type="hidden" value='<%= r.getrNum()%>'></td>
 				<td align="center"><%= r.getTitle() %></td>
 				<td align="center"><%= r.getLocation() %></td>
@@ -200,10 +207,14 @@
 			$(this).parent().css('background', 'none');
 		}).click(function(){
 			var rnum = $(this).parent().children().children('input').val();
+			var loginUser = $('#loginUser').val();
 			
 			// 로그인 한 사람만 상세보기 이용할 수 있게하기
 			<% if(loginUser != null){%>
+				<%-- location.href='<%= request.getContextPath() %>/detail.rv?rnum=' + rnum +'&loginUser=' +loginUser ; --%>
 				location.href='<%= request.getContextPath() %>/detail.rv?rnum=' + rnum;
+				
+				
 			<% } else{ %>
 				alert('회원만 이용할 수 있는 서비스입니다.');
 			<% } %>

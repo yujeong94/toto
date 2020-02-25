@@ -1,30 +1,26 @@
-package review.controller;
+package qna.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import review.model.service.ReviewService;
-import review.model.vo.Review;
+import qna.model.service.QnaService;
 
 /**
- * Servlet implementation class ReviewPointServlet
+ * Servlet implementation class QnaDeleteServlet
  */
-@WebServlet("/good.rv")
-public class ReviewPointServlet extends HttpServlet {
+@WebServlet("/delete.qna")
+public class QnaDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewPointServlet() {
+    public QnaDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,29 +29,17 @@ public class ReviewPointServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		int rPoint = Integer.parseInt(request.getParameter("rPoint"));
-		int rNum = Integer.parseInt(request.getParameter("rnum"));
+		int qNum = Integer.parseInt(request.getParameter("qnum"));
 		
-		
-		Review review = new Review();
-		
-		review.setrNum(rNum);
-		review.setrPoint(rPoint);
-		
-		int result = new ReviewService().updateRpoint(review);
-		
-		String page = null;
+		int result = new QnaService().deleteQna(qNum);
 		
 		if(result > 0) {
-			page = "/detail.rv?rNum=" + rNum;
+			response.sendRedirect("list.sh");
 		} else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시판 수정에 실패하였습니다.");
+			request.setAttribute("msg", "질문 삭제에 실패하였습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
 	}
 
 	/**
