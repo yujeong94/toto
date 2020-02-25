@@ -111,6 +111,13 @@ public class FindPwdServlet extends HttpServlet {
 			
 			String lastPw = firstPw + ranPw + "!";
 			member.setPwd(lastPw); // 회원비밀번호 임시비밀번호로 변경
+			int result = new MemberService().fakePwd(member);
+			
+			if(result > 0) {
+				System.out.println("임시비밀번호로 변경");
+			} else {
+				System.out.println("임시비밀번호로 변경실패");
+			}
 			message.setText("임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
 			
 			

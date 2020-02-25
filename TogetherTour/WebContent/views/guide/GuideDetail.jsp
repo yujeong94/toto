@@ -10,7 +10,6 @@
 			gKind = "해외";
 		}
 	}
-	System.out.println(gboard);
 	ArrayList<gReply> list = (ArrayList<gReply>)request.getAttribute("rList");
 	
 	//게시글 수정 알림창
@@ -128,8 +127,10 @@
 				</textarea>
 			</div>
 			<div id=gBtnArea align=center>
+				<% if(gboard.getgWriter().equals(loginUser.getNickName())){ %>
 				<button type=submit id=gBtn>수정하기</button>
 				<button type=button id=delBtn onclick="deleteGboard();">삭제하기</button><br>
+				<% } %>
 				<div onclick='location.href="<%= request.getContextPath() %>/list.guide"' id=listBtn>목록으로</div>
 			</div>
 		</form>

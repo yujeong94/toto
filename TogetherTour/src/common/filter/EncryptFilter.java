@@ -18,9 +18,8 @@ import common.wrapper.EncryptWrapper;
  */
 @WebFilter(
 		servletNames = { 
-				"MemberJoinServlet", 
 				"LoginServlet", 
-				"PwdUpdateServlet"
+				"MemberJoinServlet"
 		})
 public class EncryptFilter implements Filter {
 
@@ -28,6 +27,7 @@ public class EncryptFilter implements Filter {
      * Default constructor. 
      */
     public EncryptFilter() {
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -41,9 +41,6 @@ public class EncryptFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		// place your code here
-		
 		HttpServletRequest hsr = (HttpServletRequest)request;
 		
 		EncryptWrapper ew = new EncryptWrapper(hsr);

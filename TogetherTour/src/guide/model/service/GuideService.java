@@ -1,12 +1,18 @@
 package guide.model.service;
 
-import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.commit;
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import guide.model.dao.GuideDAO;
 import guide.model.vo.Gboard;
 import guide.model.vo.gReply;
+import review.model.dao.ReviewDAO;
+import review.model.vo.Review;
 
 public class GuideService {
 
@@ -113,6 +119,21 @@ public class GuideService {
 		close(conn);
 		
 		return result;
+	}
+
+	public int getSearchCount(String menu, String content) {
+		Connection conn = getConnection();
+		
+		int result = new GuideDAO().getSearchCount(conn, menu, content);
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<Gboard> searchList(int currentPage, String menu, String content) {
+		Connection conn = getConnection();
+		ArrayList<Gboard> list = new GuideDAO().searchList(conn, currentPage, menu, content);
+		close(conn);
+		return list;
 	}
 
 }

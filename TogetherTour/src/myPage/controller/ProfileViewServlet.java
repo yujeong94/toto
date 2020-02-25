@@ -1,6 +1,7 @@
-package guide.controller;
+package myPage.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,19 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import guide.model.service.GuideService;
+import com.google.gson.Gson;
+
+import member.model.vo.Member;
+import member.model.vo.mAttachment;
+import myPage.model.service.MyPageService;
 
 /**
- * Servlet implementation class GuideDeleteServlet
+ * Servlet implementation class ProfileViewServlet
  */
-@WebServlet("/delete.guide")
-public class GuideDeleteServlet extends HttpServlet {
+@WebServlet("/memberProfile.mypage")
+public class ProfileViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GuideDeleteServlet() {
+    public ProfileViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,21 +35,18 @@ public class GuideDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int gbNum = Integer.parseInt(request.getParameter("gNum"));
-		System.out.println(gbNum);
-		int result = new GuideService().deleteGuide(gbNum);
+		String userNick = request.getParameter("userNick");
+		MyPageService service = new MyPageService();
 		
-		String page = "";
-		if(result > 0) {
-			page="/list.guide?gbNum=" + gbNum;
-			request.setAttribute("msg", "게시글이 삭제되었습니다.");
-		} else {
-			page="views/guide/GuideDetail.jsp";
-			request.setAttribute("msg", "게시글 삭제에 실패했습니다.");
-		}
+		mAttachment userImg = service.profileImg(userNick);
+		Member userProfile = service.userProfile(userNick);
 		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
+		ArrayList<Object> allList = new ArrayList<Object>();
+		
+		allList.add(userImg);
+		allList.add(userProfile);
+		response.setContentType("application/json; charset=UTF-8");
+	    new Gson().toJson(allList, response.getWriter());
 	}
 
 	/**

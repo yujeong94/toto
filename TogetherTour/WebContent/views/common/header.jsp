@@ -52,42 +52,41 @@
 						<li><a href="" class="menu-item">여행일정</a>
 							<ul class="sub-menu">
 								<li><a href="<%= request.getContextPath() %>/list.trip">여행 리스트</a></li>
-								<li><a href="<%= request.getContextPath() %>/insert.trip">일정 등록</a></li>
+								<li><a href="javascript:void(0)" onclick="tripCheck();">여행 일정 등록</a></li>
 							</ul>
 						</li>
 						<li><a href="" class="menu-item">동행자 찾기</a>
 							<ul class="sub-menu">
 								<li><a href="<%= request.getContextPath() %>/list.buddy">동행자 리스트</a></li>
-								<li><a href="<%= request.getContextPath() %>/insert.buddy">동행자 등록하기</a></li>
+								<li><a href="javascript:void(0)" onclick="buddyCheck();">동행자 등록</a></li>
 							</ul>
 						</li>
 						<li><a href="" class="menu-item">한국인 가이드 찾기</a>
 							<ul class="sub-menu">
 								<li><a href="<%= request.getContextPath() %>/list.guide">가이드 리스트</a></li>
                     			<li><a href="javascript:void(0)" onclick="guideCheck();">가이드 등록</a></li> <!-- 유정수정  -->
-								<%-- <li><a href="<%= request.getContextPath() %>/views/guide/GuideWrite.jsp">가이드 등록</a></li> --%>
 							</ul>
 						</li>
 						
 						<li><a href="" class="menu-item">여행 후기 &amp; 팁</a>
 							<ul class="sub-menu">
-								<li><a href="<%=request.getContextPath()%>/list.rv"  id="review">후기 리스트</a></li>
-                 				<li><a href="<%=request.getContextPath()%>/insert.rv"  id="review">일정 등록</a></li>
+								<li><a href="<%=request.getContextPath()%>/list.rv">후기 리스트</a></li>
+								<li><a href="javascript:void(0)" onclick="reviewCheck();">후기 등록</a></li>
 							</ul>
 						
 						</li>
 						
 						<li><a href="" class="menu-item">나눔</a>
 							<ul class="sub-menu">
-								<li><a href="<%=request.getContextPath()%>/list.share"  id="review">나눔 리스트</a></li>
-                 				<li><a href="<%=request.getContextPath()%>/insert.share"  id="review">나눔 등록</a></li>
+								<li><a href="<%=request.getContextPath()%>/list.share">나눔 리스트</a></li>
+								<li><a href="javascript:void(0)" onclick="shareCheck();">나눔 등록</a></li>
 							</ul>						
 						</li>
 						
 						<li><a href="" class="menu-item">Q &amp; A</a>
 							<ul class="sub-menu">
-								<li><a href="<%=request.getContextPath()%>/list.sh"  id="review">Q &amp; A 리스트</a></li>
-                 				<li><a href="<%=request.getContextPath()%>/insert.sh"  id="review">Q &amp; A 등록</a></li>
+								<li><a href="<%=request.getContextPath()%>/list.sh">Q &amp; A 리스트</a></li>
+								<li><a href="javascript:void(0)" onclick="qaCheck();">후기 등록</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -172,7 +171,6 @@
 			
 			// 유정 : 가이드만 등록하기 할 수 있도록
 			function guideCheck(){
-				console.log(<%= mKind %>);
 				if('<%= loginUser %>' != 'null'){
 					if(<%= mKind %> == 2) { 
 						location.href="<%= request.getContextPath() %>/views/guide/GuideWrite.jsp";
@@ -181,9 +179,76 @@
 					}
 				} else {
 					alert("로그인 후 이용하실 수 있습니다.");
+					location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
 				}
 			}; 
 			// 유정
+			
+			// 일정조건
+			function tripCheck(){
+				if('<%= loginUser %>' != 'null'){
+					if(<%= mKind %> == 1) { 
+						location.href="<%= request.getContextPath() %>/views/trip_plan/TplanWrite.jsp";
+					} else { 
+						alert("일반회원만 등록할 수 있습니다.");
+					}
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+					location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
+				}
+			}; 
+			
+			// 동행조건
+			function buddyCheck(){
+				if('<%= loginUser %>' != 'null'){
+					if(<%= mKind %> == 1) { 
+						location.href="<%= request.getContextPath() %>/views/buddy/buddyInsertForm.jsp";
+					} else { 
+						alert("일반회원만 등록할 수 있습니다.");
+					}
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+					location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
+				}
+			}; 
+			
+			// 후기 조건
+			function reviewCheck(){
+				if('<%= loginUser %>' != 'null'){
+					if(<%= mKind %> == 1) { 
+						location.href="<%= request.getContextPath() %>/views/trip_review/reviewInsertForm.jsp";
+					} else { 
+						alert("일반회원만 등록할 수 있습니다.");
+					}
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+					location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
+				}
+			}; 
+			
+			// 나눔조건
+			function shareCheck(){
+				if('<%= loginUser %>' != 'null'){
+					if(<%= mKind %> == 1) { 
+						location.href="<%=request.getContextPath()%>/views/share/ShareInsertView.jsp";
+					} else { 
+						alert("일반회원만 등록할 수 있습니다.");
+					}
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+					location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
+				}
+			}; 
+			
+			// 큐엔에이 조건
+			function qaCheck(){
+				if('<%= loginUser %>' != 'null'){
+					location.href="<%= request.getContextPath() %>/views/qna/QnaInsertForm.jsp";
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+					location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
+				}
+			}; 
 			
 		</script>
 </body>

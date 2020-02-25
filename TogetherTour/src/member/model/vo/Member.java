@@ -39,21 +39,16 @@ public class Member {
 		this.email = email;
 		this.mKind = mKind;
 	}
+	
 
-	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind,
-			int follow, int grade, String age, String status) {
+	// 프로필 생성자
+	public Member(String nickName, String userName, String gender, int grade, String age) {
 		super();
-		this.mId = mId;
 		this.nickName = nickName;
-		this.pwd = pwd;
 		this.userName = userName;
 		this.gender = gender;
-		this.email = email;
-		this.mKind = mKind;
-		this.follow = follow;
 		this.grade = grade;
 		this.age = age;
-		this.status = status;
 	}
 
 	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind, String age) {
@@ -81,6 +76,21 @@ public class Member {
 		this.follow = follow;
 		this.grade = grade;
 		this.age = age;
+	}
+	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind,
+			int follow, int grade, String age, String status) {
+		super();
+		this.mId = mId;
+		this.nickName = nickName;
+		this.pwd = pwd;
+		this.userName = userName;
+		this.gender = gender;
+		this.email = email;
+		this.mKind = mKind;
+		this.follow = follow;
+		this.grade = grade;
+		this.age = age;
+		this.status = status;
 	}
 
 	public String getmId() {

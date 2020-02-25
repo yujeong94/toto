@@ -3,13 +3,15 @@
 <% 
 	request.setCharacterEncoding("UTF-8");
 	int kind = Integer.parseInt(request.getParameter("kind"));
-	String[] selected = new String[2];
-	if(kind == 1){
-		selected[0] = "selected";
-	} else {
-		selected[1] = "selected";
-	}
+	String country = request.getParameter("country");
+	String city = request.getParameter("city");
 	
+	String strKind = null;
+	if(kind == 1){
+		strKind = "국내";
+	} else {
+		strKind = "해외";
+	}
 	String kakao = request.getParameter("kakao");
 	
 	String gKaKao = null; 
@@ -18,7 +20,6 @@
 	} else {
 		gKaKao = kakao;
 	}
-	// 국가랑 지역도 구분해야함
 %>
 <!DOCTYPE html>
 <html>
@@ -71,31 +72,14 @@
 				<tr>
 					<th><label>활동장소</label></th>
 					<td>
-						<select name=kind id=kind>
-							<option value=1 <%= selected[0] %>>국내</option>
-							<option value=2 <%= selected[1] %>>해외</option>
+						<select name=kind id=kindList>
+							<option>분류</option>
 						</select>
-						<select name=country id=country>
-							<option>한국</option>
-							<option>미국</option>
-							<option>중국</option>
-							<option>일본</option>
-							<option>프랑스</option>
-							<option>이탈리아</option>
-							<option>영국</option>
-							<option>호주</option>
-							<option>러시아</option>
+						<select name=country id=countryList>
+							<option>국가</option>
 						</select>
-						<select name=city id=city>
-							<option>제주도</option>
-							<option>뉴욕</option>
-							<option>상해</option>
-							<option>도쿄</option>
-							<option>파리</option>
-							<option>로마</option>
-							<option>런던</option>
-							<option>시드니</option>
-							<option>모스크바</option>
+						<select name=city id=cityList>
+							<option>도시</option>
 						</select>
 					</td>
 				</tr>
@@ -136,5 +120,94 @@
 	</div>
 	<%@ include file="../common/footer.jsp" %>
 </div>
+<script>
+	$(function(){
+		$.ajax({
+			url: '<%= request.getContextPath() %>/list.loca',
+		 	type: 'post',
+		 	success: function(data){
+		 		$selectKind = $('#kindList');
+				$selectCountry = $('#countryList');
+				$selectCity = $('#cityList');
+				for(var i in data[0]){
+					var $option = $('<option>');
+					$option.val(data[0][i]);
+					var con = null;
+					if(data[0][i] == 1){
+						con = "국내";
+					} else {
+						con = "해외";
+					}
+					$option.text(con);
+					$selectKind.append($option);
+				}
+				
+				// county변경
+				$('#kindList').change(function(){
+					var kindSel = $('#kindList option:selected').text();
+					if(kindSel == "국내"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						var $option = $('<option>');
+						$option.val('한국');
+						$option.text('한국');
+						$selectCountry.append($option);
+					} else if(kindSel == "해외"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						for(var i in data[1]){
+							var $option = $('<option>');
+							$option.val(data[1][i]);
+							$option.text(data[1][i]);
+							$selectCountry.append($option);
+						}
+					} else {
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.text('국가');
+						$selectCountry.append($option);
+					}
+				});
+					// 해외city변경
+					$('#countryList').change(function(){ 
+						var countrySel = $('#countryList option:selected').text();
+						$('#cityList').find('option').remove();
+						for(var i in data[2]){
+							if(data[2][i].country == countrySel){
+								var $option = $('<option>');
+								$option.val(data[2][i].city);
+								$option.text(data[2][i].city);
+								$selectCity.append($option);
+							}
+						}
+						$('#kindList').change(function(){
+							$('#cityList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('도시');
+							$option.text('도시');
+							$selectCity.append($option);
+						});
+					});
+		 	},
+		 	error: function(data){
+		 		console.log('error');
+		 	}
+		});
+	});
+	
+	<%-- $(function(){
+		console.log($('select[name="kind"]').find('option[value="<%= strKind %>"]'));
+		$('select[name="kind"]').find('option[value="<%= strKind %>"]').prop('selected',true);
+		$('select[name="country"]').find('option[value="<%= country %>"]').prop('selected',true);
+		$('select[name="city"]').find('option[value="<%= city %>"]').prop('selected',true);
+	}); --%>
+	
+</script>
 </body>
 </html>

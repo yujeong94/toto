@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList, guide.model.vo.*" %>
 <% 
 	ArrayList<Gboard> list = (ArrayList<Gboard>)request.getAttribute("list");
-
+	String strKind = null; // kind string으로 바꿔서 담을 변수
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	String msg = (String)request.getAttribute("msg");
 	
@@ -19,7 +19,6 @@
 		startPage = pi.getStartPage();
 		endPage = pi.getEndPage();
 	}
-
 %>
 <!DOCTYPE html>
 <html>
@@ -29,14 +28,13 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
-	#sort{float:right;}
 	table{border-top: 1px solid;
 		  border-bottom: 1px solid;
-		  height:300px;
 		  margin-bottom:50px;
 		  }
 	th{border-bottom: 1px solid; height:30px;}
-	td{text-align:center;}
+	td{text-align:center; cursor:default;}
+	.detailBtn,.profileBtn{cursor:pointer;}
 	#checkArea{height:100px;}
 	#line{margin-bottom:100px;}
 	label{vertical-align:middle;}
@@ -48,104 +46,69 @@
 	<%@ include file="../common/header.jsp" %>
 	<div class=contents>
 		<h2><span>한국인 가이드 리스트</span></h2>
-		<hr id=line>
-		<div class=area id=checkArea>
-		<select name=kind class=selectList>
-			<option>분류</option>
-			<option>국내</option>
-			<option>해외</option>
-		</select>
-		<select name=country class=selectList>
-			<option>국가</option>
-			<option>한국</option>
-			<option>미국</option>
-			<option>중국</option>
-			<option>일본</option>
-			<option>프랑스</option>
-			<option>이탈리아</option>
-			<option>영국</option>
-			<option>호주</option>
-			<option>러시아</option>
-		</select>
-		<select name=city class=selectList>
-		    <option>도시</option>
-			<option>제주도</option>
-			<option>뉴욕</option>
-			<option>상해</option>
-			<option>도쿄</option>
-			<option>파리</option>
-			<option>로마</option>
-			<option>런던</option>
-			<option>시드니</option>
-			<option>모스크바</option>
-		</select>
-		<label id=priceLabel>예상가격</label>
-		<select name=minPrice class=selectList>
-			<option>최소가격</option>
-			<option>0</option>
-			<option>50000</option>
-			<option>100000</option>
-			<option>150000</option>
-		</select>
-		<select name=maxPrice class=selectList>
-			<option>최대가격</option>
-			<option>50000</option>
-			<option>100000</option>
-			<option>150000</option>
-			<option>200000</option>
-		</select> &nbsp;
-		<button type=submit>조회</button>
-		</div>
-		<select id=sort>
-			<option>별점순</option>
-			<option>가격내림차순</option>
-			<option>가격오름차순</option>
-		</select>
-		<br clear=both>
-		<br>
-		<table id=listView>
-		<tr>
-			<th>No.</th>
-			<th width=200px>제목</th>
-			<th>가이드닉네임</th>
-			<th>분류</th>
-			<th>국가</th>
-			<th>지역</th>
-			<th>여행시작날짜</th>
-			<th>여행종료날짜</th>
-			<th>가격</th>
-			<th>작성일</th>
-			<th width=50px>조회수</th>
-		</tr>
-		<% if(list.isEmpty()){ %>
-		<tr>
-			<td colspan=11>조회된 리스트가 없습니다.</td>
-		</tr>
-		<% } else {  
-			for(Gboard gb : list) {
-				String strKind = null;
-				if(gb.getKind() == 1){
-					strKind = "국내";
-				} else {
-					strKind = "해외";
-				}
-		%> 
-		<tr>
-			<td><%= gb.getGbNum() %><input type=hidden value='<%= gb.getGbNum() %>'></td>
-			<td><%= gb.getgTitle() %></td>
-			<td><%= gb.getgWriter() %></td>
-			<td><%= strKind %></td>
-			<td><%= gb.getCountry() %></td>
-			<td><%= gb.getCity() %></td>
-			<td><%= gb.getStartDate() %></td>
-			<td><%= gb.getEndDate() %></td>
-			<td><%= gb.getPrice() %></td>
-			<td><%= gb.getEnrollDate() %></td>
-			<td><%= gb.getgCount() %></td>
-		</tr>
-		<% 	} 
-		   } %>
-		</table>
+		
+		<form action="<%= request.getContextPath() %>/search.guide" method="post" id ="searchForm">
+			<div class='searchArea' align='left'>
+				<table>
+					<tr>
+						<td>
+							<select name ="menu" id="menu">
+								<option value ="TITLE">제목</option>
+								<option value ="NICK">작성자</option>
+								<option value ="LOCATION">여행지</option>
+							</select>
+							<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
+							<input type="submit" id="search" value= "검색">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+		
+		<form id=listViewForm>
+			<table id=listView>
+			<tr>
+				<th>No.</th>
+				<th width=200px>제목</th>
+				<th>가이드닉네임</th>
+				<th>분류</th>
+				<th>국가</th>
+				<th>지역</th>
+				<th>여행시작날짜</th>
+				<th>여행종료날짜</th>
+				<th>가격</th>
+				<th>작성일</th>
+				<th width=50px>조회수</th>
+			</tr>
+			<% if(list.isEmpty()){ %>
+			<tr>
+				<td colspan=11>조회된 리스트가 없습니다.</td>
+			</tr>
+			<% } else {  
+				for(Gboard gb : list) {
+					if(gb.getKind() == 1){
+						strKind = "국내";
+					} else {
+						strKind = "해외";
+					}
+			%> 
+			<tr class=listTr>
+				<td><%= gb.getGbNum() %><input type=hidden value='<%= gb.getGbNum() %>'></td>
+				<td class=detailBtn><%= gb.getgTitle() %></td>
+				<td class=profileBtn><%= gb.getgWriter() %></td>
+				<td><%= strKind %></td>
+				<td><%= gb.getCountry() %></td>
+				<td><%= gb.getCity() %></td>
+				<td><%= gb.getStartDate() %></td>
+				<td><%= gb.getEndDate() %></td>
+				<td><%= gb.getPrice() %></td>
+				<td><%= gb.getEnrollDate() %></td>
+				<td><%= gb.getgCount() %></td>
+			</tr>
+			<% 	} 
+			   } %>
+			</table>
+		</form>
 		<div class='pagingArea' align='center'>
 			<% if(!list.isEmpty()){ %>
 			<!-- 맨 처음으로 -->
@@ -207,10 +170,12 @@
 	$(function(){
 		<% if(!list.isEmpty()){ %>
 			$('#listView td').mouseenter(function(){
-				$(this).parent().css({'background':'gray','cursor':'pointer'});
+				$(this).parent().css({'background':'lightgray'});
 			}).mouseout(function(){
 				$(this).parent().css('background','none');
-			}).click(function(){
+			});
+			
+			$('.detailBtn').click(function(){
 				var gbNum = $(this).parent().children().children('input').val();
 				
 				// 로그인 한 사람만 상세보기 이용할 수 있게하기
@@ -222,6 +187,93 @@
 			});
 		<% } %>
 	});
+	
+	$('.profileBtn').click(function(){
+		var userNick = $(this).text();
+		window.open('views/myPage/memberProfile.jsp?userNick='+userNick,'profileForm','width=500, height=700');
+	});
+	
+	// 국가도시목록
+	$(function(){
+		$.ajax({
+			url: '<%= request.getContextPath() %>/list.loca',
+		 	type: 'post',
+		 	success: function(data){
+		 		$selectKind = $('#kindList');
+				$selectCountry = $('#countryList');
+				$selectCity = $('#cityList');
+				for(var i in data[0]){
+					var $option = $('<option>');
+					$option.val(data[0][i]);
+					var con = null;
+					if(data[0][i] == 1){
+						con = "국내";
+					} else {
+						con = "해외";
+					}
+					$option.text(con);
+					$selectKind.append($option);
+				}
+				
+				// county변경
+				$('#kindList').change(function(){
+					var kindSel = $('#kindList option:selected').text();
+					if(kindSel == "국내"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						var $option = $('<option>');
+						$option.val('한국');
+						$option.text('한국');
+						$selectCountry.append($option);
+					} else if(kindSel == "해외"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						for(var i in data[1]){
+							var $option = $('<option>');
+							$option.val(data[1][i]);
+							$option.text(data[1][i]);
+							$selectCountry.append($option);
+						}
+					} else {
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.text('국가');
+						$selectCountry.append($option);
+					}
+				});
+					// 해외city변경
+					$('#countryList').change(function(){ 
+						var countrySel = $('#countryList option:selected').text();
+						$('#cityList').find('option').remove();
+						for(var i in data[2]){
+							if(data[2][i].country == countrySel){
+								var $option = $('<option>');
+								$option.val(data[2][i].city);
+								$option.text(data[2][i].city);
+								$selectCity.append($option);
+							}
+						}
+						$('#kindList').change(function(){
+							$('#cityList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('도시');
+							$option.text('도시');
+							$selectCity.append($option);
+						});
+					});
+		 	},
+		 	error: function(data){
+		 		console.log('error');
+		 	}
+		});
+	});
+	
 </script>
 </body>
 </html>

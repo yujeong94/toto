@@ -41,8 +41,8 @@ public class MemberJoinServlet extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 1024 * 1024 * 10;
 			
-			/*String root = request.getSession().getServletContext().getRealPath("/"); // 절대경로 맨 위 / 웹 서버 컨테이너 경로 추출
-*/			String savePath = "C:/KH/uploadFiles"; // 파일 저장 경로
+			String root = request.getSession().getServletContext().getRealPath("/"); // 절대경로 맨 위 / 웹 서버 컨테이너 경로 추출
+			String savePath = root + "uploadFiles/"; // 파일 저장 경로
 			
 			MultipartRequest multipartRequest
 			= new MultipartRequest(request,savePath, maxSize, "UTF-8", new MyFileRenamePolicy()); 
@@ -65,10 +65,6 @@ public class MemberJoinServlet extends HttpServlet {
 			userImg.setOriginName(originFile);
 			userImg.setChangeName(saveFile);
 			
-			System.out.println(userImg.getChangeName());
-			System.out.println(userImg.getFilePath());
-			System.out.println(userImg.getOriginName());
-			
 			String joinUserId = multipartRequest.getParameter("joinUserId");
 			String nickName = multipartRequest.getParameter("nickName");
 			String userName = multipartRequest.getParameter("userName");
@@ -78,7 +74,7 @@ public class MemberJoinServlet extends HttpServlet {
 			String gender = multipartRequest.getParameter("gender");
 			String age = multipartRequest.getParameter("age");
 			String userType = multipartRequest.getParameter("userType");
-			
+			System.out.println("이거 확인해"+joinUserPwd);
 			int typeInt = 0;
 			if(userType.equals("general")) {
 				typeInt = 1;
@@ -86,12 +82,10 @@ public class MemberJoinServlet extends HttpServlet {
 				typeInt = 2;
 			}
 			
-			System.out.println(joinUserId);
 			Member member = new Member(joinUserId, nickName, joinUserPwd, userName, gender, email, typeInt, age);
 			
 			int result = new MemberService().insertMember(member,userImg);
 			
-			System.out.println(result);
 			String page = null;
 			if(result > 0) {
 				page="views/member/loginView.jsp";
