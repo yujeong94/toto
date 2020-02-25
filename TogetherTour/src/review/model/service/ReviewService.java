@@ -8,6 +8,7 @@ import static common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import follow.model.vo.Follow;
 import review.model.dao.ReviewDAO;
 import review.model.vo.Reply;
 import review.model.vo.Review;
@@ -151,6 +152,14 @@ public class ReviewService {
 		int result = new ReviewDAO().getSearchCount(conn, menu, content);
 		close(conn);
 		return result;
+	}
+
+	public ArrayList<Follow> selectFollowList() {
+		Connection conn = getConnection();
+		ArrayList<Follow> flist = new ReviewDAO().selectFollowList(conn);
+		close(conn);
+		return flist;
+
 	}
 	
 	

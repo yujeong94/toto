@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import follow.model.vo.Follow;
 import review.model.vo.Reply;
 import review.model.vo.Review;
 
@@ -397,6 +398,38 @@ public class ReviewDAO {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<Follow> selectFollowList(Connection conn) {
+		Statement stmt = null;
+		ResultSet rs=null;
+		ArrayList<Follow> flist = null;
+		
+		String query = prop.getProperty("selectFollowList");
+		
+		try {
+			stmt=conn.createStatement();
+			
+			rs=stmt.executeQuery(query);
+			flist = new ArrayList<Follow>();
+			
+			while(rs.next()) {
+				Follow f = new Follow(rs.getString("mid"), rs.getString("fid"));
+		
+				flist.add(f);
+				
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(stmt);
+		}
+		
+		return flist;
 	}
 	
 	

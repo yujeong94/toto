@@ -1,6 +1,8 @@
-package review.controller;
+package qna.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,22 +11,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import review.model.service.ReviewService;
-import review.model.vo.Review;
+import member.model.vo.Member;
+import qna.model.service.QnaService;
+import qna.model.vo.Qna;
 
 /**
- * Servlet implementation class ReviewPointServlet
+ * Servlet implementation class QnaInsertServlet
  */
-@WebServlet("/good.rv")
-public class ReviewPointServlet extends HttpServlet {
+@WebServlet("/insert.no")
+public class QnaInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewPointServlet() {
+    public QnaInsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,35 +34,36 @@ public class ReviewPointServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
-		int rPoint = Integer.parseInt(request.getParameter("rPoint"));
-		int rNum = Integer.parseInt(request.getParameter("rnum"));
 		
+		String title = request.getParameter("title");
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		String content = request.getParameter("content");
 		
-		Review review = new Review();
+	
 		
-		review.setrNum(rNum);
-		review.setrPoint(rPoint);
+	
 		
-		int result = new ReviewService().updateRpoint(review);
+		Qna q = new Qna(title, content, userId);
 		
-		String page = null;
+		int result = new QnaService().insertQna(q);
 		
 		if(result > 0) {
-			page = "/detail.rv?rNum=" + rNum;
+			response.sendRedirect("list.sh");
 		} else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시판 수정에 실패하였습니다.");
+			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
+			request.setAttribute("msg", "질문 등록에 실패하였습니다.");
 		}
 		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
 	}
+		
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

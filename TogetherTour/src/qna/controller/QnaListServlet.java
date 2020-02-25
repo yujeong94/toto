@@ -1,4 +1,4 @@
-package review.controller;
+package qna.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,22 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import follow.model.vo.Follow;
-import review.model.service.ReviewService;
-import review.model.vo.PageInfo;
-import review.model.vo.Review;
+import qna.model.service.QnaService;
+import qna.model.vo.Qna;
+import qna.model.vo.PageInfo;
 
 /**
- * Servlet implementation class ReviewListServlet
+ * Servlet implementation class QnaListServlet
  */
-@WebServlet("/list.rv")
-public class ReviewListServlet extends HttpServlet {
+@WebServlet("/list.sh")
+public class QnaListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReviewListServlet() {
+    public QnaListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,11 +33,7 @@ public class ReviewListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ReviewService service = new ReviewService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성
-		
-		
-		
-		
+		QnaService service = new QnaService();
 		
 		int listCount = service.getListCount(); // 게시판 리스트 개수
 		
@@ -64,16 +59,12 @@ public class ReviewListServlet extends HttpServlet {
 		}
 		
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
-		
-		
-		ArrayList<Review> list = service.selectList(currentPage);
-		
-		
-		
+	
+		ArrayList<Qna> list = service.selectList(currentPage);
 		
 		String page = null;
 		if(list != null) {
-			page = "views/trip_review/reviewList.jsp";
+			page = "views/qna/QnaListView.jsp";
 			request.setAttribute("list", list);
 			request.setAttribute("pi", pi);
 		} else {
@@ -82,7 +73,6 @@ public class ReviewListServlet extends HttpServlet {
 		}
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
-		
 	}
 
 	/**
