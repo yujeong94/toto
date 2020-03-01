@@ -1,8 +1,13 @@
 package trip_plan.model.service;
 
-import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.commit;
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import trip_plan.model.dao.TplanDAO;
@@ -26,6 +31,73 @@ public class TplanService {
 		close(conn);
 		
 		return list;
+	}
+
+	public int insertTplan(Tplan t) {
+		Connection conn = getConnection();
+		int result = new TplanDAO().insertTplan(conn, t);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public Tplan selectTplan(int tPnum) {
+		
+		Connection conn = getConnection();
+		TplanDAO tDAO = new TplanDAO();
+		
+		int result  = tDAO.updateCount(conn, tPnum);
+		
+		Tplan t = null;
+		
+		if(result > 0) {
+			t = tDAO.selectTplan(conn, tPnum);
+			
+			if(t != null) {
+				commit(conn);
+			} else {
+				rollback(conn);
+			}
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return t;
+	}
+
+	public int updateTplan(Tplan t) {
+		
+		Connection conn = getConnection();
+		int result = new TplanDAO().updateTplan(conn, t);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int deleteTplan(int tPnum) {
+		
+		Connection conn = getConnection();
+		TplanDAO tDAO = new TplanDAO();
+		int result = tDAO.deleteTplan(conn, tPnum);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
 	}
 
 }
