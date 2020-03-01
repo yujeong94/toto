@@ -14,6 +14,10 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
+<style>
+	#ok{color:red}
+	#no{color:blue}
+</style>
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
@@ -24,7 +28,7 @@
 			<table>
 				<tr>
 					<th>제목 <input type="hidden" id ="title" name ="title" value="<%= qna.getTitle()%>"></th>
-					<td><%= qna.getTitle() %> <input type="hidden" id ="qnum" name ="qnum" value="<%= qna.getqNum()%>"></td>
+					<td><% if(!rlist.isEmpty()){ %><label id="ok">[답변완료]</label><%} else{%><label id="no">[미답변]</label><%}%><%= qna.getTitle() %> <input type="hidden" id ="qnum" name ="qnum" value="<%= qna.getqNum()%>"></td>
 				</tr>
 				
 				<tr>
@@ -55,7 +59,8 @@
 				<input type="submit" id="updateBtn" value="수정">
 				<input type="button" onclick="deleteQna();" id="deleteBtn" value="삭제">
 				<% } %>  
-			 	<div onclick="location.href='<%= request.getContextPath() %>/list.sh'" id="menuBtn" >메뉴로</div> 
+			 	<%-- <div onclick="location.href='<%= request.getContextPath() %>/list.sh'" id="menuBtn" >메뉴로</div> --%> 
+			 	<input type="button" onclick="back();" id="menuBtn" value="메뉴로">
 			</div>	
 		</form>
 		
@@ -66,6 +71,11 @@
 					$('#detailForm').attr('action', '<%= request.getContextPath() %>/delete.qna');
 					$('#detailForm').submit();
 				}
+			}
+			
+			function back(){
+				$('#detailForm').attr('action', '<%= request.getContextPath() %>/list.rv');
+				$('#detailForm').submit();
 			}
 			
 			
@@ -103,8 +113,8 @@
 						<% for(int i = 0; i < rlist.size(); i++) { %>
 	
 							<tr>
-								<td width="100px"><%= rlist.get(i).getrWriter() %></td>
-								<td width="100px"><%= rlist.get(i).getrContent() %></td>
+								<td width="30px"><%= rlist.get(i).getrWriter() %></td>
+								<td width="200px"><%= rlist.get(i).getrContent() %></td>
 								<td width="100px"><%= rlist.get(i).getCreateDate() %></td>
 							</tr>
 						<%	} %>	

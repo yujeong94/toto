@@ -14,17 +14,7 @@
 	
 	ArrayList<Follow> flist = (ArrayList<Follow>)request.getAttribute("flist");
 	
-	/* String floginUser = (String)request.getAttribute("loginUser");
-	
-	int count =0;
-	
-	for(int i = 0; i < flist.size(); i++){
-		if(floginUser.equals(flist.get(i).getmId())){
-			if(flist.get(i).getfId().equals(review.getmId())){
-				count= 1;
-			}
-		}
-	} */
+	ArrayList<rAttachment> fileList = (ArrayList<rAttachment>)request.getAttribute("fileList");
 	
 
 %>
@@ -35,7 +25,10 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
-
+<style>
+	.ImgArea{display:inline-block; border:1px dashed rgb(203,203,203); width:200px; height:200px; margin-right:10px;}
+	#ReplydeleteBtn{cursor:pointer; background:gray; color:white; text-align:center;}
+</style>
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
@@ -105,13 +98,7 @@
 					<textarea rows="15" cols="60" name="content" style="resize:none;" readonly><%= review.getContent() %></textarea>
 					</td>
 				</tr>
-				
-				<tr>
-					<th>첨부 파일</th>
-					<td><input type="file" value="파일 업로드" id="file" accept=".gif, .jpg, .jpeg, .png" multiple><br> *지원 유형:gif, .jpg, .jpeg, .png</td>
-					
-					
-				</tr>
+			
 				
 				<% if(!review.getmId().equals(loginUser.getmId())){ %>
 				<tr>
@@ -138,6 +125,21 @@
 					
 				</tr>
 				<%} %>
+				
+				
+				<tr>
+					<th>사진 </th>
+					<td colspan="3">
+						<% for(int i = 0; i<fileList.size(); i++){ %>
+						<div class="ImgArea" >
+						<img id="detailImg" class="detailImg" src="<%= request.getContextPath() %>/uploadFiles/<%=fileList.get(i).getChangeName() %>">
+						<input type="hidden" value="<%= fileList.get(i).getChangeName() %>" name="detailImg<%= i %>">
+						<input type="hidden" value="<%= fileList.get(i).getfId() %>" name="detailImgId<%= i %>">
+						</div>
+						<% } %>
+					</td>	
+				
+				</tr>
 			</table>
 			
 			
@@ -148,9 +150,9 @@
 				<input type="submit" id="updateBtn" value="수정">
 				<input type="button" onclick="deleteReview();" id="deleteBtn" value="삭제">
 				<% } %>  
-			 	<div onclick="location.href='<%= request.getContextPath() %>/list.rv'" id="menuBtn" >메뉴로</div> 
-				<%-- <input type="button" onclick="location.href='<%= request.getContextPath() %>/list.rv'" id="menuBtn" value="메뉴로">
-				<input type="button" onclick="back();" id="menuBtn" value="메뉴로"> --%>
+			 	<%-- <div onclick="location.href='<%= request.getContextPath() %>/list.rv'" id="menuBtn" >메뉴로</div> 
+				<input type="button" onclick="location.href='<%= request.getContextPath() %>/list.rv'" id="menuBtn" value="메뉴로"> --%>
+				<input type="button" onclick="back();" id="menuBtn" value="메뉴로">
 			</div>	
 			</form>	
 		
@@ -211,6 +213,7 @@
 	<div class="contents">
 	<h2>댓글</h2>
 	<hr><hr>
+	 	
 			<div class="replyWriterArea"> <!-- 댓글작성부분 -->
 				<table>
 					<tr>
@@ -221,6 +224,7 @@
 				</table>
 			</div>
 			
+			<form action="<%= request.getContextPath() %>" id="ReplyForm" method="post">
 			<div id="replySelectArea">
 				<hr>
 				<hr>
@@ -232,16 +236,32 @@
 						<% for(int i = 0; i < rlist.size(); i++) { %>
 	
 							<tr>
-								<td width="100px"><%= rlist.get(i).getrWriter() %></td>
-								<td width="100px"><%= rlist.get(i).getrContent() %></td>
+								<td width="50px"><%= rlist.get(i).getrWriter() %><input type="hidden" name = "rId" value="<%= rlist.get(i).getrId() %>"></td>
+								<td width="400px"><%= rlist.get(i).getrContent() %><input type="hidden" id ="rnum" name ="rnum" value="<%= review.getrNum()%>"></td>
 								<td width="100px"><%= rlist.get(i).getCreateDate() %></td>
+								<% if(rlist.get(i).getrWriter().equals(loginUser.getmId())){ %>
+								<td width="10px" id ="Replydelete"><div onclick="deleteReviewReply();" id="ReplydeleteBtn">댓글 삭제</div></td>
+								<%} %>
 							</tr>
 						<%	} %>	
 					<%} %>
 				</table>
 			</div>
+			</form>
 		</div>
 		
+		
+		<script>
+			function deleteReviewReply(){
+				var bool = confirm('댓글을 정말로 삭제하시겠습니까?');
+				if(bool){
+					$('#ReplyForm').attr('action', '<%= request.getContextPath() %>/Rdelete.rv');
+					$('#ReplyForm').submit();
+				}
+			} 
+			
+				
+		</script>
 		
 		<script>
 			$('#addReply').click(function(){
@@ -259,15 +279,20 @@
 						
 						for(var key in data){
 							var $tr = $('<tr>');
-							var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px');
+							var $writerTd = $('<td>').text(data[key].rWriter).css('width','50px');
 							var $contentTd = $('<td>').text(data[key].rContent).css('width','400px');
-							var $dateTd = $('<td>').text(data[key].createDate).css('width','200px');
+							var $dateTd = $('<td>').text(data[key].createDate).css('width','100px');
 							
 							$tr.append($writerTd);
 							$tr.append($contentTd);
 							$tr.append($dateTd);
+							
+							/* if(writer.equals(loginUser.getmId())){
+								$tr.append('#Replydelete');
+							} */
+							
+							
 							$replyTable.append($tr);
-					
 						}
 						$('#replyContent').val('');
 					}

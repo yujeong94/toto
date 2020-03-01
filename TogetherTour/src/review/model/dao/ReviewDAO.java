@@ -16,6 +16,7 @@ import java.util.Properties;
 import follow.model.vo.Follow;
 import review.model.vo.Reply;
 import review.model.vo.Review;
+import review.model.vo.rAttachment;
 
 public class ReviewDAO {
 	
@@ -430,6 +431,148 @@ public class ReviewDAO {
 		}
 		
 		return flist;
+	}
+
+	public int insertrAttachment(Connection conn, ArrayList<rAttachment> fileList) {
+		PreparedStatement pstmt = null;
+		int result  = 0;
+		
+		String query = prop.getProperty("insertrAttachment");
+		
+		
+		
+		try {
+			
+			for(int i =0; i <fileList.size(); i++) {
+				rAttachment a = fileList.get(i);
+			
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, a.getOriginName());
+				pstmt.setString(2, a.getChangeName());
+				pstmt.setString(3, a.getFilePath());
+				
+				result += pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<rAttachment> selectThumbnail(Connection conn, int rNum) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<rAttachment> list = null;
+		
+		String query = prop.getProperty("selectThumbnail");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rNum);
+			
+			rs = pstmt.executeQuery();
+			list = new ArrayList<rAttachment>();
+			
+			while(rs.next()) {
+				rAttachment at = new rAttachment();
+				at.setfId(rs.getInt("fid"));
+				at.setOriginName(rs.getString("origin_name"));
+				at.setChangeName(rs.getString("change_name"));
+				at.setFilePath(rs.getString("file_path"));
+				at.setUploadDate(rs.getDate("upload_date"));
+				
+				list.add(at);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		
+		
+		return list;
+	}
+
+	public int insertNewAttachment(Connection conn, ArrayList<rAttachment> newInsertFile) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertNewAttachment");
+		// insertNewAttachment=INSERT INTO ATTACHMENT VALUES(SEQ_FID.NEXTVAL, ?, ?, ?, ?, SYSDATE, ?, DEFAULT, DEFAULT)
+		
+		try {
+			for(int i = 0; i < newInsertFile.size(); i++) {
+				rAttachment a = newInsertFile.get(i);
+				
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, a.getbId());
+				pstmt.setString(2, a.getOriginName());
+				pstmt.setString(3, a.getChangeName());
+				pstmt.setString(4, a.getFilePath());
+				pstmt.setInt(5, a.getFileLevel());
+				
+				result += pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateAttachment(Connection conn, ArrayList<rAttachment> changeFile) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateAttachment");
+		// updateAttachment=UPDATE ATTACHMENT SET ORIGIN_NAME=?, CHANGE_NAME=?, UPLOAD_DATE=SYSDATE WHERE FID=?
+		
+		try {
+			for(int i = 0; i < changeFile.size(); i++) {
+				rAttachment a = changeFile.get(i);
+				
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, a.getOriginName());
+				pstmt.setString(2, a.getChangeName());
+				pstmt.setInt(3, a.getfId());
+				
+				result += pstmt.executeUpdate();
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int deleteReply(Connection conn, int rId) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("deleteReply");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rId);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 	

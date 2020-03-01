@@ -17,6 +17,9 @@
 <title>Q&amp;A 리스트 | 투투</title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_plan_list.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
+<style>
+	th{border-bottom: 1px solid; height:30px;}
+</style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
@@ -34,7 +37,7 @@
 			
 			<table id="listArea">
 				<tr>	
-					<th width="100px">글번호</th>
+					<th width="100px">No</th>
 					<th width="200px">글제목</th>
 					<th width="100px">작성자</th>
 					<th width="100px">조회수</th>

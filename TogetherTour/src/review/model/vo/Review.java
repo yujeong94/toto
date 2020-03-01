@@ -15,10 +15,7 @@ public class Review {
 	private Date startDate;
 	private Date lastDate;
 	private String guide;
-	
-	private String thOrginName;
-	private String thChangeName;
-	private String filePath;
+
 	
 	
 	public Review() {}
@@ -219,35 +216,6 @@ public class Review {
 	public void setGuide(String guide) {
 		this.guide = guide;
 	}
-
-	public String getThOrginName() {
-		return thOrginName;
-	}
-
-	public void setThOrginName(String thOrginName) {
-		this.thOrginName = thOrginName;
-	}
-
-	public String getThChangeName() {
-		return thChangeName;
-	}
-
-	public void setThChangeName(String thChangeName) {
-		this.thChangeName = thChangeName;
-	}
-
-	public String getFilePath() {
-		return filePath;
-	}
-
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-	
-	
-	
-	
-	
 	
 	
 	
