@@ -25,6 +25,11 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
+<style>
+	td{text-align:center; cursor:default;}
+	.detailBtn,.profileBtn{cursor:pointer;}
+	th{border-bottom: 1px solid; height:30px;}
+</style>
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
@@ -34,10 +39,12 @@
 		<h2>여행 후기 & 팁</h2>
 		
 		<form action="<%= request.getContextPath() %>/search.rv" method="post" id ="searchForm">
+		<hr>
 			<div class='searchArea' align='left'>
 				<table>
 					<tr>
 						<td>
+						
 							<select name ="menu" id="menu">
 								<option value ="TITLE">제목</option>
 								<option value ="NICK">작성자</option>
@@ -45,7 +52,7 @@
 							</select>
 							<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
 							<input type="submit" id="search" value= "검색">
-
+						
 						</td>
 						
 					</tr>
@@ -67,29 +74,25 @@
 			});
 		</script> --%>
 		
-		
-		
-		
-		
-		
 		<hr>
 		
-		<div class='insertArea' align='right'>
-			  <% if(loginUser != null){ %> 
-			<button onclick='location.href="views/trip_review/reviewInsertForm.jsp"'>후기 작성하기</button>
-			  <% } %>  
+		
+		<div class='insertBtn' align='right'>
+		<% if(loginUser != null){ %> 
+		<button onclick='location.href="views/trip_review/reviewInsertForm.jsp"'>후기 작성하기</button>
+		<% } %> 
 		</div>
+		
 		
 		<table id = "listArea">
 			<tr>
-				<th width="100px">게시판 번호</th>
+				<th width="100px">No</th>
 				<th width="200px">제목</th>
 				<th width="100px">여행지</th>
 				<th width="100px">작성자</th>
 				<th width="50px">추천수</th>
 				<th width="100px">조회수</th>
 				<th width="100px">작성날짜</th>
-				
 			</tr>
 			<% if(list.isEmpty()){ %>
 			<tr>
@@ -102,9 +105,9 @@
 			<tr>
 				
 				<td align="center"><%= r.getrNum() %><input type="hidden" value='<%= r.getrNum()%>'></td>
-				<td align="center"><%= r.getTitle() %></td>
+				<td align="center" class="detailBtn"><%= r.getTitle() %></td>
 				<td align="center"><%= r.getLocation() %></td>
-				<td align="center"><%= r.getmId() %></td>
+				<td align="center" class="profileBtn"><%= r.getmId() %></td>
 				<td align="center"><%= r.getrPoint() %></td>
 				<td align="center"><%= r.getrCount() %></td>
 				<td align="center"><%= r.getCreateDate() %></td>
@@ -194,25 +197,28 @@
 					<!-- 맨 끝으로 -->
 					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= maxPage %>'">&gt;&gt;</button>
 					
+					
 				<% } %>
 				
 			<%} %>
 		</div>
 		
+		
+		
 	<script>
 	$(function(){
-		$('#listArea td').mouseenter(function(){
+		$('.detailBtn').mouseenter(function(){
 			$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
 		}).mouseout(function(){
 			$(this).parent().css('background', 'none');
 		}).click(function(){
-			var rnum = $(this).parent().children().children('input').val();
+			var rNum = $(this).parent().children().children('input').val();
 			var loginUser = $('#loginUser').val();
 			
 			// 로그인 한 사람만 상세보기 이용할 수 있게하기
 			<% if(loginUser != null){%>
 				<%-- location.href='<%= request.getContextPath() %>/detail.rv?rnum=' + rnum +'&loginUser=' +loginUser ; --%>
-				location.href='<%= request.getContextPath() %>/detail.rv?rnum=' + rnum;
+				location.href='<%= request.getContextPath() %>/detail.rv?rNum=' + rNum;
 				
 				
 			<% } else{ %>
@@ -221,8 +227,16 @@
 		});
 	});
 	
+	$('.profileBtn').click(function(){
+		var userNick = $(this).text();
+		window.open('views/myPage/memberProfile.jsp?userNick='+userNick,'profileForm','width=500, height=700');
+	});
+	
 	
 	</script>	
+	
+	
+	
 		
 		
 	
