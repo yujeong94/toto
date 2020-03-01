@@ -1,10 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+
+	int kind = Integer.parseInt(request.getParameter("kind"));
+	String country = request.getParameter("country");
+	String city = request.getParameter("city");
+	
+	String strKind = null;
+	if(kind == 1){
+		strKind = "국내";
+	} else {
+		strKind = "해외";
+	} 
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행 일정 등록 | 투투</title>
+<title>여행 일정 수정 | 투투</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 	<style>
@@ -35,7 +50,6 @@
 		    font: inherit;
 		}
 		#tBtn{margin-right:20px;}
-		
 	</style>
 </head>
 <body>
@@ -44,29 +58,42 @@
 	<%@ include file="../common/header.jsp" %>
 	<!--E:header-->
 	<div class="contents">
-		<h2><span>여행 일정 등록</span></h2>
-		<form action="<%= request.getContextPath() %>/insert.trip" method=post id=tInsertForm>
+		<h2><span>여행 일정 수정</span></h2>
+		<form action="<%= request.getContextPath() %>/update.trip" id="tUpdateForm" name="tUpdateForm">
 			<fieldset>
-				<legend>여행 일정 등록</legend>
-				<table class="tableArea">
-					<caption>여행 일정 등록</caption>
+				<legend>여행 일정 수정</legend>
+				<table class="tableArea" id="tWrite">
+					<caption>여행 일정 수정</caption>
 					<col>
 					<col>
 					<tbody>
 						<tr>
 							<th width="200px">제목</th>
 							<td>
-								<input type="text" name="title" id="title" size="100px">
+								<input type="hidden" name="tPnum" value="<%= request.getParameter("tPnum") %>">
+								<input type="text" name="title" value="<%= request.getParameter("title") %>">
 							</td>
 						</tr>
 						<tr>
-							<th>여행기간</th>
+							<th>작성자</th>
+							<td>
+							<%= request.getParameter("mid") %><input type="hidden" name="mid" value="<%= request.getParameter("mid") %>">
+							</td>
+						</tr>
+						<tr>
+							<th>작성일</th>
+							<td>
+							<input type="date" name="create_date" value="<%-- <%= request.getParameter("create_date") %> --%>3">
+							</td>
+						</tr>
+						<tr>
+							<th><label class=term>여행기간</label></th>
 							<td>
 								<label class=term>여행시작일</label>
-								<input type=date name="tStart" id="tStart" required> 
-								<span class="term2">~</span> 
+								<input type="date" name="sDate" value="<%= request.getParameter("sDate") %>">
+								<span class="term2"> ~ </span>
 								<label class=term>여행종료일</label>
-								<input type=date name="tEnd" id="tEnd" required>
+								<input type="date" name="eDate" value="<%= request.getParameter("eDate") %>">
 									
 									<!-- (<span><input type=number name="tday" id="tday" required></span> days) -->
 							</td>
@@ -89,12 +116,14 @@
 				</table>
 				<div id=introduce>
 					<p style="font-size:12pt;">일정 등록</p><br>
-					<textarea rows=50 cols=140 style='resize:none;' name=tContents placeholder="내용을 입력해주세요." required></textarea>
+					<textarea rows=50 cols=140 style='resize:none;' name=tContents><%= request.getParameter("tContents") %></textarea>
 				</div>
+				
 				<div id=tBtnArea align=center>
-					<button type=submit id=tBtn onclick="location.href='<%= request.getContextPath() %>/insert.trip'">등록</button>
+					<button type=submit id=tBtn>수정완료</button>
 					<div onclick='location.href="javascript:history.go(-1);"' id=cancleBtn>취소</div>
-				</div>	
+				</div>
+			</div>	
 			</fieldset>
 		
 		</form>

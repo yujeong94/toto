@@ -1,7 +1,6 @@
 package trip_plan.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,20 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import trip_plan.model.service.TplanService;
-import trip_plan.model.vo.PageInfo;
 import trip_plan.model.vo.Tplan;
 
 /**
- * Servlet implementation class TripPlanListServlet
+ * Servlet implementation class TripDetailServlet
  */
-@WebServlet("/list.trip")
-public class TplanListServlet extends HttpServlet {
+@WebServlet("/detail.trip")
+public class TripDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TplanListServlet() {
+    public TripDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,47 +32,20 @@ public class TplanListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("UTF-8");
+		int tPnum = Integer.parseInt(request.getParameter("tPnum"));
 		
-		TplanService service = new TplanService();
-		
-		int listCount = service.getListCount(); // 게시글 수
-		
-		int currentPage;
-		int limit;
-		int maxPage;
-		int startPage;
-		int endPage;
-		
-		currentPage = 1;
-		
-		if(request.getParameter("currentPage") != null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-		
-		limit = 10;
-		
-		maxPage = (int)((double)listCount/limit + 0.9);
-		startPage = (((int)((double)currentPage/limit + 0.9)) - 1) * limit + 1;
-		endPage = startPage + limit - 1;
-		
-		if(maxPage < endPage) {
-			endPage = maxPage;
-		}
-		
-		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
-		ArrayList<Tplan> list = service.selectList(currentPage);
+		Tplan t = new TplanService().selectTplan(tPnum);
 		
 		String page = null;
-		if(list != null) {
-			page = "views/trip_plan/TplanList.jsp";
-			request.setAttribute("list",  list);
-			request.setAttribute("pi", pi);
+		
+		if(t != null) {
+			page = "views/trip_plan/TplanDetail.jsp";
+			request.setAttribute("Tplan", t);
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
-
+		
 	}
 
 	/**
