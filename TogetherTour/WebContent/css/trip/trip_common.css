@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+@import url("../reset.css");
+
+.tableArea tr:first-of-type th, .tableArea tr:first-of-type td{
+	border-top : 1px solid #000;
+}
+
+.tableArea tr th, .tableArea tr td{
+	border-bottom : 1px solid #cbcbcb;
+}

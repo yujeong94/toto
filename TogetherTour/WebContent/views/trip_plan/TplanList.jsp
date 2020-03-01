@@ -17,9 +17,65 @@
 <head>
 <meta charset="UTF-8">
 <title>여행 리스트 | 투투</title>
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_plan_list.css">
+	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	
+	<style>
+
+		td{cursor:default;}
+		.detailBtn,.profileBtn{cursor:pointer;}
+		
+		.searchArea {
+			border-top : 1px solid;
+		}
+		
+		.searchArea th, .searchArea td{
+			border-bottom : 1px solid #cbcbcb;
+		}
+		
+		.searchArea tr:last-child th, .searchArea tr:last-child td{
+			border-bottom-color : #000;
+		}
+		
+		.searchBtnArea {
+			text-align : center;
+			padding : 50px 0;
+			margin-bottom : 50px;
+		}
+		.listArea {
+			margin-bottom:50px;
+		}
+		.listArea .create_date {
+			width : 100px;
+		}
+		.listArea .writer, .listArea .country {
+			width : 200px;
+		}
+		.listArea .count {
+			width : 100px;
+		}
+		
+		.insertBtnArea {
+			padding : 50px 0 0;
+		}
+		
+		.searchBtnArea button, .insertBtnArea button {
+			width : 150px;
+		
+		}
+		.tableArea tr:first-of-type th {
+			border-bottom : 1px solid #000;
+		}
+		.tableArea tr:last-of-type td {
+			border-bottom : 1px solid #000;
+		}
+		.tableArea tbody td:nth-of-type(2), .tableArea tbody td:nth-of-type(3), 
+		.tableArea tbody td:nth-of-type(4), .tableArea tbody td:nth-of-type(5) {
+			text-align : center;
+		
+		}
+	</style>
+	
 </head>
 <body>
 	<div class="wrapper">
@@ -31,7 +87,7 @@
 			<form>
 				<fieldset>
 					<legend>국가 및 여행날짜 검색</legend>
-					<table class="first">
+					<table class="searchArea">
 						<caption>정렬 순서, 여행 국가별, 여행 날짜별 검색</caption>
 						<col>
 						<col>
@@ -44,27 +100,17 @@
 								</td>
 							</tr>
 							<tr>
-								<th>여행 국가</th>
+								<th>여행지역</th>
 								<td>
-									<select>
-										<option>국내</option>
-										<option>해외</option>
+									<select name=kind id=kindList>
+									<option>분류</option>
 									</select>
-									<select>
-										<option>---국가---</option>
-										<option>대한민국</option>
-										<option>프랑스</option>
-										<option>영국</option>
-										<option>싱가폴</option>
+									<select name=country id=countryList>
+									<option>국가</option>
 									</select>
-									<select>
-										<option>---지역---</option>
-										<option>제주도</option>
-										<option>경주</option>
-										<option>전주</option>
-										<option>속초</option>
+									<select name=city id=cityList>
+									<option>도시</option>
 									</select>
-
 								</td>
 							</tr>
 							<tr>
@@ -73,20 +119,21 @@
 									<input type="date"> ~ <input type="date">
 								</td>
 							</tr>
-							<tr>
-								<td colspan="2"><button class="confirm">검색</button></td>
-							</tr>
 						</tbody>
 					</table>
+					<div class="searchBtnArea">
+						<button class="confirm">검색</button>
+					</div>
 				</fieldset>
-
+				
 			</form>
-			<table class="second">
+			<table class="listArea tableArea">
 				<caption>여행 리스트</caption>
-				<col class="first">
-				<col class="second">
-				<col class="third">
-				<col class="fourth">
+				<col class="title">
+				<col class="writer">
+				<col class="create_date">
+				<col class="country">
+				<col class="count">
 				<thead>
 					<tr>
 						<th>제목</th>
@@ -105,12 +152,13 @@
 							for(Tplan t : list){
 					%>
 					<tr>
-						<td>
-							<strong><%= t.getTitle() %></strong>
+						<td class="detailBtn"> <!-- 클래스 변경 -->
+							<input type="hidden" value='<%= t.gettPnum() %>'>
+							<strong><%= t.getTitle() %></strong><br>
 							<%= t.getStartDate() %> ~ <%= t.getEndDate() %>(<%= t.getDay() %>Days)<br>
 							<%= t.getContent() %>
 						</td>
-						<td><%= t.getmId() %></td>
+						<td class="profileBtn"><%= t.getmId() %></td>
 						<td><%= t.getCreateDate() %></td>
 						<td><%= t.getCountry() %><br><%= t.getCity() %></td>
 						<td><%= t.gettCount() %></td>
@@ -118,59 +166,175 @@
 					<% 		}
 						}
 					%>
-					<tr>
-						<td colspan="5">
-						
-						<!-- 페이징  -->
-						<% if(!list.isEmpty()){ %>
-						<!-- 맨 처음으로 -->
-						<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=1'">&lt;&lt;</button>
-						
-						<!-- 이전 페이지로 -->
-						<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
-						<script>
-							if(<%= currentPage %> <= 1){
-								var before = $('#beforeBtn');
-								before.attr('disabled', 'true');
-							}
-						</script>
-						
-						<!-- 10개의 페이지 목록 -->
-						<% for(int p = startPage; p <= endPage; p++){ %>
-							<% if(p == currentPage){ %>
-								<button id="choosen" disabled><%= p %></button>
-							<% } else{ %>
-								<button id="numBtn" onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= p %>'"><%= p %></button>
-							<% } %>
-						<% } %>
-						
-						<!-- 다음 페이지로 -->
-						<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
-						<script>
-							if(<%= currentPage %> >= <%= maxPage %>){
-								var after = $("#afterBtn");
-								after.attr('disabled', 'true');
-							}
-						</script>
-						
-						<!-- 맨 끝으로 -->
-						<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= maxPage %>'">&gt;&gt;</button>
-						
-						<% } %>
-						
-						</td>
-					</tr>
-					<tr>
-						<td colspan="5"><button class="confirm" onclick='location.href="views/trip_plan/boardInsertForm.jsp"'>일정 등록하기</button></td>
-					</tr>
 				</tbody>
 			</table>
-
+			<div class='pagingArea' align='center'>
+				<!-- 페이징  -->
+				<% if(!list.isEmpty()){ %>
+					<!-- 맨 처음으로 -->
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=1'">&lt;&lt;</button>
+					
+					<!-- 이전 페이지로 -->
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
+					<script>
+						if(<%= currentPage %> <= 1){
+							var before = $('#beforeBtn');
+							before.attr('disabled', 'true');
+						}
+					</script>
+					
+					<!-- 10개의 페이지 목록 -->
+					<% for(int p = startPage; p <= endPage; p++){ %>
+						<% if(p == currentPage){ %>
+							<button id="choosen" disabled><%= p %></button>
+						<% } else{ %>
+							<button id="numBtn" onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= p %>'"><%= p %></button>
+						<% } %>
+					<% } %>
+					
+					<!-- 다음 페이지로 -->
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
+					<script>
+						if(<%= currentPage %> >= <%= maxPage %>){
+							var after = $("#afterBtn");
+							after.attr('disabled', 'true');
+						}
+					</script>
+					
+					<!-- 맨 끝으로 -->
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= maxPage %>'">&gt;&gt;</button>
+				<% } %>
+			</div>
+			<div class='insertBtnArea' align='center'>
+			<% if(loginUser != null){ %>
+				<button class="confirm" onclick='location.href="views/trip_plan/TplanWrite.jsp"'>일정 등록하기</button>
+			<% } %>
+			</div>
 		</div>
 
 		<!--S:footer-->
 		<%@ include file="../common/footer.jsp" %>
-		<!--E:footer-->
+		<!-- E:footer -->
 	</div>
+	
+	<script>
+	<%-- var msg = '<%= msg %>';
+	
+	$(function(){
+		if(msg != 'null'){
+			alert(msg);
+		} 
+	}); --%>
+
+	
+	$(function(){
+		<% if(!list.isEmpty()){ %>
+			$('#listArea td').mouseenter(function(){
+				$(this).parent().css({'background':'lightgray'});
+			}).mouseout(function(){
+				$(this).parent().css('background','none');
+			});
+			
+			
+			$('.detailBtn').click(function(){
+				var tPnum = $(this).parent().children().children('input').val();
+				
+				// 로그인 한 사람만 상세보기 이용할 수 있게하기
+				if('<%= loginUser %>' != 'null'){
+					location.href='<%= request.getContextPath() %>/detail.trip?tPnum=' + tPnum;
+				} else {
+					alert('회원만 이용할 수 있는 서비스입니다.');
+				}
+			});
+		<% } %>
+	});
+	
+	$('.profileBtn').click(function(){
+		var userNick = $(this).text();
+		window.open('views/myPage/memberProfile.jsp?userNick='+userNick,'profileForm','width=500, height=700');
+	});
+	
+	
+	// 국가도시목록
+	$(function(){
+		$.ajax({
+			url: '<%= request.getContextPath() %>/list.loca',
+		 	type: 'post',
+		 	success: function(data){
+		 		$selectKind = $('#kindList');
+				$selectCountry = $('#countryList');
+				$selectCity = $('#cityList');
+				for(var i in data[0]){
+					var $option = $('<option>');
+					$option.val(data[0][i]);
+					var con = null;
+					if(data[0][i] == 1){
+						con = "국내";
+					} else {
+						con = "해외";
+					}
+					$option.text(con);
+					$selectKind.append($option);
+				}
+				
+				// county변경
+				$('#kindList').change(function(){
+					var kindSel = $('#kindList option:selected').text();
+					if(kindSel == "국내"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						var $option = $('<option>');
+						$option.val('한국');
+						$option.text('한국');
+						$selectCountry.append($option);
+					} else if(kindSel == "해외"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						for(var i in data[1]){
+							var $option = $('<option>');
+							$option.val(data[1][i]);
+							$option.text(data[1][i]);
+							$selectCountry.append($option);
+						}
+					} else {
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.text('국가');
+						$selectCountry.append($option);
+					}
+				});
+					// 해외city변경
+					$('#countryList').change(function(){ 
+						var countrySel = $('#countryList option:selected').text();
+						$('#cityList').find('option').remove();
+						for(var i in data[2]){
+							if(data[2][i].country == countrySel){
+								var $option = $('<option>');
+								$option.val(data[2][i].city);
+								$option.text(data[2][i].city);
+								$selectCity.append($option);
+							}
+						}
+						$('#kindList').change(function(){
+							$('#cityList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('도시');
+							$option.text('도시');
+							$selectCity.append($option);
+						});
+					});
+		 	},
+		 	error: function(data){
+		 		console.log('error');
+		 	}
+		});
+	});
+	</script>
 </body>
 </html>

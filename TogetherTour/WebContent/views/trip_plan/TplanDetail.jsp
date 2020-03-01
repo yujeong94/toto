@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan"%>
+<%
+	Tplan t = (Tplan)request.getAttribute("Tplan");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행 일정 등록 | 투투</title>
+<title>여행 일정 상세 | 투투</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 	<style>
@@ -35,7 +38,23 @@
 		    font: inherit;
 		}
 		#tBtn{margin-right:20px;}
-		
+		#listBtn{
+		 	padding : 9px 20px;
+			border : none;
+		    background: #999999;
+		    color: #fff;
+		    box-sizing: border-box;
+		    display: inline-block;
+		    align-items: flex-start;
+		    letter-spacing: normal;
+		    word-spacing: normal;
+		    text-rendering: auto;
+		    cursor: pointer;
+		    vertical-align: middle;
+		    font: inherit;
+		    margin-top:20px;
+		    float:right;
+		}
 	</style>
 </head>
 <body>
@@ -44,29 +63,45 @@
 	<%@ include file="../common/header.jsp" %>
 	<!--E:header-->
 	<div class="contents">
-		<h2><span>여행 일정 등록</span></h2>
-		<form action="<%= request.getContextPath() %>/insert.trip" method=post id=tInsertForm>
+		<h2><span>여행 일정 상세</span></h2>
+		<form action="views/trip_plan/TplanUpdate.jsp" id="detailForm" name="detailForm">
 			<fieldset>
-				<legend>여행 일정 등록</legend>
-				<table class="tableArea">
-					<caption>여행 일정 등록</caption>
+				<legend>여행 일정 상세</legend>
+				<table class="tableArea" id="tWrite">
+					<caption>여행 일정 상세</caption>
 					<col>
 					<col>
 					<tbody>
 						<tr>
 							<th width="200px">제목</th>
 							<td>
-								<input type="text" name="title" id="title" size="100px">
+							<input type="hidden" name="tPnum" value='<%= t.gettPnum() %>'>
+							<input type="hidden" name="title" value="<%= t.getTitle() %>">
+								<%= t.getTitle() %>
+							</td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td>
+							<input type="hidden" name="mid" value="<%= t.getmId() %>">
+								<%= t.getmId() %>	
+							</td>
+						</tr>
+						<tr>
+							<th>작성일</th>
+							<td>
+							<input type="hidden" name="create_date" value="<%= t.getCreateDate() %>">
+								<%= t.getCreateDate() %>
 							</td>
 						</tr>
 						<tr>
 							<th>여행기간</th>
 							<td>
 								<label class=term>여행시작일</label>
-								<input type=date name="tStart" id="tStart" required> 
-								<span class="term2">~</span> 
+								<input type="hidden" name="sDate" value="<%= t.getStartDate() %>"><%= t.getStartDate() %> 
+								<span class="term2"> ~ </span>
 								<label class=term>여행종료일</label>
-								<input type=date name="tEnd" id="tEnd" required>
+								<input type="hidden" name="eDate" value="<%= t.getEndDate() %>"><%= t.getEndDate() %>
 									
 									<!-- (<span><input type=number name="tday" id="tday" required></span> days) -->
 							</td>
@@ -74,27 +109,25 @@
 						<tr>
 							<th>여행지역</th>
 							<td>
-								<select name=kind id=kindList>
-								<option>분류</option>
-								</select>
-								<select name=country id=countryList>
-								<option>국가</option>
-								</select>
-								<select name=city id=cityList>
-								<option>도시</option>
-								</select>
+								<input type="hidden" name="kind" value="<%= t.getKind() %>">
+								<input type="hidden" name="country" value="<%= t.getCountry() %>">
+								<input type="hidden" name="city" value="<%= t.getCity() %>">
+								<%= t.getKind() %> / <%= t.getCountry() %> / <%= t.getCity() %>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 				<div id=introduce>
 					<p style="font-size:12pt;">일정 등록</p><br>
-					<textarea rows=50 cols=140 style='resize:none;' name=tContents placeholder="내용을 입력해주세요." required></textarea>
+					<textarea rows=50 cols=140 style='resize:none;' name=tContents><%= t.getContent() %></textarea>
 				</div>
 				<div id=tBtnArea align=center>
-					<button type=submit id=tBtn onclick="location.href='<%= request.getContextPath() %>/insert.trip'">등록</button>
-					<div onclick='location.href="javascript:history.go(-1);"' id=cancleBtn>취소</div>
-				</div>	
+					<% if(t.getmId().equals(loginUser.getmId())){ %>
+					<button type=submit id=tBtn>수정하기</button>
+					<button type=button id=delBtn onclick="deleteTplan();">삭제하기</button><br>
+					<% } %>
+				<div onclick='location.href="<%= request.getContextPath() %>/list.trip"' id=listBtn>목록으로</div>
+			</div>	
 			</fieldset>
 		
 		</form>
@@ -183,6 +216,10 @@
 		 	}
 		});
 	});
+	
+	function deleteTplan(){
+		location.href="<%= request.getContextPath() %>/delete.trip?tPnum=" + <%= t.gettPnum() %>;
+	}
 	</script>
 </body>
 </html>
