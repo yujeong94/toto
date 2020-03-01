@@ -20,7 +20,7 @@
 		<br>
 		<h2>여행 후기 & 팁 작성</h2>
 		<hr>
-		<form action="<%= request.getContextPath() %>/insert.rv" method="post" id ="insertForm">
+		<form action="<%= request.getContextPath() %>/insert.rv" method="post" id ="insertForm" encType="multipart/form-data">
 			<table>
 				<tr>
 					<th>여행지</th>
@@ -124,9 +124,18 @@
 						
 			<div align="center">
 				<button type="submit" id="insertBtn">등록하기</button>
-					<div id="cancelBtn" onclick="location.href='<%= request.getContextPath()%>/list.rv'">취소</div> 
+					<%-- <div id="cancelBtn" onclick="location.href='<%= request.getContextPath()%>/list.rv'">취소</div>  --%>
+					<input type="button" onclick="back();" id="canCelBtn" value="취소">
 			</div>
 		</form>
+		
+		<script>
+			function back(){
+				$('#insertForm').attr('action', '<%= request.getContextPath() %>/list.rv');
+				$('#insertForm').submit();
+			}
+		
+		</script>
 	</div>	
 		
 		

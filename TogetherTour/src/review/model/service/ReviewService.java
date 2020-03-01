@@ -12,6 +12,7 @@ import follow.model.vo.Follow;
 import review.model.dao.ReviewDAO;
 import review.model.vo.Reply;
 import review.model.vo.Review;
+import review.model.vo.rAttachment;
 
 public class ReviewService {
 	
@@ -53,11 +54,13 @@ public class ReviewService {
 		
 	}
 
-	public int insertReview(Review r) {
+	public int insertReview(Review r, ArrayList<rAttachment> fileList) {
 		Connection conn = getConnection();
 		int result = new ReviewDAO().insertReview(conn,r);
 		
-		if(result > 0) {
+		int result2 = new ReviewDAO().insertrAttachment(conn,fileList);
+		
+		if(result > 0 && result2 > 0) {
 			commit(conn);
 		} else {
 			rollback(conn);
@@ -160,6 +163,68 @@ public class ReviewService {
 		close(conn);
 		return flist;
 
+	}
+
+	public ArrayList<rAttachment> selectThumbnail(int rNum) {
+		Connection conn = getConnection();
+		ArrayList<rAttachment> list = new ReviewDAO().selectThumbnail(conn, rNum);
+		
+		return list;
+	}
+
+	public int updateReview(Review review, ArrayList<rAttachment> file) {
+		Connection conn = getConnection();
+		
+		ReviewDAO dao = new ReviewDAO();
+		
+		int result1 = dao.updateReview(conn, review);
+		int result2 = 0;
+		
+		if(file.get(0).getfId() == 0) {
+			result2 = dao.insertNewAttachment(conn, file);
+		} else {
+			result2 = dao.updateAttachment(conn, file);
+		}
+		
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result1;
+	}
+
+	public int updateReview(Review review, ArrayList<rAttachment> changeFile, ArrayList<rAttachment> newInsertFile) {
+		Connection conn = getConnection();
+		
+		ReviewDAO dao = new ReviewDAO();
+		
+		int result1 = dao.updateReview(conn, review);
+		int result2 = dao.updateAttachment(conn, changeFile);
+		int result3 = dao.insertNewAttachment(conn, newInsertFile);
+		
+		if(result1 > 0 && result2 > 0 && result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result1;
+	}
+
+	public int deleteReply(int rId) {
+		Connection conn = getConnection();
+		ReviewDAO dao = new ReviewDAO();
+		
+		int result = dao.deleteReply(conn,rId);
+		
+		if(result> 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		} 
+		return result;
 	}
 	
 	

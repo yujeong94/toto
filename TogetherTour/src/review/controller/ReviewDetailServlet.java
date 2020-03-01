@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import follow.model.vo.Follow;
 import review.model.service.ReviewService;
 import review.model.vo.Reply;
 import review.model.vo.Review;
+import review.model.vo.rAttachment;
 
 /**
  * Servlet implementation class ReviewDetailServlet
@@ -34,30 +34,23 @@ public class ReviewDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int rNum = Integer.parseInt(request.getParameter("rnum"));
-		//String loginUser = request.getParameter("loginUser");
-		//String mid = request.getParameter("mid");
-		Review review = new ReviewService().selectReview(rNum);
+		int rNum = Integer.parseInt(request.getParameter("rNum"));
+		ReviewService service = new ReviewService();
 		
-		//System.out.println(loginUser);
-		
+		Review review = service.selectReview(rNum);
+		ArrayList<rAttachment> fileList = service.selectThumbnail(rNum);
 		
 		// 댓글달기 
 		ArrayList<Reply> list = new ReviewService().selectReplyList(rNum);
-		
-		//ArrayList<Follow> flist = new ReviewService().selectFollowList();
-		
-		
-		
-		/* System.out.println("가이드 : " +review.getGuide()); */
 		
 		String page = null;
 		if(review != null) {
 			page = "views/trip_review/reviewDetailView.jsp";
 			request.setAttribute("review", review);
 			request.setAttribute("list", list); // 댓글 보내기
-			//request.setAttribute("flist", flist); // 팔로우 조합보내기
-			//request.setAttribute("loginUser", loginUser);
+			request.setAttribute("fileList",fileList);
+			
+			
 		} else {
 			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시글 상세보기에 실패하였습니다.");

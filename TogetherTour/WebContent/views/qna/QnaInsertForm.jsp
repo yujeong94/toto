@@ -43,9 +43,17 @@
 				
 				<div align="center">
 					<button type="submit" id="insertNoBtn">등록</button>
-					<div onclick="location.href='javascript:history.go(-1);'" id="cancelBtn">취소</div>
+					<!-- <div onclick="location.href='javascript:history.go(-1);'" id="cancelBtn">취소</div> -->
+					<input type="button" onclick="back();" id="canCelBtn" value="취소">
 				</div>
 			</form>
+			
+			<script>
+				function back(){
+					$('#insertForm').attr('action', '<%= request.getContextPath() %>/list.rv');
+					$('#insertForm').submit();
+				}
+			</script>
 			
 			
 		</div>
