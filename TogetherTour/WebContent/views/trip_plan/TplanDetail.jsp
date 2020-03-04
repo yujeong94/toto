@@ -1,13 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan"%>
+    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan, java.util.Date"%>
 <%
 	Tplan t = (Tplan)request.getAttribute("Tplan");
+	String tKind = null;
+	if(t != null){
+		if(t.getKind() == 1){
+			tKind = "국내";
+		} else {
+			tKind = "해외";
+		}
+	}
+	String tContents = t.getContent();
+	String[] tContentsArr = tContents.split("-");
+	
+	//게시글 수정 알림창
+	String msg = (String)request.getAttribute("msg");
+
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행 일정 상세 | 투투</title>
+<title>여행 일정 상세 | TogetherTour</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 	<style>
@@ -20,7 +34,7 @@
 			padding : 0 10px;
 			vertical-align : middle;
 		}
-		#introduce{text-align:center; margin-top:50px;}
+		
 		#tBtnArea{margin-top:40px;}
  		#cancleBtn{
 		 	padding : 9px 20px;
@@ -55,6 +69,37 @@
 		    margin-top:20px;
 		    float:right;
 		}
+		.tableArea tr:last-child th, .tableArea tr:last-child td {
+			border-bottom : 1px solid #000;
+		}
+		
+		/*일정에 대한 스타일*/
+		.date-box-title{text-align:center; margin-top:50px;}
+		.date-box-area {
+			margin : 0 100px;
+		}
+		.date-box-date {
+			text-align : left;
+		}
+		.date-box-date span{
+			display : inline-block;
+			width : 50px;
+			height : 50px;
+			line-height : 50px;
+			text-align : center;
+			background : #000;
+			color : #fff;
+		}
+		.date-box-content {
+			padding : 8px 12px;
+			border-bottom : 1px solid #cbcbcb;
+			margin-bottom : 50px;
+			min-height : 200px;
+			border : 1px solid #cbcbcb;
+			background : #fff;
+			color : #000;
+			box-shadow : inset 1px 1px 3px #e6e6e6;
+		}
 	</style>
 </head>
 <body>
@@ -64,19 +109,21 @@
 	<!--E:header-->
 	<div class="contents">
 		<h2><span>여행 일정 상세</span></h2>
-		<form action="views/trip_plan/TplanUpdate.jsp" id="detailForm" name="detailForm">
+		<form action="<%= request.getContextPath() %>/views/trip_plan/TplanUpdate.jsp" id="detailForm" name="detailForm">
 			<fieldset>
 				<legend>여행 일정 상세</legend>
 				<table class="tableArea" id="tWrite">
 					<caption>여행 일정 상세</caption>
 					<col>
 					<col>
+					<col>
+					<col>
 					<tbody>
 						<tr>
 							<th width="200px">제목</th>
-							<td>
-							<input type="hidden" name="tPnum" value='<%= t.gettPnum() %>'>
-							<input type="hidden" name="title" value="<%= t.getTitle() %>">
+							<td colspan="5">
+								<input type="hidden" name="tPnum" value='<%= t.gettPnum() %>'>
+								<input type="hidden" name="title" value="<%= t.getTitle() %>">
 								<%= t.getTitle() %>
 							</td>
 						</tr>
@@ -86,40 +133,47 @@
 							<input type="hidden" name="mid" value="<%= t.getmId() %>">
 								<%= t.getmId() %>	
 							</td>
-						</tr>
-						<tr>
 							<th>작성일</th>
-							<td>
-							<input type="hidden" name="create_date" value="<%= t.getCreateDate() %>">
+							<td><input type="hidden" name="create_date" value="<%= t.getCreateDate() %>">
 								<%= t.getCreateDate() %>
 							</td>
+							<th>조회수</th>
+							<td><input type="hidden" name="tcount" value="<%= t.gettCount() %>">
+								<%= t.gettCount() %>
+							</td>
 						</tr>
 						<tr>
-							<th>여행기간</th>
-							<td>
-								<label class=term>여행시작일</label>
-								<input type="hidden" name="sDate" value="<%= t.getStartDate() %>"><%= t.getStartDate() %> 
-								<span class="term2"> ~ </span>
-								<label class=term>여행종료일</label>
-								<input type="hidden" name="eDate" value="<%= t.getEndDate() %>"><%= t.getEndDate() %>
-									
-									<!-- (<span><input type=number name="tday" id="tday" required></span> days) -->
-							</td>
+							<th>여행 시작일</th>
+							<td><input type="hidden" name="tStart" value="<%= t.getStartDate() %>"><%= t.getStartDate() %></td>
+							<th>여행 종료일</th>
+							<td><input type="hidden" name="tEnd" value="<%= t.getEndDate() %>"><%= t.getEndDate() %></td>
+							<th>여행 기간</th>
+							<td><input type="hidden" name="tday" value="<%= t.getDay() %>"><%= t.getDay() %>days</td>
 						</tr>
 						<tr>
 							<th>여행지역</th>
-							<td>
+							<td colspan="5">
 								<input type="hidden" name="kind" value="<%= t.getKind() %>">
 								<input type="hidden" name="country" value="<%= t.getCountry() %>">
 								<input type="hidden" name="city" value="<%= t.getCity() %>">
-								<%= t.getKind() %> / <%= t.getCountry() %> / <%= t.getCity() %>
+								<%= tKind %> / <%= t.getCountry() %> / <%= t.getCity() %>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<div id=introduce>
-					<p style="font-size:12pt;">일정 등록</p><br>
-					<textarea rows=50 cols=140 style='resize:none;' name=tContents><%= t.getContent() %></textarea>
+				<div class="date-box-area">
+					<p style="font-size:12pt; padding : 0 0 50px;" class="date-box-title">일정 보기</p><br>
+					<% if(tContentsArr.length != 0){ %>
+						<% for(int i = 0; i < tContentsArr.length; i++){ %>
+							
+								<div class='date-box-date'><span><%= i+1 %>일차</span></div>
+								<div class="date-box-content"><%= tContentsArr[i] %></div>
+								<input type="hidden" name="tcontents" value="<%= tContentsArr[i] %>">
+							
+						<% } %>
+					<% } else if(tContentsArr.length == 0) { %>
+							<div class="date-box-content" style="text-align : center; line-height : 200px;">등록된 일정이 없습니다.</div>
+					<% } %>
 				</div>
 				<div id=tBtnArea align=center>
 					<% if(t.getmId().equals(loginUser.getmId())){ %>

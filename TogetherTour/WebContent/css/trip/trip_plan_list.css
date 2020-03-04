@@ -11,8 +11,7 @@
 }
 
 .first tr:last-child th, .first tr:last-child td{
-	border-bottom : none;
-	text-align : center;
+	border-bottom : 1px solid #cbcbcb;
 }
 .confirm {
 	background : #00749d;

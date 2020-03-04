@@ -20,8 +20,46 @@ public class Tplan {
 	public Tplan() {}
 	
 	
-	public Tplan(String title, String mId, int day, String content, String country, String city, 
-			Date startDate, Date endDate, String status, int kind) {
+	// 상세보기(status 제외 생성자) 
+	public Tplan(int tPnum, String title, String mId, int day, String content, Date createDate, String country,
+			String city, int tCount, Date startDate, Date endDate, int kind) {
+		super();
+		this.tPnum = tPnum;
+		this.title = title;
+		this.mId = mId;
+		this.day = day;
+		this.content = content;
+		this.createDate = createDate;
+		this.country = country;
+		this.city = city;
+		this.tCount = tCount;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.kind = kind;
+	}
+
+	
+	// 리스트 생성자(content, status 제외 생성자) 
+	public Tplan(int tPnum, String title, String mId, int day, Date createDate, String country, String city, int tCount,
+			Date startDate, Date endDate, int kind) {
+		super();
+		this.tPnum = tPnum;
+		this.title = title;
+		this.mId = mId;
+		this.day = day;
+		this.createDate = createDate;
+		this.country = country;
+		this.city = city;
+		this.tCount = tCount;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.kind = kind;
+	}
+
+	
+	// 게시판 등록, 수정(tpnum, create_date, status 제외 생성자)
+	public Tplan(String title, String mId, int day, String content, String country, String city, int tCount,
+			Date startDate, Date endDate, int kind) {
 		super();
 		this.title = title;
 		this.mId = mId;
@@ -29,14 +67,14 @@ public class Tplan {
 		this.content = content;
 		this.country = country;
 		this.city = city;
+		this.tCount = tCount;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.status = status;
 		this.kind = kind;
 	}
-
-
-
+	
+	
+	// 전체 생성자
 	public Tplan(int tPnum, String title, String mId, int day, String content, Date createDate, String country,
 			String city, int tCount, Date startDate, Date endDate, String status, int kind) {
 		super();
@@ -61,7 +99,7 @@ public class Tplan {
 		return tPnum;
 	}
 
-
+	
 
 	public void settPnum(int tPnum) {
 		this.tPnum = tPnum;
@@ -210,5 +248,6 @@ public class Tplan {
 	public void setKind(int kind) {
 		this.kind = kind;
 	}
+
 
 }
