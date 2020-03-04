@@ -18,8 +18,8 @@ import common.wrapper.EncryptWrapper;
  */
 @WebFilter(
 		servletNames = { 
-				"LoginServlet", 
-				"MemberJoinServlet"
+				"LoginServlet1", 
+				"MemberJoinServlet1"
 		})
 public class EncryptFilter implements Filter {
 

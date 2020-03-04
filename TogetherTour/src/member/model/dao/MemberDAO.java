@@ -51,7 +51,8 @@ public class MemberDAO {
 									   rset.getInt("mkind"),
 									   rset.getInt("follow"),
 									   rset.getInt("grade"),
-									   rset.getString("age"));
+									   rset.getString("age"),
+									   rset.getInt("gcount"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -83,7 +84,9 @@ public class MemberDAO {
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		} finally {
+			close(pstmt);
+		}
 		return result;
 	}
 	
@@ -152,7 +155,6 @@ public class MemberDAO {
 			pstmt.setInt(5, 0);
 			
 			result = pstmt.executeUpdate();
-			System.out.println(userImg.getOriginName());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -240,6 +242,58 @@ public class MemberDAO {
 		}
 		return result;
 	}
+	
+	//관호 시작
+	public int updateMember(Connection conn, Member member) {
+	      PreparedStatement pstmt = null ;
+	      int result = 0 ;
+	      
+	      String query = prop.getProperty("updateMember") ;
+	      
+	      try {
+	         pstmt = conn.prepareStatement(query) ;
+	         pstmt.setString(1, member.getNickName()) ;
+	         pstmt.setString(2, member.getUserName()) ;
+	         pstmt.setString(3, member.getGender()) ;
+	         pstmt.setString(4, member.getEmail()) ;
+	         pstmt.setInt(5, member.getmKind()) ;
+	         pstmt.setString(6, member.getAge()) ;
+	         pstmt.setString(7, member.getmId()) ;
+	         result = pstmt.executeUpdate() ;
+	      } catch (SQLException e) {
+	         System.out.println("\n---------------------------[ERROR]---------------------------") ;
+	         System.out.println(e.getMessage()) ;
+	         System.out.println("-------------------------------------------------------------") ;
+	         e.printStackTrace() ;
+	         System.out.println("-------------------------------------------------------------") ;
+	      } finally {
+	         close(pstmt) ;
+	      } return result ;
+	   }
 
+	   public int updateUserImg(Connection conn, Member member, mAttachment userImg) {
+	      PreparedStatement pstmt = null ;
+	      int result = 0 ;
+	      
+	      String query = prop.getProperty("updateUserImg");
+	      
+	      try {
+	         pstmt = conn.prepareStatement(query) ;
+	         pstmt.setString(1, userImg.getOriginName()) ;
+	         pstmt.setString(2, userImg.getChangeName()) ;
+	         pstmt.setString(3, userImg.getFilePath()) ;
+	         pstmt.setString(4, member.getmId()) ;
+	         result = pstmt.executeUpdate() ;
+	         System.out.println("[Info] [DAO : updateUserImg] [OriginName : '"+userImg.getOriginName()+"']") ;
+	      } catch (SQLException e) {
+	         System.out.println("\n---------------------------[ERROR]---------------------------") ;
+	         System.out.println(e.getMessage()) ;
+	         System.out.println("-------------------------------------------------------------") ;
+	         e.printStackTrace() ;
+	         System.out.println("-------------------------------------------------------------") ;
+	      } finally {
+	         close(pstmt) ;
+	      } return result ;
+	   }
 
 }

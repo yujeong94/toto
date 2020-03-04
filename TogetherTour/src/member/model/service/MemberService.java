@@ -35,7 +35,6 @@ public class MemberService {
 		} else {
 			rollback(conn);
 		}
-		
 		close(conn);
 		
 		return resultA;
@@ -79,5 +78,21 @@ public class MemberService {
 		}
 		return result;
 	}
-
+	// 관호 시작
+	   public int updateMember(Member member, mAttachment userImg) {
+		      Connection conn = getConnection();
+		      int resultM = new MemberDAO().updateMember(conn, member) ;
+		      int resultA = 0 ;
+		      if(resultM > 0) {
+		         resultA = new MemberDAO().updateUserImg(conn, member, userImg);
+		         if(resultA>0) commit(conn) ;
+		         else        rollback(conn) ;
+		      } else {
+		         rollback(conn) ;
+		      }
+		      System.out.println("[Info] [UpdateMember : MemberService] [Result Member : "+resultM+"]") ;
+		      System.out.println("[Info] [UpdateMember : MemberService] [Result Attachment : "+resultA+"]") ;
+		      close(conn) ;
+		      return resultA ;
+		   }
 }

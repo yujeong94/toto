@@ -21,8 +21,11 @@ public class EncryptWrapper extends HttpServletRequestWrapper {
 		
 		// request객체에 담긴 파라미터 이름(key)이 userPwd, joinUserPwd, newPwd인 경우 암호화
 		if(key != null && (key.equals("loginUserPwd1") || key.equals("joinUserPwd1"))) {
+			if(key.equals("joinUserPwd")) {
+				MultipartRequest mr = null;
+				value = getSha512(mr.getParameter(key));
+			}
 			value= getSha512(super.getParameter(key));
-			MultipartRequest mr = null;
 		} else {
 			value = super.getParameter(key);
 			// request객체에 담긴 파라미터 key값이 userPwd나 joinUserPwd, newPwd가 아니면 그냥 가져오겠다

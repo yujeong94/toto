@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import guide.model.dao.GuideDAO;
 import guide.model.vo.Gboard;
 import guide.model.vo.gReply;
-import review.model.dao.ReviewDAO;
-import review.model.vo.Review;
 
 public class GuideService {
 
@@ -84,8 +82,14 @@ public class GuideService {
 		return result;
 	}
 
+	public ArrayList<gReply> selectReplyList(int gNum) {
+		Connection conn = getConnection();
+		ArrayList<gReply> rList = new GuideDAO().selectReplyList(conn, gNum);
+		close(conn);
+		return rList;
+	}
 	public ArrayList<gReply> insertReply(gReply reply) {
-		Connection conn = null;
+		Connection conn = getConnection();
 		GuideDAO dao = new GuideDAO();
 		int result = dao.insertReply(conn, reply);
 		
@@ -93,6 +97,7 @@ public class GuideService {
 		if(result > 0) {
 			commit(conn);
 			rList = dao.selectReplyList(conn, reply.getRefGid());
+			System.out.println("이건 서비스" + rList.get(0).getCreatDate());
 		} else {
 			rollback(conn);
 		}
@@ -100,12 +105,6 @@ public class GuideService {
 		return rList;
 	}
 
-	public ArrayList<gReply> selectReplyList(int gNum) {
-		Connection conn = getConnection();
-		ArrayList<gReply> rList = new GuideDAO().selectReplyList(conn, gNum);
-		
-		return rList;
-	}
 
 	public int updateGuide(Gboard gb) {
 		Connection conn = getConnection();
