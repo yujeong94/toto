@@ -21,7 +21,7 @@
 </head>
 <body>
 	<%@ include file="../common/header.jsp" %>
-	<div class="contents">
+	<div class="contents" align="center">
 		<h2>질문 상세보기</h2>
 		<hr>
 		<form action="<%= request.getContextPath() %>/views/qna/QnaUpdateForm.jsp" id="detailForm" method="post">
@@ -49,9 +49,9 @@
 				<tr>
 					<th>내용</th>
 					<td colspan="3">
-					<textarea rows="15" cols="60" name="content" style="resize:none;" readonly><%= qna.getContent() %></textarea>
+					<textarea rows="15" cols="130" name="content" style="resize:none;" readonly><%= qna.getContent() %></textarea>
 					</td>
-				</tr>
+				</tr >
 							
 			</table>
 			<div align="center">
@@ -74,7 +74,7 @@
 			}
 			
 			function back(){
-				$('#detailForm').attr('action', '<%= request.getContextPath() %>/list.rv');
+				$('#detailForm').attr('action', '<%= request.getContextPath() %>/list.sh');
 				$('#detailForm').submit();
 			}
 			

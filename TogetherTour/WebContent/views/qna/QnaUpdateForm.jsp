@@ -15,11 +15,11 @@
 	<%@ include file="../common/header.jsp" %>
 	<div class="contents">
 		<h2>질문하기 수정</h2>
-		<form action = "<%= request.getContextPath()%>/update.qna" method="post">
+		<form action = "<%= request.getContextPath()%>/update.qna" id ="updateForm" method="post">
 			<table>
 				<tr>
 					<th>제목 </th>
-					<td><input type="text" name="title" value="<%= request.getParameter("title") %>"></td>
+					<td><input type="text" name="title" value="<%= request.getParameter("title") %>" size="100"></td>
 				</tr>
 				<tr>
 					<th>작성자<input type="hidden" name ="qnum" value="<%=request.getParameter("qnum") %>"></th>
@@ -34,7 +34,7 @@
 				<tr>
 					<th>내용</th>
 					<td colspan="3">
-						<textarea rows="15" cols="60" name="content" style="resize:none;"><%= request.getParameter("content") %></textarea>
+						<textarea rows="15" cols="130" name="content" style="resize:none;"><%= request.getParameter("content") %></textarea>
 					</td>
 				</tr>
 			
@@ -42,10 +42,19 @@
 			<br>
 			<div align="center">
 				<button type="submit" id="updateBtn">수정</button>
-				<div id="cancelBtn" onclick="location.href='<%= request.getContextPath() %>/list.sh'">취소</div>
+				<%-- <div id="cancelBtn" onclick="location.href='<%= request.getContextPath() %>/list.sh'">취소</div> --%>
+				<input type="button" onclick="back();" id="canCelBtn" value="취소">
 			</div>
 	</form>
 	</div>
+	<script>
+	function back(){
+		$('#updateForm').attr('action', '<%= request.getContextPath() %>/list.sh');
+		$('#updateForm').submit();
+	}
+	</script>
+	
+	
 	<%@ include file="../common/footer.jsp" %>
 </body>
 </html>

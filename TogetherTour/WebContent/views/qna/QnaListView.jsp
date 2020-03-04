@@ -9,6 +9,8 @@
 	int maxPage = pi.getMaxPage();
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
+
+		
 %>
 <!DOCTYPE html>
 <html>
@@ -31,13 +33,16 @@
 			
 			<div class='insertArea' align='right'>
 			  <% if(loginUser != null){ %> 
-				<button onclick='location.href="views/qna/QnaInsertForm.jsp"'>질문하기</button>
-			  <% } %>  
+				  <% if(!loginUser.getmId().equals("admin")){ %>
+				 	<button onclick='location.href="views/qna/QnaInsertForm.jsp"'>질문하기</button>
+			  	<%}%>
+			  <%} %>
 			</div>
 			
 			<table id="listArea">
 				<tr>	
 					<th width="100px">No</th>
+					<th width="50px">답변상태</th>
 					<th width="200px">글제목</th>
 					<th width="100px">작성자</th>
 					<th width="100px">조회수</th>
@@ -48,10 +53,17 @@
 					<td colspan="5">존재하는 공지사항이 없습니다.</td>
 				</tr>
 				<% } else {  
-					for(Qna q : list) { %>
-						
+					for(Qna q : list) { 
+						String qnaAnswer="";
+						switch(q.getaStatus()){
+						case "Y":qnaAnswer = "[답변완료]";break;
+						case "N":qnaAnswer = "[미답변]"; break;
+						}
+			
+					%>
 						<tr>
 							<td align="center"><%= q.getqNum() %><input type="hidden" value='<%= q.getqNum()%>'></td>
+							<td align="center"><%= qnaAnswer %></td>
 							<td align="center"><%= q.getTitle() %></td>
 							<td align="center"><%= q.getmId() %></td>
 							<td align="center"><%= q.getqCount() %></td>
@@ -67,7 +79,7 @@
 			<br>
 		<!-- 페이징 -->
 		<div class='pagingArea' align='center'>	
-			<% if(!list.isEmpty()){ %>
+			<% if(!list.isEmpty() && maxPage !=1){ %>
 					<!-- 맨 처음으로 -->
 					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=1'">&lt;&lt;</button>
 					
@@ -107,6 +119,7 @@
 		</div>
 		<script>
 		$(function(){
+			<% if(!list.isEmpty()){ %>
 			$('#listArea td').mouseenter(function(){
 				$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
 			}).mouseout(function(){
@@ -123,6 +136,7 @@
 					alert('회원만 이용할 수 있는 서비스입니다.');
 				<% } %>
 			});
+			<%}%>
 		});
 		
 	</script>	

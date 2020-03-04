@@ -35,7 +35,7 @@
 	<%@ include file="../common/header.jsp" %>
 	<div class="contents">
 		<h2>여행 후기 & 팁 수정</h2>
-			<form action = "<%= request.getContextPath()%>/update.rv" method="post" encType="multipart/form-data">
+			<form action = "<%= request.getContextPath()%>/update.rv" id ="updateForm" method="post" encType="multipart/form-data">
 				<table>
 					<tr>
 						<th>여행지역<input type="hidden" name ="rnum" value="<%= request.getParameter("rnum")%>"></th>
@@ -55,7 +55,7 @@
 					<tr>
 						<th>내용</th>
 						<td colspan="3">
-							<textarea rows="15" cols="60" name="content" style="resize:none;"><%= request.getParameter("content") %></textarea>
+							<textarea rows="20" cols="130" name="content" style="resize:none;"><%= request.getParameter("content") %></textarea>
 						</td>
 					</tr>
 					
@@ -126,7 +126,8 @@
 				<br>
 				<div align="center">
 					<button type="submit" id="updateBtn">수정 완료 </button>
-					<div id="cancelBtn" onclick="location.href='<%= request.getContextPath() %>/list.rv'">취소</div>
+					<%-- <div id="cancelBtn" onclick="location.href='<%= request.getContextPath() %>/list.rv'">취소</div> --%>
+					<input type="button" onclick="back();" id="canCelBtn" value="취소">
 				</div>
 		</form>
 	</div>
@@ -148,6 +149,11 @@
 			
 			$('.insertArea').parent().submit();
 		});
+		
+		function back(){
+			$('#updateForm').attr('action', '<%= request.getContextPath() %>/list.rv');
+			$('#updateForm').submit();
+		}
 	</script>
 	
 	
