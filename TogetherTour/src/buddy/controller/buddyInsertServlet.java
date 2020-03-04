@@ -1,6 +1,8 @@
 package buddy.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.util.GregorianCalendar;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import buddy.model.service.buddyBoardService;
 import buddy.model.vo.buddyBoard;
+import member.model.vo.Member;
 
 /**
  * Servlet implementation class buddyInsertServlet
@@ -19,7 +22,7 @@ import buddy.model.vo.buddyBoard;
 public class buddyInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**ddd
+    /**
      * @see HttpServlet#HttpServlet()
      */
     public buddyInsertServlet() {
@@ -31,25 +34,64 @@ public class buddyInsertServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int bnum = Integer.parseInt(request.getParameter("bnum"));		
+		
+		String writer = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+		
 		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		int category = Integer.parseInt(request.getParameter("category"));
-		//String userId = ((Member)request.getSession().getAttribute("loginUser")).getUserId();
+		String kind = request.getParameter("kind");
+		String country = request.getParameter("country");
+		String city = request.getParameter("city");
+		String start_date = request.getParameter("start_date");
+		String end_date = request.getParameter("end_date");
+		String theme = request.getParameter("theme");
+		int head_cnt = Integer.parseInt(request.getParameter("head_cnt"));
+		String gender = request.getParameter("gender");
+		int group_age = Integer.parseInt(request.getParameter("group_age"));
+		String kakao = request.getParameter("kakao");
+		String content=request.getParameter("content");
 		
-		buddyBoard board = new buddyBoard();
-		board.setBnum(bnum);
-		board.setTitle(title);
+		System.out.println(gender);
+		int kindInt = 0;
+		if(kind.equals("국내")) {
+			kindInt = 1;
+		} else {
+			kindInt = 2;
+		}
+		Date sqlSdate = null;
+		Date sqlEdate = null;
 		
-		//board.setbWriter(userId);//
+		if(start_date != "" && end_date != "") {
+			
+			String[] startArr = start_date.split("-");
+			String[] endArr = end_date.split("-");
+			int syear = Integer.parseInt(startArr[0]);
+			int smonth = Integer.parseInt(startArr[1])-1;
+			int sday = Integer.parseInt(startArr[2]);
+			
+			int eyear = Integer.parseInt(endArr[0]);
+			int emonth = Integer.parseInt(startArr[1])-1;
+			int eday = Integer.parseInt(startArr[2]);
+			
+			sqlSdate = new Date(new GregorianCalendar(syear,smonth,sday).getTimeInMillis());
+			sqlEdate = new Date(new GregorianCalendar(eyear,emonth,eday).getTimeInMillis());
+		} else {
+			sqlSdate = new Date(new GregorianCalendar().getTimeInMillis());
+			sqlEdate = new Date(new GregorianCalendar().getTimeInMillis());
+		}
 		
-		int result = new buddyBoardService().insertBoard(board, category);
+		
+		buddyBoard board = new buddyBoard(title, kindInt, country, city, sqlSdate, 
+				sqlEdate, theme, head_cnt, gender, group_age,kakao, content);
+		
+	     System.out.println(board.getKind());
+		
+		int result = new buddyBoardService().insertBoard(writer, board);
 		
 		if(result > 0) {
 			response.sendRedirect("list.buddy");
 		} else {
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			request.setAttribute("msg", "게시판 등록에 실패하였습니다.");
+			request.setAttribute("msg", "게시판 등록에 실패하였습니다."); // D왜 자꾸 여기로 넘어가지냐고.. 
 			view.forward(request, response);
 		}
 	}

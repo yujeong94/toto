@@ -34,8 +34,8 @@ public class buddyDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 		
-		buddyBoard board = new buddyBoardService().selectBoard(bnum); // 연결 고리를 만들어줘야하기 떄문에 servlet으로 와서 service를 생성주고 서비스로 넘어간다.
-		
+		buddyBoard board = new buddyBoardService().selectBoard(bnum); // 
+		System.out.println(bnum);
 		String page = null;
 		if(board != null) {
 			page = "views/buddy/buddyBoardDetail.jsp" ;
