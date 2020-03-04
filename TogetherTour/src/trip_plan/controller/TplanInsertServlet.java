@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,13 +36,21 @@ public class TplanInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String title = request.getParameter("title");
-		String sDate = request.getParameter("tStart"); 
-		String eDate = request.getParameter("tEnd"); 
-		/*int day = Integer.parseInt(request.getParameter("tday"));*/
 		String kind = request.getParameter("kind");
 		String country = request.getParameter("country");
 		String city = request.getParameter("city");
-		String tContents = request.getParameter("tContents"); 
+		String sDate = request.getParameter("tStart"); 
+		String eDate = request.getParameter("tEnd"); 
+		int day = Integer.parseInt(request.getParameter("tDay"));
+		System.out.println(day);
+		
+		/*String tContents = request.getParameter("tContents");*/
+		String[] tContentsArr = request.getParameterValues("tContents");
+		String tContents = "";
+		if(tContentsArr != null) {
+			tContents = String.join("-", tContentsArr);
+		}
+		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();		
 		
 		int kindNum = 0;
@@ -77,7 +86,7 @@ public class TplanInsertServlet extends HttpServlet {
 		Tplan t = new Tplan();
 		t.setTitle(title);
 		t.setmId(userId);
-		/*t.setDay(day);*/
+		t.setDay(day);
 		t.setContent(tContents);
 		t.setCountry(country);
 		t.setCity(city);
@@ -89,6 +98,10 @@ public class TplanInsertServlet extends HttpServlet {
 		
 		if(result > 0) {
 			response.sendRedirect("list.trip");
+		} else {
+			request.setAttribute("msg", "여행 일정 등록에 실패했습니다.");
+			RequestDispatcher view = request.getRequestDispatcher("views/trip_plan/TplanList.jsp");
+			view.forward(request, response);
 		}
 	}
 

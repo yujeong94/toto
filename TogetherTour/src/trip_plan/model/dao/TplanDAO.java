@@ -82,16 +82,14 @@ public class TplanDAO {
 			while(rset.next()) {
 				Tplan t = new Tplan(rset.getInt("rNum"),
 									rset.getString("title"),
-									rset.getString("mid"),
+									rset.getString("nick"),
 									rset.getInt("day"),
-									rset.getString("content"),
 									rset.getDate("create_date"),
 									rset.getString("country"),
 									rset.getString("city"),
 									rset.getInt("tcount"),
 									rset.getDate("start_date"),
 									rset.getDate("end_date"),
-									rset.getString("status"),
 									rset.getInt("kind"));
 									
 				list.add(t);
@@ -113,21 +111,26 @@ public class TplanDAO {
 		int result = 0;
 		
 		String query = prop.getProperty("insertTplan");
-		System.out.println("country" + t.getCountry());
-		System.out.println("mid" + t.getmId());
+		
 		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, t.getTitle());
 			pstmt.setString(2, t.getmId());
-			pstmt.setString(3, t.getContent());
-			pstmt.setString(4, t.getCountry());
-			pstmt.setString(5, t.getCity());
-			pstmt.setDate(6, t.getStartDate());
-			pstmt.setDate(7, t.getEndDate());
-			pstmt.setInt(8, t.getKind());
+			pstmt.setInt(3, t.getDay());
+			pstmt.setString(4, t.getContent());
+			pstmt.setString(5, t.getCountry());
+			pstmt.setString(6, t.getCity());
+			pstmt.setDate(7, t.getStartDate());
+			pstmt.setDate(8, t.getEndDate());
+			pstmt.setInt(9, t.getKind());
 			
 			result = pstmt.executeUpdate();
+			System.out.println("country" + t.getCountry());
+			System.out.println("mid" + t.getmId());
+			System.out.println("day" + t.getDay());
+			System.out.println("content" + t.getContent());
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -158,13 +161,13 @@ public class TplanDAO {
 		return result;
 	}
 
-	public Tplan selectTplan(Connection conn, int tPnum) {
+	public Tplan detailTplan(Connection conn, int tPnum) {
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Tplan t = null;
 		
-		String query = prop.getProperty("selectTplan");
+		String query = prop.getProperty("detailTplan");
 		
 		try {
 			pstmt = conn.prepareStatement(query);

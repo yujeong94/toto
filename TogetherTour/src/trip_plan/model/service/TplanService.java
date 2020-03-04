@@ -46,7 +46,7 @@ public class TplanService {
 		return result;
 	}
 
-	public Tplan selectTplan(int tPnum) {
+	public Tplan detailTplan(int tPnum) {
 		
 		Connection conn = getConnection();
 		TplanDAO tDAO = new TplanDAO();
@@ -56,7 +56,7 @@ public class TplanService {
 		Tplan t = null;
 		
 		if(result > 0) {
-			t = tDAO.selectTplan(conn, tPnum);
+			t = tDAO.detailTplan(conn, tPnum);
 			
 			if(t != null) {
 				commit(conn);

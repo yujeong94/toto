@@ -34,8 +34,6 @@ public class TplanListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("UTF-8");
-		
 		TplanService service = new TplanService();
 		
 		int listCount = service.getListCount(); // 게시글 수
@@ -70,6 +68,9 @@ public class TplanListServlet extends HttpServlet {
 			page = "views/trip_plan/TplanList.jsp";
 			request.setAttribute("list",  list);
 			request.setAttribute("pi", pi);
+		} else {
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "게시판 조회에 실패했습니다.");
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);
