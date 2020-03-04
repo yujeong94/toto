@@ -42,7 +42,7 @@
 					<% } else { %> 
 						<li><span><%= Strkind %>회원 <%= loginUser.getNickName() %>님</span></li>
 						<li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
-						<li><a href="<%= request.getContextPath() %>/views/myPage/MyPageContentView.jsp">마이페이지</a></li> 
+						<li><a href="<%= request.getContextPath() %>/viewSelf.myPage">마이페이지</a></li>  
 					<% } %>
 				</ul>
 				<br clear="both">

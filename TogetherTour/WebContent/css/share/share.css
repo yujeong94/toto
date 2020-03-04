@@ -15,19 +15,13 @@
 #schWrite	{}
 #schLook	{}
 #schState	{}
-.search		{text-align:center;}
-.schElement {width:200px;}
+.search		{border:0.8px solid black; color:black; text-align:center;}
 #shareContent {width:100%; text-align:center;}
 
 #titleText	{margin-top:20px; font-size:1rem; font-weight:normal; text-align:center;}
 #content	{width:99%; height:300px; resize:none;}
 #wrtButton	{text-align:center;}
 .wrtInput	{width:100%;}
-
-.contentImg {width:auto; height:auto; border:2px solid black;
-			 text-align:center; vertical-align:middle}
-
-.shareImg	{width:19%;}
 /* #wrtArea	{border:1px solid black; width:100%;} */
 /* #wrtList	{text-align:center; width:20%;} */
 /* .wrtInput	{width:99%; height:30px;} */
