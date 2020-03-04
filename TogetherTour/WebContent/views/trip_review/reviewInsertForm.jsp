@@ -46,7 +46,7 @@
 				<tr>
 					<th>내용</th>
 					<td colspan="3">
-					<textarea rows="15" cols="60" name="content" style="resize:none;"></textarea>
+					<textarea rows="20" cols="130" name="content" style="resize:none;"></textarea>
 					</td>
 				</tr>
 				
