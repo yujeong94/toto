@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행 일정 등록 | 투투</title>
+<title>여행 일정 등록 | TogetherTour</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 	<style>
@@ -13,12 +13,10 @@
 			margin-right : 10px;
 		}
 		
-		span.term2 {
+		span.term2, span.tDay {
 			padding : 0 10px;
 			vertical-align : middle;
 		}
-		#introduce{text-align:center; margin-top:50px;}
-		#tBtnArea{margin-top:40px;}
  		#cancleBtn{
 		 	padding : 9px 20px;
 			border : none;
@@ -35,7 +33,44 @@
 		    font: inherit;
 		}
 		#tBtn{margin-right:20px;}
+		.tableArea tr:last-child th, .tableArea tr:last-child td {
+			border-bottom : 1px solid #000;
+		}
+		.makePlanBtn{margin-top:40px; text-align:center; }
+		div.makePlanArea {
+			display : none;
+			text-align:center; 
+			margin-top:50px
+		}
+		p.makePlanTitle {
+			padding : 50px 0 0;
+			border-top : 1px solid #000;
+		}
+		div.makePlan {
+			padding : 50px 0;
+			border-bottom : 1px solid #000;
+		}
+		#tBtnArea {
+			margin-top : 50px;
+		}
 		
+		/*일정 입력박스에 대한 스타일*/
+		.date-box-date {
+			text-align : left;
+			margin-left : 108px;
+		}
+		.date-box-date span{
+			display : inline-block;
+			width : 50px;
+			height : 50px;
+			line-height : 50px;
+			text-align : center;
+			background : #000;
+			color : #fff;
+		}
+		.date-box-content {
+			margin-bottom : 30px;
+		}
 	</style>
 </head>
 <body>
@@ -56,19 +91,7 @@
 						<tr>
 							<th width="200px">제목</th>
 							<td>
-								<input type="text" name="title" id="title" size="100px">
-							</td>
-						</tr>
-						<tr>
-							<th>여행기간</th>
-							<td>
-								<label class=term>여행시작일</label>
-								<input type=date name="tStart" id="tStart" required> 
-								<span class="term2">~</span> 
-								<label class=term>여행종료일</label>
-								<input type=date name="tEnd" id="tEnd" required>
-									
-									<!-- (<span><input type=number name="tday" id="tday" required></span> days) -->
+								<input type="text" name="title" id="title" size="100px" required>
 							</td>
 						</tr>
 						<tr>
@@ -85,15 +108,30 @@
 								</select>
 							</td>
 						</tr>
+						<tr>
+							<th>여행기간</th>
+							<td>
+								<label class=term>여행시작일</label>
+								<input type=date name="tStart" id="tStart" required onchange="tplanConfirm();"> 
+								<span class="term2">~</span> 
+								<label class=term>여행종료일</label>
+								<input type=date name="tEnd" id="tEnd" required onchange="tplanConfirm();">
+								<span id="tDay" class="tDay">betweenDay</span><input type=hidden id="tDay1" name="tDay">
+							</td>
+						</tr>
 					</tbody>
 				</table>
-				<div id=introduce>
-					<p style="font-size:12pt;">일정 등록</p><br>
-					<textarea rows=50 cols=140 style='resize:none;' name=tContents placeholder="내용을 입력해주세요." required></textarea>
+				<div class="makePlanBtn">
+					<button type="button">일정 만들기</button>
 				</div>
-				<div id=tBtnArea align=center>
-					<button type=submit id=tBtn onclick="location.href='<%= request.getContextPath() %>/insert.trip'">등록</button>
-					<div onclick='location.href="javascript:history.go(-1);"' id=cancleBtn>취소</div>
+				<div class="makePlanArea">
+					<p style="font-size:12pt;" class="makePlanTitle">여행 일정 등록</p>
+					<div class="makePlan" id="makePlan"></div>
+					<div id=tBtnArea align=center>
+						<button type=submit id=tBtn onclick="location.href='<%= request.getContextPath() %>/insert.trip'">등록</button>
+						
+						<div onclick='location.href="javascript:history.go(-1);"' id=cancleBtn>취소</div>
+					</div>
 				</div>	
 			</fieldset>
 		
@@ -104,6 +142,71 @@
 		<!--E:footer-->
 	</div>
 	<script>
+	
+	// 여행 시작일과 여행 종료일이 정해지면 일차가 계산되는 함수
+	var betweenDay = 0;
+	document.getElementById("tDay").innerHTML = "(" + betweenDay + "일차)";
+	document.getElementById("tDay1").value = betweenDay;
+	var tStart = "";
+	var tEnd = "";
+	
+	function tplanConfirm(){
+		tStart = document.getElementById("tStart").value;
+		tEnd = document.getElementById("tEnd").value;
+		
+		var sDay = new Date(tStart);	// 여행시작일
+		var eDay = tEnd;				// 여행종료일
+		
+		var eDayArray = eDay.split("-"); 			
+		var eDayObj = new Date(eDayArray[0], Number(eDayArray[1])-1, eDayArray[2]);
+		
+		if(tStart <= tEnd){
+			if(tEnd != null && tEnd != "") {
+				if(tStart == tEnd) {
+					betweenDay = Math.ceil(Math.abs((sDay.getTime() - eDayObj.getTime())/1000/60/60/24));   // 여행 일수(두 날짜 차이 + 1)
+				} else{
+					betweenDay = Math.ceil(Math.abs((sDay.getTime() - eDayObj.getTime())/1000/60/60/24))+1;   // 여행 일수(두 날짜 차이 + 1)
+				}
+					document.getElementById("tDay").innerHTML = "(" + betweenDay + "일차)";
+					document.getElementById("tDay1").value = betweenDay;
+				
+			} 
+		} 
+	}
+	
+	// 일정 만들기 버튼을 클릭하면 일차대로 일정을 메모할 수 있는 입력박스가 나오는 함수
+	$(function(){
+		$(".makePlanBtn button").click(function(){
+			if(tStart > tEnd) {
+				
+				alert("여행 기간을 다시 설정하세요.\n여행 종료일은 여행 시작일보다 같거나 늦어야 합니다.");
+				$(".makePlanArea").css("display", "none");
+				betweenDay = 0;
+				document.getElementById("tDay").innerHTML = "(" + betweenDay + "일차)";
+				
+			} else {
+				$(".makePlanArea").css("display", "block");
+				
+				$("#makePlan").html("");
+				
+				for(var i = 1; i <= betweenDay; i++){
+					$("#makePlan").append("<div id='date-box" 
+												+ i + "'><div class='date-box-date'><span>" 
+												+ i + "일차</span></div><textarea name='tContents' class='date-box-content' rows='10' cols='140' style='resize:none;' placeholder='" 
+												+ i + "일차 일정을 입력하세요'></textarea></div>");
+
+					/* if(i < betweenDay) {
+						tContents += $('".date-box-content" + i').text() + "가치가조유동한대경" ;
+					} else if(i == betweenDay){
+						tContents += $('".date-box-content" + i').text();
+					} */
+				}
+			}
+			
+		});	
+	});
+	
+	// 여행지역 목록을 보여주는 함수
 	$(function(){
 		$.ajax({
 			url: '<%= request.getContextPath() %>/list.loca',
@@ -183,6 +286,7 @@
 		 	}
 		});
 	});
+	
 	</script>
 </body>
 </html>

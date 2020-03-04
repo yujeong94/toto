@@ -13,14 +13,14 @@
 		<!--S:header-->
 		<%@ include file="../common/header.jsp" %>
 		<!--E:header-->
-		<div class="contents">
+		<div class="contents" align="center">
 			<h2><span>Q &amp; A</span></h2>
 			
-			<form action="<%= request.getContextPath() %>/insert.no" method="post" id ="insertForm">
+			<form action="<%= request.getContextPath() %>/insert.no" method="post" id ="insertForm" >
 				<table>
 					<tr>
 						<th>제목</th>
-						<td colspan="3"><input type="text" size="58" name="title"></td>
+						<td colspan="3"><input type="text" size="100" name="title"></td>
 					</tr>
 					
 					<tr>
@@ -34,7 +34,7 @@
 					<tr>
 						<th>내용</th>
 						<td colspan="3">
-						<textarea rows="15" cols="60" name="content" style="resize:none;"></textarea>
+						<textarea rows="15" cols="130" name="content" style="resize:none;"></textarea>
 						</td>
 					</tr>
 				</table>
@@ -50,7 +50,7 @@
 			
 			<script>
 				function back(){
-					$('#insertForm').attr('action', '<%= request.getContextPath() %>/list.rv');
+					$('#insertForm').attr('action', '<%= request.getContextPath() %>/list.sh');
 					$('#insertForm').submit();
 				}
 			</script>

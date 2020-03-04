@@ -50,7 +50,7 @@
 								<option value ="NICK">작성자</option>
 								<option value ="LOCATION">여행지</option>
 							</select>
-							<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
+							<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content" size="70">
 							<input type="submit" id="search" value= "검색">
 						
 						</td>
@@ -207,6 +207,7 @@
 		
 	<script>
 	$(function(){
+		<% if(!list.isEmpty()){ %>
 		$('.detailBtn').mouseenter(function(){
 			$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
 		}).mouseout(function(){
@@ -225,6 +226,7 @@
 				alert('회원만 이용할 수 있는 서비스입니다.');
 			<% } %>
 		});
+		<%}%>
 	});
 	
 	$('.profileBtn').click(function(){

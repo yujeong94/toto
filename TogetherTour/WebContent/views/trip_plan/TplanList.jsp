@@ -3,7 +3,9 @@
 <%@ page import="java.util.ArrayList, trip_plan.model.vo.*" %>
 <%
 	ArrayList<Tplan> list = (ArrayList<Tplan>)request.getAttribute("list");
+	String strKind = null; // kind string으로 바꿔서 담을 변수
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
+	String msg = (String)request.getAttribute("msg");
 	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
@@ -16,7 +18,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행 리스트 | 투투</title>
+<title>여행 리스트 | TogetherTour</title>
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 	
@@ -27,6 +29,7 @@
 		
 		.searchArea {
 			border-top : 1px solid;
+			margin-bottom : 50px;
 		}
 		
 		.searchArea th, .searchArea td{
@@ -87,45 +90,26 @@
 			<form>
 				<fieldset>
 					<legend>국가 및 여행날짜 검색</legend>
-					<table class="searchArea">
-						<caption>정렬 순서, 여행 국가별, 여행 날짜별 검색</caption>
-						<col>
-						<col>
-						<tbody>
+					<div class="searchArea">
+						<table>
 							<tr>
-								<th>정렬 순서</th>
-								<td>
-									<button class="is-act">최근 출발일</button>
-									<button>최신 등록순</button>
-								</td>
-							</tr>
-							<tr>
-								<th>여행지역</th>
-								<td>
-									<select name=kind id=kindList>
-									<option>분류</option>
+								<td style="text-align : center;">
+								
+									<select name ="menu" id="menu">
+										<option value ="tStart">최근 출발일</option>
+										<option value ="tCreate">최신등록순</option>
+										<option value ="NICK">작성자</option>
+										<option value ="LOCATION">여행지</option>
 									</select>
-									<select name=country id=countryList>
-									<option>국가</option>
-									</select>
-									<select name=city id=cityList>
-									<option>도시</option>
-									</select>
+									<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
+									<input type="submit" id="search" value= "검색">
+								
 								</td>
+								
 							</tr>
-							<tr>
-								<th>여행 날짜</th>
-								<td>
-									<input type="date"> ~ <input type="date">
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<div class="searchBtnArea">
-						<button class="confirm">검색</button>
+						</table>
 					</div>
 				</fieldset>
-				
 			</form>
 			<table class="listArea tableArea">
 				<caption>여행 리스트</caption>
@@ -146,17 +130,20 @@
 				<tbody>
 					<% if(list.isEmpty()){ %>
 					<tr>
-						<td colspan="5">조회된 리스트가 없습니다.</td>
+						<td colspan="5" style="text-align : center;">조회된 리스트가 없습니다.</td>
 					</tr>
 					<% } else{ 
 							for(Tplan t : list){
+								if(t.getKind() == 1){
+									strKind = "국내";
+								} else {
+									strKind = "해외";
+								}
 					%>
 					<tr>
-						<td class="detailBtn"> <!-- 클래스 변경 -->
-							<input type="hidden" value='<%= t.gettPnum() %>'>
+						<td class="detailBtn"><input type="hidden" value='<%= t.gettPnum() %>'>
 							<strong><%= t.getTitle() %></strong><br>
-							<%= t.getStartDate() %> ~ <%= t.getEndDate() %>(<%= t.getDay() %>Days)<br>
-							<%= t.getContent() %>
+							<%= t.getStartDate() %> ~ <%= t.getEndDate() %> (<%= t.getDay() %>Days)
 						</td>
 						<td class="profileBtn"><%= t.getmId() %></td>
 						<td><%= t.getCreateDate() %></td>
@@ -172,13 +159,15 @@
 				<!-- 페이징  -->
 				<% if(!list.isEmpty()){ %>
 					<!-- 맨 처음으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=1'">&lt;&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=1'" id="firstBtn">&lt;&lt;</button>
 					
 					<!-- 이전 페이지로 -->
 					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
 					<script>
 						if(<%= currentPage %> <= 1){
+							var first = $('#firstBtn');
 							var before = $('#beforeBtn');
+							first.attr('disabled','true');
 							before.attr('disabled', 'true');
 						}
 					</script>
@@ -194,16 +183,18 @@
 					
 					<!-- 다음 페이지로 -->
 					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
-					<script>
-						if(<%= currentPage %> >= <%= maxPage %>){
-							var after = $("#afterBtn");
-							after.attr('disabled', 'true');
-						}
-					</script>
 					
 					<!-- 맨 끝으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= maxPage %>'">&gt;&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= maxPage %>'" id="lastBtn">&gt;&gt;</button>
 				<% } %>
+				<script>
+					if(<%= currentPage %> >= <%= maxPage %>){
+						var after = $("#afterBtn");
+						var last = $('#lastBtn');
+						after.attr('disabled', 'true');
+						last.attr('disabled','true');
+					}
+				</script>
 			</div>
 			<div class='insertBtnArea' align='center'>
 			<% if(loginUser != null){ %>
@@ -218,18 +209,18 @@
 	</div>
 	
 	<script>
-	<%-- var msg = '<%= msg %>';
+	var msg = '<%= msg %>';
 	
 	$(function(){
 		if(msg != 'null'){
 			alert(msg);
 		} 
-	}); --%>
+	});
 
 	
 	$(function(){
 		<% if(!list.isEmpty()){ %>
-			$('#listArea td').mouseenter(function(){
+			$('.listArea td').mouseenter(function(){
 				$(this).parent().css({'background':'lightgray'});
 			}).mouseout(function(){
 				$(this).parent().css('background','none');

@@ -95,7 +95,7 @@
 				<tr>
 					<th>내용</th>
 					<td colspan="3">
-					<textarea rows="15" cols="60" name="content" style="resize:none;" readonly><%= review.getContent() %></textarea>
+					<textarea rows="20" cols="130" name="content" style="resize:none;" readonly><%= review.getContent() %></textarea>
 					</td>
 				</tr>
 			
@@ -237,7 +237,7 @@
 	
 							<tr>
 								<td width="50px"><%= rlist.get(i).getrWriter() %><input type="hidden" name = "rId" value="<%= rlist.get(i).getrId() %>"></td>
-								<td width="400px"><%= rlist.get(i).getrContent() %><input type="hidden" id ="rnum" name ="rnum" value="<%= review.getrNum()%>"></td>
+								<td width="300px"><%= rlist.get(i).getrContent() %><input type="hidden" id ="rnum" name ="rnum" value="<%= review.getrNum()%>"></td>
 								<td width="100px"><%= rlist.get(i).getCreateDate() %></td>
 								<% if(rlist.get(i).getrWriter().equals(loginUser.getmId())){ %>
 								<td width="10px" id ="Replydelete"><div onclick="deleteReviewReply();" id="ReplydeleteBtn">댓글 삭제</div></td>
@@ -280,7 +280,7 @@
 						for(var key in data){
 							var $tr = $('<tr>');
 							var $writerTd = $('<td>').text(data[key].rWriter).css('width','50px');
-							var $contentTd = $('<td>').text(data[key].rContent).css('width','400px');
+							var $contentTd = $('<td>').text(data[key].rContent).css('width','300px');
 							var $dateTd = $('<td>').text(data[key].createDate).css('width','100px');
 							
 							$tr.append($writerTd);

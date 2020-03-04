@@ -25,8 +25,8 @@
 							<legend>국가별 검색</legend>
 							<h4>국가별 검색</h4>
 							<div>
-								<input type="radio"><label>국내</label>
-								<input type="radio"><label>해외</label>
+								<input type="radio" name="nation"><label>국내</label>
+								<input type="radio" name="nation"><label>해외</label>
 							</div>
 							<!--국내 선택일때-->
 							<div class="domestic">

@@ -83,7 +83,10 @@ public class QnaDAO {
 									rset.getString("nick"),
 									rset.getDate("create_Date"),
 									rset.getInt("qcount"),
-									rset.getString("status"));
+									rset.getString("status"),
+									rset.getString("a_status"));
+				
+				
 				list.add(q);
 				
 				
@@ -269,6 +272,27 @@ public class QnaDAO {
 		}
 		
 		return list;
+	}
+
+	public int updateAnswerQna(Connection conn, Qna qna) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("updateAnswerQna");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, qna.getqNum());
+			
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 	
 	

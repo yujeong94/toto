@@ -10,7 +10,7 @@ public class buddyBoard {
 	private String part_yn;		// 동행참여구분
 	private String content;		// 내용
 	private Date create_date;	// 게시글 작성일		
-	private String nick;		// 작성자_MID와...
+	private String nick;		// 작성자
 	private String country;		// 국가
 	private String city;		// 도시
 	private Date start_date;	// 여행시작	
@@ -22,92 +22,73 @@ public class buddyBoard {
 	private String kakao; 		// 계정연결
 	private int kind; 			// 국내해외 구분
 	private int head_cnt;       // 동행인원
-	 
+	private String gender;    	 // 성별
+	
 	// 기본생성자
 	public buddyBoard() {}
 
 	// 전체
 	public buddyBoard(int bnum, String title, String part_yn, String content, Date create_date, String nick,
 			String country, String city, Date start_date, Date end_date, String status, int bcount, String theme,
-			int group_age, String kakao, int kind, int head_cnt) {
-				this.bnum = bnum;
-				this.title = title;
-				this.part_yn = part_yn;
-				this.content = content;
-				this.create_date = create_date;
-				this.nick = nick;
-				this.country = country;
-				this.city = city;
-				this.start_date = start_date;
-				this.end_date = end_date;
-				this.status = status;
-				this.bcount = bcount;
-				this.theme = theme;
-				this.group_age = group_age;
-				this.kakao = kakao;
-				this.kind = kind;
-				this.head_cnt = head_cnt;
-	}
-
-	
-	public buddyBoard(int bnum, String title, String content, Date create_date, String nick, String country,
-			String city, Date start_date, int bcount, String theme, int group_age, String kakao, int kind) {
+			int group_age, String kakao, int kind, int head_cnt, String gender) {
+		super();
 		this.bnum = bnum;
 		this.title = title;
+		this.part_yn = part_yn;
 		this.content = content;
 		this.create_date = create_date;
 		this.nick = nick;
 		this.country = country;
 		this.city = city;
 		this.start_date = start_date;
+		this.end_date = end_date;
+		this.status = status;
 		this.bcount = bcount;
 		this.theme = theme;
 		this.group_age = group_age;
 		this.kakao = kakao;
-		this.kind = kind; 
+		this.kind = kind;
+		this.head_cnt = head_cnt;
+		this.gender = gender;
 	}
 	
-	// 동행게시판 리스트
-	public buddyBoard(int bnum, String title, Date create_date, String nick, String country, String city,
-			Date start_date, int bcount, int head_cnt, String content) {
-		
-		this.bnum = bnum;
+	// 동행 등록폼
+	public buddyBoard(String title, int kind, String country, String city, Date start_date, Date end_date,
+			String theme, int head_cnt, String gender, int group_age, String kakao,String content) {
+
 		this.title = title;
-		this.create_date = create_date;
-		this.nick = nick;
+		this.kind = kind;
 		this.country = country;
 		this.city = city;
 		this.start_date = start_date;
-		this.bcount = bcount;
+		this.end_date = end_date;
+		this.theme = theme;
 		this.head_cnt = head_cnt;
-		this.content = content;
-	}
-	
-	//등록폼
-	public buddyBoard(int bnum, String title, Date create_date, String nick, String country, String city,
-			Date start_date, int bcount, int head_cnt, String content, String theme, int group_age, String kakao) {
-		
-		this.bnum = bnum;
-		this.title = title;
-		this.create_date = create_date;
-		this.nick = nick;
-		this.country = country;
-		this.city = city;
-		this.start_date = start_date;
-		this.bcount = bcount;
-		this.head_cnt = head_cnt;
-		this.content = content;
-		this.theme=theme;
-		this.group_age =group_age;
+		this.gender = gender;
+		this.group_age = group_age;
 		this.kakao = kakao;
+		this.content = content;
 	}
+
+	// 리스트
+	public buddyBoard(int bnum, String title, String country, String city,Date start_date, int head_cnt, String nick,
+			  int bcount, Date create_date) {
+		this.bnum = bnum;
+		this.title = title;
+		this.country = country;
+		this.city = city;
+		this.start_date = start_date;
+		this.head_cnt = head_cnt;
+		this.nick = nick;
+		this.bcount = bcount;
+		this.create_date = create_date;
+	}
+
 	
-	
-	
+
 	public int getBnum() {
 		return bnum;
 	}
-
 
 
 	public void setBnum(int bnum) {
@@ -146,11 +127,11 @@ public class buddyBoard {
 		this.create_date = create_date;
 	}
 
-	public String getnick() {
+	public String getNick() {
 		return nick;
 	}
 
-	public void setnick(String nick) {
+	public void setNick(String nick) {
 		this.nick = nick;
 	}
 
@@ -242,8 +223,14 @@ public class buddyBoard {
 		this.head_cnt = head_cnt;
 	}
 
-	
+	public String getGender() {
+		return gender;
+	}
 
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	
-}
+	
+}	

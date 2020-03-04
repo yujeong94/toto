@@ -10,6 +10,7 @@ public class Qna {
 	private Date createDate;		// 작성일
 	private int qCount; 			// 조회수
 	private String status;			// 게시글 존재여부
+	private String aStatus;			// 게실글 답변여부
 	
 	public Qna() {}
 	
@@ -41,6 +42,20 @@ public class Qna {
 		this.createDate = createDate;
 		this.qCount = qCount;
 		this.status = status;
+	}
+	
+	
+
+	public Qna(int qNum, String title, String mId, Date createDate, int qCount, String status,
+			String aStatus) {
+		super();
+		this.qNum = qNum;
+		this.title = title;
+		this.mId = mId;
+		this.createDate = createDate;
+		this.qCount = qCount;
+		this.status = status;
+		this.aStatus = aStatus;
 	}
 
 	public int getqNum() {
@@ -98,6 +113,15 @@ public class Qna {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public String getaStatus() {
+		return aStatus;
+	}
+
+	public void setaStatus(String aStatus) {
+		this.aStatus = aStatus;
+	}
+	
 
 	
 	
