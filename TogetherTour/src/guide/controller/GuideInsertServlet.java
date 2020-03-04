@@ -70,8 +70,9 @@ public class GuideInsertServlet extends HttpServlet {
 		}
 		
 		Gboard gboard = new Gboard(gTitle,userId,price,gContents,country,city,sqlSdate,sqlEdate,kind,kakao);
-		
 		int result = new GuideService().insertGuide(gboard);
+		System.out.println(gboard.getCountry()) ;
+		System.out.println(result) ;
 		if(result > 0) {
 			response.sendRedirect("list.guide");
 		} else {

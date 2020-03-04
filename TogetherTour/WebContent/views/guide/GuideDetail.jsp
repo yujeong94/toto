@@ -139,7 +139,7 @@
 				<table>
 					<tr>
 						<td>댓글 작성</td>
-						<td><textarea rows=3 cols=80 id=replyContent stype="resize:none;"></textarea></td>
+						<td><textarea rows=3 cols=80 id=replyContent style="resize:none;"></textarea></td>
 						<td><button id=addReply>댓글등록</button></td>
 				</table>
 			</div>
@@ -182,25 +182,25 @@
 		 	type: 'post',
 		 	data: {writer: writer, content: content, gbNum:gbNum},
 		 	success: function(data){
-		 		$replyTable = $('#replySelectTable');
-		 		$replyTable.html("");
+		 		$replyTable = $('#replySelectTable') ;
+		 		$replyTable.html("") ;
 		 		
 		 		for(var key in data){
 		 			var $tr = $('<tr>');
-		 			var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px');
-		 			var $contentTd = $('<td>').text(data[key].rContent).css('width','400px');
-		 			var $dateTd = $('<td>').text(data[key].createDate).css('width','200px');
+		 			var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px') ;
+		 			var $contentTd = $('<td>').text(data[key].rContent).css('width','400px') ;
+		 			var $dateTd = $('<td>').text(data[key].createDate).css('width','200px') ;
 		 			
-		 			$tr.append($writerTd);
-		 			$tr.append($contentTd);
-		 			$tr.append($dateTd);
-		 			$replyTable.append($tr);
+		 			$tr.append($writerTd) ;
+		 			$tr.append($contentTd) ;
+		 			$tr.append($dateTd) ;
+		 			$replyTable.append($tr) ;
 		 		}
 		 		
-		 		$('#replyContent').val('');
+		 		$('#replyContent').val('') ;
 		 	}
 		});
-	}); 
+	});
 	
 	var msg = "<%= msg %>";
 	

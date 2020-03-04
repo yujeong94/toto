@@ -38,7 +38,8 @@
 }
 
 #profile {
-	
+	width:100%;
+	height:100%;
 }
 
 #contentArea {
@@ -70,4 +71,28 @@ span.aa {
 span.bb {
 	border:1px solid black ;
 	padding-top:0px ;
+}
+
+#myGrade1 {
+	font-size:2rem ;
+	font-weight:bold ;
+/* 	border:1px solid darkgray; */
+}
+
+#myGrade2 {
+	font-size:1.6rem ;
+	font-weight:bold ;
+/* 	border:1px solid darkgray; */
+}
+
+#joinForm {
+	text-align:left;
+}
+
+#starTitle {
+	margin-top:-85px;
+	margin-bottom:30px;
+	font-size:2rem;
+	font-weight:bold;
+	text-align:center;
 }
