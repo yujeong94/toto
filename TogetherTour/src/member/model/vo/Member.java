@@ -12,6 +12,7 @@ public class Member {
 	private int grade;
 	private String age;
 	private String status;
+	private int gcount;
 	
 	public Member() {}
 
@@ -77,8 +78,9 @@ public class Member {
 		this.grade = grade;
 		this.age = age;
 	}
+	
 	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind,
-			int follow, int grade, String age, String status) {
+			int follow, int grade, String age, String status, int gcount) {
 		super();
 		this.mId = mId;
 		this.nickName = nickName;
@@ -91,6 +93,7 @@ public class Member {
 		this.grade = grade;
 		this.age = age;
 		this.status = status;
+		this.gcount = gcount;
 	}
 
 	public String getmId() {
@@ -180,4 +183,13 @@ public class Member {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public int getGcount() {
+		return gcount;
+	}
+
+	public void setGcount(int gcount) {
+		this.gcount = gcount;
+	}
+	
 }

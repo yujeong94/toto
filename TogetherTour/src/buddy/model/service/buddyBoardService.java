@@ -11,12 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import buddy.model.dao.buddyBoardDAO;
 import buddy.model.vo.buddyBoard;
+import buddy.model.vo.buddyReply;
+import guide.model.vo.gReply;
+import review.model.vo.Reply;
 
 public class buddyBoardService {
 
+	// 동행자 게시글 개수
 	public int getListCount() {
 		Connection conn = getConnection();
 		
@@ -25,6 +28,7 @@ public class buddyBoardService {
 		return result;
 	}
 
+	// 동행자게시글 리스트
 	public ArrayList<buddyBoard> selectList(int currentPage) {
 		Connection conn = getConnection();
 		ArrayList<buddyBoard> list = new buddyBoardDAO().selectList(conn, currentPage);
@@ -34,58 +38,13 @@ public class buddyBoardService {
 	
 	}
 	
-/*	public ArrayList selectTList(int i) {
-		// 2번 만들어야하니까 제네릭 지워서 사용
-		Connection conn = getConnection();
-		
-		ArrayList list = null;
-		
-		buddyBoardDAO dao = new buddyBoardDAO();
-		
-		if(i == 1) {
-			list = dao.selectBList(conn);
-		} else {
-			list = dao.selectFList(conn);
-		}
-		return list;
-	}*/
-	
-	public buddyBoard selectBoard(int bnum) {
-		Connection conn = getConnection();
-		
-		buddyBoardDAO dao = new buddyBoardDAO();		
-				
-		buddyBoard b = null;
-		b = dao.selectBoard(conn, bnum);
-		
-		if(b != null) commit(conn) ;
-		else		  rollback(conn) ;
-		
-//		int result = dao.updateCount(conn, bnum);
-//		
-//		buddyBoard b = null;
-//		if(result > 0) {
-//			b = dao.selectBoard(conn, bnum);
-//			
-//			if(b != null) {
-//				commit(conn);
-//			} else {
-//				rollback(conn);
-//			}
-//		} else {
-//			rollback(conn);
-//		}
-		
-		close(conn);
-		
-		return b;
-	}
 
-	public int insertBoard(buddyBoard board, int category) {
+	// 동행자 게시글 등록
+	public int insertBoard(String writer, buddyBoard board) {
 		Connection conn = getConnection();
 		buddyBoardDAO dao = new buddyBoardDAO();
 		
-		int result = dao.insertBoard(conn, board, category);
+		int result = dao.insertBoard(conn, writer, board);
 		
 		if(result > 0) {
 			commit(conn);
@@ -96,6 +55,48 @@ public class buddyBoardService {
 		return result;
 	}
 
+	
+	
+	// 동행자 게시글 상세보기
+	public buddyBoard selectBoard(int bnum) {
+		Connection conn = getConnection();
+		buddyBoardDAO dao = new buddyBoardDAO();
+		
+		// 조회수 증가
+		int result =  dao.updateCount(conn,bnum);
+		
+		buddyBoard board = null;
+		if(result > 0) {			
+			board = dao.detailBoard(conn,bnum);
+			if(board != null) {
+				commit(conn);				
+			} else {
+				rollback(conn);
+			}
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return board;
+	}
+	
+	public int deleteBoard(int bnum) {
+		Connection conn = getConnection();
+		buddyBoardDAO bDAO = new buddyBoardDAO();
+		int result = bDAO.deleteBoard(conn, bnum);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+	
 	// 여기까진 일단 ㅇㅇ  아래 복붙한거임
 	public int updateBoard(buddyBoard b) {
 		Connection conn = getConnection();
@@ -112,37 +113,58 @@ public class buddyBoardService {
 		
 		return result;
 	}
-
-	public int deleteBoard(int bnum) {
-		Connection conn = getConnection();
-		buddyBoardDAO bDAO = new buddyBoardDAO();
-		int result = bDAO.deleteBoard(conn, bnum);
+/*	
+	public ArrayList<buddyReply> selectReplyList(Connection conn, int refGid) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<buddyReply> rList = null;
+		buddyBoard r = null;
 		
-		if(result > 0) {
-			commit(conn);
-		} else {
-			rollback(conn);
+		String query = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, refGid);
+			
+			rset = pstmt.executeQuery();
+			rList = new ArrayList<buddyReply>();
+			while(rset.next()) {
+				rList.add(new gReply(
+						 rset.getInt("rId"),
+						 rset.getString("rContent"),
+						 rset.getInt("refBid"),
+						 rset.getString("rNick"),
+						 rset.getDate("createDate"),
+						 rset.getString("status")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 		
-		close(conn);
-		
-		return result;
+		return rList;
 	}
-
-	public int insertBoard(buddyBoard board) {
+	public ArrayList<buddyReply> insertReply(buddyReply r) {
 		Connection conn = getConnection();
 		buddyBoardDAO dao = new buddyBoardDAO();
 		
-		int result = dao.insertBoard(conn, board);
+		int result = dao.insertReply(conn, r);
 		
+		ArrayList<Reply> list = null;
 		if(result > 0) {
 			commit(conn);
+			list = dao.selectReplyList(conn, r.getRefBid());
 		} else {
 			rollback(conn);
 		}
-		
-		return result;
-	}
+		return list;
+	}*/
+
+	
+
+
 
 /*	public ArrayList selectTList(int i) {
 		// 2번 만들어야하니까 제네릭 지워서 사용
@@ -186,27 +208,21 @@ public class buddyBoardService {
 		return list;
 	}
 
-	public ArrayList<Reply> selectReplyList(int bId) {
+	*/
+	
+	public int getSearchCount(String menu, String content) {
 		Connection conn = getConnection();
-		ArrayList<Reply> list = new BoardDAO().selectReplyList(conn, bId);
 		
+		int result = new buddyBoardDAO().getSearchCount(conn, menu, content);
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<buddyBoard> searchList(int currentPage, String menu, String content) {
+		Connection conn = getConnection();
+		ArrayList<buddyBoard> list = new buddyBoardDAO().searchList(conn, currentPage, menu, content);
+		close(conn);
 		return list;
 	}
-
-	public ArrayList<Reply> insertReply(Reply r) {
-		Connection conn = getConnection();
-		BoardDAO dao = new BoardDAO();
-		
-		int result = dao.insertReply(conn, r);
-		
-		ArrayList<Reply> list = null;
-		if(result > 0) {
-			commit(conn);
-			list = dao.selectReplyList(conn, r.getRefBid());
-		} else {
-			rollback(conn);
-		}
-		return list;
-	}*/
 	
 }

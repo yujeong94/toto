@@ -63,7 +63,7 @@ public class buddyBoardServlet extends HttpServlet {
 	PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 	
 	ArrayList<buddyBoard> list = service.selectList(currentPage);
-	
+	System.out.println("서ㅂㄹ릿 확인 : "  + list);
 	String page = null;
 	if(list != null) {
 		page = "views/buddy/buddyListView.jsp";
