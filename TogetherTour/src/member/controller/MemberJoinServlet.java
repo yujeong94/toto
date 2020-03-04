@@ -74,7 +74,7 @@ public class MemberJoinServlet extends HttpServlet {
 			String gender = multipartRequest.getParameter("gender");
 			String age = multipartRequest.getParameter("age");
 			String userType = multipartRequest.getParameter("userType");
-			System.out.println("이거 확인해"+joinUserPwd);
+			
 			int typeInt = 0;
 			if(userType.equals("general")) {
 				typeInt = 1;
@@ -91,7 +91,7 @@ public class MemberJoinServlet extends HttpServlet {
 				page="views/member/loginView.jsp";
 				request.setAttribute("msg", "TogetherTour에 회원이 되신걸 환영합니다.");
 			} else {
-				page="views/member/joinForm.jsp";
+				page="views/common/errorPage.jsp";
 				request.setAttribute("msg", "회원가입에 실패하였습니다.");
 			}
 			

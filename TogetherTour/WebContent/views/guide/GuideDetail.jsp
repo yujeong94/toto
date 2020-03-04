@@ -11,7 +11,7 @@
 		}
 	}
 	ArrayList<gReply> list = (ArrayList<gReply>)request.getAttribute("rList");
-	
+
 	//게시글 수정 알림창
 	String msg = (String)request.getAttribute("msg");
 %>
@@ -78,7 +78,7 @@
 					<th><label>활동장소</label></th>
 					<td>
 						<label class=term><%= gKind %></label>
-						<input type=hidden value="<%= gboard.getKind() %>" name=kind>
+						<input type=hidden value="<%= gKind %>" name=kind>
 					</td>
 					<td>	
 						<label class=term><%= gboard.getCountry() %></label>
@@ -112,7 +112,7 @@
 					<th><label>오픈카카오톡주소</label></th>
 					<td colspan=3>
 					<% if(gboard.getKakao() != null) { %>
-							<%= gboard.getKakao() %>
+							<a href='<%= gboard.getKakao() %>'><%= gboard.getKakao() %></a>
 							<input type=hidden value="<%= gboard.getKakao() %>" name=kakao>
 					<% } else { %>
 							<label>없음</label>
@@ -123,8 +123,7 @@
 			<div id=introduce>
 				<p style="font-size:12pt;">여행소개</p><br>
 				<textarea rows=50 cols=140 style="resize:none;" name=gContents readonly>
-				<%= gboard.getgContent() %>
-				</textarea>
+				<%= gboard.getgContent() %></textarea>
 			</div>
 			<div id=gBtnArea align=center>
 				<% if(gboard.getgWriter().equals(loginUser.getNickName())){ %>
@@ -154,7 +153,7 @@
 							<td width=100px><%= list.get(i).getWriter() %></td>
 							<td width=400px><%= list.get(i).getGrContent() %></td>
 							<td width=200px><%= list.get(i).getCreatDate() %></td>
-							</tr>
+						</tr>
 					<% } %>
 				<% } %>
 			</table>
@@ -184,11 +183,10 @@
 		 	success: function(data){
 		 		$replyTable = $('#replySelectTable');
 		 		$replyTable.html("");
-		 		
 		 		for(var key in data){
 		 			var $tr = $('<tr>');
-		 			var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px');
-		 			var $contentTd = $('<td>').text(data[key].rContent).css('width','400px');
+		 			var $writerTd = $('<td>').text(data[key].writer).css('width','100px');
+		 			var $contentTd = $('<td>').text(data[key].grContent).css('width','400px');
 		 			var $dateTd = $('<td>').text(data[key].createDate).css('width','200px');
 		 			
 		 			$tr.append($writerTd);
@@ -196,7 +194,6 @@
 		 			$tr.append($dateTd);
 		 			$replyTable.append($tr);
 		 		}
-		 		
 		 		$('#replyContent').val('');
 		 	}
 		});

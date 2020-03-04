@@ -6,7 +6,6 @@
 	String strKind = null; // kind string으로 바꿔서 담을 변수
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	String msg = (String)request.getAttribute("msg");
-	
 	int listCount = 1;
 	int currentPage = 1;
 	int maxPage = 1;

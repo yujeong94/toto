@@ -1,7 +1,6 @@
 package buddy_me.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import buddy_me.model.vo.Buddy;
-import member.model.vo.Member;
+import com.google.gson.Gson;
+
 import buddy_me.model.service.MyPageService;
 
 /**
- * Servlet implementation class MyBuddyListServlet
+ * Servlet implementation class UpdateGradeServlet
  */
-@WebServlet("/list.myBuddy")
-public class MyBuddyListServlet extends HttpServlet {
+@WebServlet("/updateGrade.me")
+public class UpdateGradeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MyBuddyListServlet() {
+    public UpdateGradeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,19 +32,13 @@ public class MyBuddyListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
-		ArrayList<Buddy> mybuddyList =new MyPageService().mybuddyList(userId);
+		String gradeNick = request.getParameter("gradeNick");
+		int grade = Integer.parseInt(request.getParameter("grade"));
 		
-		String page = null;
-		if(mybuddyList != null) {
-			request.setAttribute("mybuddyList", mybuddyList);
-			page="views/buddy_me/myBuddyList.jsp";
-		} else {
-			request.setAttribute("msg", "동행자 목록 조회에 실패했습니다");
-			page="views/common/errorPage.jsp";
-		}
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
+		int result = new MyPageService().updateGrade(gradeNick, grade);
+		
+		response.setContentType("application/json; charset=UTF-8");
+	    new Gson().toJson(result, response.getWriter());
 	}
 
 	/**

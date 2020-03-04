@@ -15,7 +15,6 @@ import java.util.Properties;
 
 import guide.model.vo.Gboard;
 import guide.model.vo.gReply;
-import review.model.vo.Review;
 
 public class GuideDAO {
 	private Properties prop = new Properties();
@@ -204,6 +203,39 @@ public class GuideDAO {
 		
 		return result;
 	}
+	
+	public ArrayList<gReply> selectReplyList(Connection conn, int gbNum) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<gReply> rList = null;
+		gReply r = null;
+		
+		String query = prop.getProperty("selectReplyList");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, gbNum);
+			
+			rset = pstmt.executeQuery();
+			rList = new ArrayList<gReply>();
+			while(rset.next()) {
+				rList.add(new gReply(rset.getInt("grid"),
+						rset.getString("grcontent"),
+						rset.getInt("ref_gid"),
+						rset.getString("nick"),
+						rset.getDate("create_date"),
+						rset.getString("status")));
+			}
+			System.out.println(rList.get(0).getCreatDate());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rList;
+	}
 
 	public int insertReply(Connection conn, gReply reply) {
 		PreparedStatement pstmt = null;
@@ -226,37 +258,6 @@ public class GuideDAO {
 		return result;
 	}
 
-	public ArrayList<gReply> selectReplyList(Connection conn, int refGid) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		ArrayList<gReply> rList = null;
-		gReply r = null;
-		
-		String query = prop.getProperty("selectReplyList");
-		
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, refGid);
-			
-			rset = pstmt.executeQuery();
-			rList = new ArrayList<gReply>();
-			while(rset.next()) {
-				rList.add(new gReply(rset.getInt("grid"),
-						 rset.getString("grcontent"),
-						 rset.getInt("ref_gid"),
-						 rset.getString("nick"),
-						 rset.getDate("create_date"),
-						 rset.getString("status")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return rList;
-	}
 
 	public int updateGuide(Connection conn, Gboard gb) {
 		PreparedStatement pstmt = null;
@@ -293,7 +294,6 @@ public class GuideDAO {
 		ResultSet rset = null;
 		int result = 0;
 		
-		//String query = prop.getProperty("getSearchCount");
 		String query="";
 		switch(menu) {
 		case "TITLE" : query = prop.getProperty("getTitleCount"); break;

@@ -38,9 +38,7 @@ public class GuideSearchServlet extends HttpServlet {
 		
 		GuideService service = new GuideService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성
 		
-		
 		String search = "on";
-		
 		
 		int listCount = service.getSearchCount(menu,content); // 게시판 리스트 개수
 		
@@ -67,11 +65,7 @@ public class GuideSearchServlet extends HttpServlet {
 		
 		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-		
 		ArrayList<Gboard> list = service.searchList(currentPage, menu, content);
-		
-		
-		System.out.println(menu+ content);
 		
 		String page = null;
 		if(list != null) {

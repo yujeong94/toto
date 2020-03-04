@@ -12,7 +12,7 @@ public class Member {
 	private int grade;
 	private String age;
 	private String status;
-	private int gcount;
+	private int gCount;
 	
 	public Member() {}
 
@@ -65,7 +65,7 @@ public class Member {
 	}
 	// status만 없는 생성자
 	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind,
-			int follow, int grade, String age) {
+			int follow, int grade, String age, int gCount) {
 		super();
 		this.mId = mId;
 		this.nickName = nickName;
@@ -77,10 +77,11 @@ public class Member {
 		this.follow = follow;
 		this.grade = grade;
 		this.age = age;
+		this.gCount = gCount;
 	}
 	
 	public Member(String mId, String nickName, String pwd, String userName, String gender, String email, int mKind,
-			int follow, int grade, String age, String status, int gcount) {
+			int follow, int grade, String age, String status, int gCount) {
 		super();
 		this.mId = mId;
 		this.nickName = nickName;
@@ -93,7 +94,7 @@ public class Member {
 		this.grade = grade;
 		this.age = age;
 		this.status = status;
-		this.gcount = gcount;
+		this.gCount = gCount;
 	}
 
 	public String getmId() {
@@ -184,12 +185,12 @@ public class Member {
 		this.status = status;
 	}
 
-	public int getGcount() {
-		return gcount;
+	public int getgCount() {
+		return gCount;
 	}
 
-	public void setGcount(int gcount) {
-		this.gcount = gcount;
+	public void setgCount(int gCount) {
+		this.gCount = gCount;
 	}
 	
 }

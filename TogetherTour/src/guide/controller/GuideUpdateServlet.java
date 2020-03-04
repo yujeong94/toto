@@ -43,8 +43,6 @@ public class GuideUpdateServlet extends HttpServlet {
 		int price = Integer.parseInt(request.getParameter("price"));
 		String kakao = request.getParameter("kakao");
 		String gContent = request.getParameter("gContents");
-		System.out.println(kind);
-		System.out.println(gTitle);
 		int kindInt = 0;
 		if(kind.equals("국내")) {
 			kindInt = 1;
