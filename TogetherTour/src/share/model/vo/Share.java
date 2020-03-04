@@ -1,4 +1,4 @@
-package share.model.vo ;
+package share.model.vo ; 
 import	java.sql.Date ;
 
 public	class Share {
@@ -33,7 +33,7 @@ public	class Share {
 	public	void	setCountry(String country)	 { this.country = country; }
 	public	void	setCity(String city)		 { this.city = city; }
 	
-	public	int		getSbNum()	  { return sbNum; }
+	public	int		getSbNum()    { return sbNum; }
 	public	String	getTitle()	  { return title; }
 	public	String	getCategory() { return category; }
 	public	String	getWriter()	  { return writer; }

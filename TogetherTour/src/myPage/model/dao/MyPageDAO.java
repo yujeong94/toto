@@ -21,22 +21,30 @@ public class MyPageDAO {
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
 		}
 	}
 	public mAttachment profileImg(Connection conn, String userNick) {
-		PreparedStatement pstmt = null;
+		PreparedStatement ptmt = null;
 		ResultSet rset = null;
 		mAttachment profileImg = null;
 		
 		String query = prop.getProperty("profileImg");
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1,userNick);
+			ptmt = conn.prepareStatement(query);
+			ptmt.setString(1,userNick);
 			
-			rset = pstmt.executeQuery();
+			rset = ptmt.executeQuery();
 			
 			if(rset.next()) {
 				profileImg = new mAttachment(rset.getInt("fid"),
@@ -46,25 +54,30 @@ public class MyPageDAO {
 											 rset.getString("file_path"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
 		} finally {
-			close(rset);
-			close(pstmt);
+			close(rset) ;
+			close(ptmt) ;
 		}
 		
 		return profileImg;
 	}
+	
 	public Member userProfile(Connection conn, String userNick) {
-		PreparedStatement pstmt = null;
+		PreparedStatement ptmt = null;
 		ResultSet rset = null;
 		Member userProfile = null;
 		
 		String query = prop.getProperty("userProfile");
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, userNick);
+			ptmt = conn.prepareStatement(query);
+			ptmt.setString(1, userNick);
 			
-			rset = pstmt.executeQuery();
+			rset = ptmt.executeQuery();
 			
 			if(rset.next()) {
 				userProfile = new Member(rset.getString("nick"),
@@ -77,9 +90,21 @@ public class MyPageDAO {
 			e.printStackTrace();
 		} finally {
 			close(rset);
-			close(pstmt);
+			close(ptmt);
 		}
 		return userProfile;
 	}
-
+	
+	public mAttachment selectProfilePicture(Connection conn, String mId) {
+		PreparedStatement ptmt = null ;
+		ResultSet rset = null ;
+		String query = prop.getProperty("selectProfile") ;
+		try {
+			ptmt = conn.prepareStatement(query) ;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null ;
+	}
 }
