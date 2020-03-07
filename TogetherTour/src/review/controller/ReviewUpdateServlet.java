@@ -70,11 +70,21 @@ public class ReviewUpdateServlet extends HttpServlet {
 			
 			request.setCharacterEncoding("UTF-8");
 			int rNum = Integer.parseInt(multipartRequest.getParameter("rnum"));
-			String location = multipartRequest.getParameter("location");
+			//String location = multipartRequest.getParameter("location");
 			String title = multipartRequest.getParameter("title");
 			String content = multipartRequest.getParameter("content");
 			String gCheck = multipartRequest.getParameter("guide");
+			String kind = multipartRequest.getParameter("kind");
+			String country = multipartRequest.getParameter("country");
+			String city = multipartRequest.getParameter("city");
 			String guide="";
+			
+			int kindInt = 0;
+			if(kind.equals("국내")) {
+				kindInt = 1;
+			} else {
+				kindInt = 2;
+			}
 			
 			if(gCheck != null) {
 				guide="Y";
@@ -84,10 +94,12 @@ public class ReviewUpdateServlet extends HttpServlet {
 			
 			Review review = new Review();
 			review.setrNum(rNum);
-			review.setLocation(location);
 			review.setTitle(title);
 			review.setContent(content);
 			review.setGuide(guide);
+			review.setCountry(country);
+			review.setCity(city);
+			review.setKind(kindInt);
 			
 			
 			ArrayList<rAttachment> fileList = new ArrayList<rAttachment>();

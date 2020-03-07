@@ -72,13 +72,17 @@ public class ReviewInsertServlet extends HttpServlet {
 			
 			
 			request.setCharacterEncoding("UTF-8");
-			String location = multipartRequest.getParameter("location");
+			//String location = multipartRequest.getParameter("location");
 			String startDate = multipartRequest.getParameter("startDate");
 			String lastDate = multipartRequest.getParameter("lastDate");
 			String gCheck = multipartRequest.getParameter("guide");
 			String title = multipartRequest.getParameter("title");
 			String content = multipartRequest.getParameter("content");
 			String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
+			
+			int kind = Integer.parseInt(multipartRequest.getParameter("kind"));
+			String country = multipartRequest.getParameter("country");
+			String city = multipartRequest.getParameter("city");
 			
 			String guide="";
 			
@@ -94,8 +98,8 @@ public class ReviewInsertServlet extends HttpServlet {
 			
 			Date sqlStartDate = null;
 			Date sqlLastDate = null;
-			System.out.println(startDate);
-			System.out.println(lastDate);
+			//System.out.println(startDate);
+			//System.out.println(lastDate);
 		
 			
 			Review r = new Review();
@@ -140,7 +144,10 @@ public class ReviewInsertServlet extends HttpServlet {
 			
 			
 			
-			r = new Review(title, content,location,userId, sqlStartDate,sqlLastDate,guide);
+			//r = new Review(title, content,location,userId, sqlStartDate,sqlLastDate,guide);
+			
+			r = new Review(title, userId, content,sqlStartDate,sqlLastDate,guide,country, city, kind);
+			
 			//Notice n = new Notice(title, content, userId, sqlDate);
 			int result = new ReviewService().insertReview(r,fileList);
 			

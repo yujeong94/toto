@@ -15,6 +15,10 @@ public class Review {
 	private Date startDate;
 	private Date lastDate;
 	private String guide;
+	
+	private String country;
+	private String city;
+	private int kind;
 
 	
 	
@@ -35,7 +39,7 @@ public class Review {
 		this.mId = mId;
 		this.content = content;
 		this.createDate = createDate;
-		Status = status;
+		this.Status = status;
 	}
 	
 	public Review(int rNum, String title, String mId, int rCount, int rPoint, String location,
@@ -48,7 +52,7 @@ public class Review {
 		this.rPoint = rPoint;
 		this.location = location;
 		this.createDate = createDate;
-		Status = status;
+		this.Status = status;
 	}
 	
 	
@@ -66,7 +70,7 @@ public class Review {
 		this.rPoint = rPoint;
 		this.location = location;
 		this.createDate = createDate;
-		Status = status;
+		this.Status = status;
 	}
 	
 	
@@ -74,17 +78,32 @@ public class Review {
 	
 
 	
-
-	public Review(String title, String content, String location,String mId, Date startDate, Date lastDate, String guide) {
+	// list
+	public Review(int rNum, String title, String mId, int rCount, int rPoint, Date createDate, String status,
+			String country, String city, int kind) {
 		super();
+		this.rNum = rNum;
 		this.title = title;
-		this.content = content;
-		this.location = location;
 		this.mId = mId;
-		this.startDate = startDate;
-		this.lastDate = lastDate;
-		this.guide = guide;
+		this.rCount = rCount;
+		this.rPoint = rPoint;
+		this.createDate = createDate;
+		this.Status = status;
+		this.country = country;
+		this.city = city;
+		this.kind = kind;
 	}
+
+//	public Review(String title, String content, String location,String mId, Date startDate, Date lastDate, String guide) {
+//		super();
+//		this.title = title;
+//		this.content = content;
+//		this.location = location;
+//		this.mId = mId;
+//		this.startDate = startDate;
+//		this.lastDate = lastDate;
+//		this.guide = guide;
+//	}
 
 	public Review(int rNum, String title, String mId, String content, int rCount, int rPoint, String location,
 			Date createDate, String status, Date startDate, Date lastDate) {
@@ -97,7 +116,7 @@ public class Review {
 		this.rPoint = rPoint;
 		this.location = location;
 		this.createDate = createDate;
-		Status = status;
+		this.Status = status;
 		this.startDate = startDate;
 		this.lastDate = lastDate;
 	}
@@ -115,10 +134,48 @@ public class Review {
 		this.rPoint = rPoint;
 		this.location = location;
 		this.createDate = createDate;
-		Status = status;
+		this.Status = status;
 		this.startDate = startDate;
 		this.lastDate = lastDate;
 		this.guide = guide;
+	}
+	
+	
+	
+	
+	// selectReview
+	public Review(int rNum, String title, String mId, String content, int rCount, int rPoint, Date createDate,
+			String status, Date startDate, Date lastDate, String guide, String country, String city, int kind) {
+		super();
+		this.rNum = rNum;
+		this.title = title;
+		this.mId = mId;
+		this.content = content;
+		this.rCount = rCount;
+		this.rPoint = rPoint;
+		this.createDate = createDate;
+		this.Status = status;
+		this.startDate = startDate;
+		this.lastDate = lastDate;
+		this.guide = guide;
+		this.country = country;
+		this.city = city;
+		this.kind = kind;
+	}
+
+	// 게시판 등록
+	public Review(String title, String mId, String content, Date startDate, Date lastDate, String guide, String country,
+			String city, int kind) {
+		super();
+		this.title = title;
+		this.mId = mId;
+		this.content = content;
+		this.startDate = startDate;
+		this.lastDate = lastDate;
+		this.guide = guide;
+		this.country = country;
+		this.city = city;
+		this.kind = kind;
 	}
 
 	public int getrNum() {
@@ -166,7 +223,7 @@ public class Review {
 	}
 
 	public void setStatus(String status) {
-		Status = status;
+		this.Status = status;
 	}
 
 	public int getrCount() {
@@ -216,6 +273,33 @@ public class Review {
 	public void setGuide(String guide) {
 		this.guide = guide;
 	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public int getKind() {
+		return kind;
+	}
+
+	public void setKind(int kind) {
+		this.kind = kind;
+	}
+	
+	
+	
 	
 	
 	

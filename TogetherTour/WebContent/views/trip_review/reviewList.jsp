@@ -13,6 +13,7 @@
 	int maxPage = pi.getMaxPage();
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
+	String strKind=null;
 	
 	String search = (String)request.getAttribute("search");
 	String menu = (String)request.getAttribute("menu");
@@ -59,20 +60,7 @@
 				</table>
 			</div>
 		</form>
-		<%-- <script>
-			$('#search').click(function(){
-				var menu = $('#menu').val();
-				var content = $('#content').val();
-				$.ajax({
-					url:'<%=request.getContextPath()%>/search.rv',
-					type:'post',
-					data:{menu : menu,content:content},
-					success:function(data){
-						alert('검색 결과를 확인하세요');
-					}
-				});
-			});
-		</script> --%>
+	
 		
 		<hr>
 		
@@ -88,7 +76,12 @@
 			<tr>
 				<th width="100px">No</th>
 				<th width="200px">제목</th>
-				<th width="100px">여행지</th>
+				<!-- <th width="100px">여행지</th> -->
+				<th width="50px">분류</th>
+				<th width="50px"> 국가</th>
+				<th width="50px">지역</th>
+				
+				
 				<th width="100px">작성자</th>
 				<th width="50px">추천수</th>
 				<th width="100px">조회수</th>
@@ -100,13 +93,20 @@
 			</tr>
 			<% } else{
 					for(Review r : list) {
-						
+						if(r.getKind() == 1){
+							strKind = "국내";
+						} else {
+							strKind = "해외";
+						}	
 			%>
 			<tr>
 				
 				<td align="center"><%= r.getrNum() %><input type="hidden" value='<%= r.getrNum()%>'></td>
 				<td align="center" class="detailBtn"><%= r.getTitle() %></td>
-				<td align="center"><%= r.getLocation() %></td>
+				<td align="center"><%= strKind %></td>
+				<td align="center"><%= r.getCountry() %></td>
+				<td align="center"><%= r.getCity() %></td>
+				<%-- <td align="center"><%= r.getLocation() %></td> --%>
 				<td align="center" class="profileBtn"><%= r.getmId() %></td>
 				<td align="center"><%= r.getrPoint() %></td>
 				<td align="center"><%= r.getrCount() %></td>
