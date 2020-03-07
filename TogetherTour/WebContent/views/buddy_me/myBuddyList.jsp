@@ -34,21 +34,23 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 				<th width=100px;>동행인원</th>
 				<th width=100px;></th>
 			</tr>
-			<% if(list.isEmpty()) {%>
+			<% if(list.isEmpty()) { %>
 			<tr>
 				<td colspan=7>조회된 리스트가 없습니다.</td>
 			</tr>
 			<% } else { %>
 				<% for(Buddy b : list) { %>
-			<tr>
-				<td><%= b.getName() %><input type=hidden value='<%= b.getmId() %>' class=buddyId></td>
-				<td class=nick><%= b.getNick() %></td>
-				<td><%= b.getCountry() %></td>
-				<td><%= b.getCity() %></td>
-				<td><%= b.getStart_date() %> - <%= b.getEnd_date() %></td>
-				<td><%= b.getHeadCnt() %></td>
-				<td class=gradeBtn>평점주기</td>
-			</tr>
+					<% if(!loginUser.getmId().equals(b.getmId())) { %>
+						<tr>
+							<td><%= b.getName() %><input type=hidden value='<%= b.getmId() %>' class=buddyId></td>
+							<td class=nick><%= b.getNick() %></td>
+							<td><%= b.getCountry() %></td>
+							<td><%= b.getCity() %></td>
+							<td><%= b.getStart_date() %> - <%= b.getEnd_date() %></td>
+							<td><%= b.getHeadCnt() %></td>
+							<td class=gradeBtn>평점주기</td>
+						</tr>
+					<% } %>
 				<% } %>
 			<% } %>
 		</table>

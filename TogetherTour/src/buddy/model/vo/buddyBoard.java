@@ -11,7 +11,7 @@ public class buddyBoard {
 	private String content;		// 내용
 	private Date create_date;	// 게시글 작성일		
 	private String nick;		// 작성자
-	private String mid;			// 아이디	
+	private String mid;
 	private String country;		// 국가
 	private String city;		// 도시
 	private Date start_date;	// 여행시작	
@@ -143,7 +143,7 @@ public class buddyBoard {
 	public void setMid(String mid) {
 		this.mid = mid;
 	}
-	
+
 	public String getCountry() {
 		return country;
 	}

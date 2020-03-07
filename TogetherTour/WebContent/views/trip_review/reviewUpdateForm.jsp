@@ -9,6 +9,19 @@
 		gCheck="checked";
 	}
 	
+	String kind = request.getParameter("kind");
+	String country = request.getParameter("country");
+	String city = request.getParameter("city");
+	
+	String[] selected = new String[2];
+	if(kind.equals("국내")){
+		selected[0] = "selected";
+		selected[1] = "";
+	} else {
+		selected[0] = "";
+		selected[1] = "selected";
+	}
+	
 	ArrayList<String> images = new ArrayList<String>();
 	for(int i = 0; i < 3; i++){
 		images.add(request.getParameter("detailImg" + i) == null ? "" : "src=" + request.getContextPath() + "/uploadFiles/" + request.getParameter("detailImg" + i));
@@ -38,8 +51,22 @@
 			<form action = "<%= request.getContextPath()%>/update.rv" id ="updateForm" method="post" encType="multipart/form-data">
 				<table>
 					<tr>
-						<th>여행지역<input type="hidden" name ="rnum" value="<%= request.getParameter("rnum")%>"></th>
-						<td><input type="text" name = "location" value = "<%=request.getParameter("location")%>"></td>
+						<th><label>여행지</label> <input type="hidden" name ="rnum" value="<%= request.getParameter("rnum")%>"></th>
+						<td>
+							<select name=kind id=kindList>
+								<option>분류</option>
+								<option value="국내" <%= selected[0] %>>국내</option>
+								<option value="해외" <%= selected[1] %>>해외</option>
+							</select>
+							<select name=country id=countryList>
+								<option><%= country %></option>
+								<!-- <option>국가</option> -->
+							</select>
+							<select name=city id=cityList>
+								<option><%= city %></option>
+								<!-- <option>도시</option> -->
+							</select>
+						</td>
 					</tr>
 					
 					<tr>
@@ -160,5 +187,76 @@
 	
 	
 	<%@ include file="../common/footer.jsp" %>
+<script>
+	$(function(){
+		$.ajax({
+			url: '<%= request.getContextPath() %>/list.loca',
+		 	type: 'post',
+		 	success: function(data){
+		 		$selectKind = $('#kindList');
+				$selectCountry = $('#countryList');
+				$selectCity = $('#cityList');
+				
+				// county변경
+				$('#kindList').change(function(){
+					var kindSel = $('#kindList option:selected').text();
+					if(kindSel == "국내"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						var $option = $('<option>');
+						$option.val('한국');
+						$option.text('한국');
+						$selectCountry.append($option);
+					} else if(kindSel == "해외"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						for(var i in data[1]){
+							var $option = $('<option>');
+							$option.val(data[1][i]);
+							$option.text(data[1][i]);
+							$selectCountry.append($option);
+						}
+					} else {
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.text('국가');
+						$selectCountry.append($option);
+					}
+				});
+					// 해외city변경
+					$('#countryList').change(function(){ 
+						var countrySel = $('#countryList option:selected').text();
+						$('#cityList').find('option').remove();
+						for(var i in data[2]){
+							if(data[2][i].country == countrySel){
+								var $option = $('<option>');
+								$option.val(data[2][i].city);
+								$option.text(data[2][i].city);
+								$selectCity.append($option);
+							}
+						}
+						$('#kindList').change(function(){
+							$('#cityList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('도시');
+							$option.text('도시');
+							$selectCity.append($option);
+						});
+					});
+					
+		 	},
+		 	error: function(data){
+		 		console.log('error');
+		 	}
+		});
+	});
+	
+</script>
 </body>
 </html>

@@ -12,6 +12,15 @@
 		gCheck="checked";
 	}
 	
+	String rKind = null;
+	if(review != null){
+		if(review.getKind() == 1){
+			rKind = "국내";
+		} else {
+			rKind = "해외";
+		}
+	}
+	
 	ArrayList<Follow> flist = (ArrayList<Follow>)request.getAttribute("flist");
 	
 	ArrayList<rAttachment> fileList = (ArrayList<rAttachment>)request.getAttribute("fileList");
@@ -67,10 +76,24 @@
 				
 				
 				
-				
+				<%-- 
 				<tr>
 					<th>여행지</th>
 					<td colspan="2"><%= review.getLocation() %> <input type="hidden" value="<%= review.getLocation() %>" name = "location"></td>
+				</tr> --%>
+				
+				<tr>
+					<th><label>여행지</label></th>
+					<td>
+						[<label class=term><%= rKind %></label>]
+						<input type=hidden value="<%= rKind %>" name=kind>
+						
+						<label class=term><%= review.getCountry() %></label>
+						<input type=hidden value="<%= review.getCountry() %>" name=country>-
+						
+						<label><%= review.getCity() %></label>
+						<input type=hidden value="<%= review.getCity() %>" name=city>
+					</td>
 				</tr>
 				
 				<tr>
@@ -277,7 +300,8 @@
 						$replyTable = $('#replySelectTable');
 						$replyTable.html("");
 						
-						for(var key in data){
+						
+						 for(var key in data){
 							var $tr = $('<tr>');
 							var $writerTd = $('<td>').text(data[key].rWriter).css('width','50px');
 							var $contentTd = $('<td>').text(data[key].rContent).css('width','300px');
@@ -291,9 +315,9 @@
 								$tr.append('#Replydelete');
 							} */
 							
-							
+								
 							$replyTable.append($tr);
-						}
+						} 
 						$('#replyContent').val('');
 					}
 				});

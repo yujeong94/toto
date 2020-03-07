@@ -86,7 +86,7 @@
 						<li><a href="" class="menu-item">Q &amp; A</a>
 							<ul class="sub-menu">
 								<li><a href="<%=request.getContextPath()%>/list.sh">Q &amp; A 리스트</a></li>
-								<li><a href="javascript:void(0)" onclick="qaCheck();">후기 등록</a></li>
+								<li><a href="javascript:void(0)" onclick="qaCheck();">질문하기</a></li>
 							</ul>
 						</li>
 					</ul>

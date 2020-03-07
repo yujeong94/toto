@@ -81,12 +81,12 @@
 	
 	// 아이디 찾기 새창
 	function findID(){
-		window.open("FindID.jsp","findID","width=700, height=500");
+		window.open("<%= request.getContextPath() %>/views/member/FindID.jsp","findID","width=700, height=500");
 	}
 	
 	// 비밀번호 찾기 새창
 	function findPwd(){
-		window.open("FindPwd.jsp","findPwd","width=700, height=500");
+		window.open("<%= request.getContextPath() %>/views/member/FindPwd.jsp","findPwd","width=700, height=500");
 	}
 </script>
 </body>

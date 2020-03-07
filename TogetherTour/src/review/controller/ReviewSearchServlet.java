@@ -73,7 +73,7 @@ public class ReviewSearchServlet extends HttpServlet {
 		ArrayList<Review> list = service.searchList(currentPage, menu, content);
 		
 		
-		System.out.println(menu+ content);
+		//System.out.println(menu+ content);
 		
 		String page = null;
 		if(list != null) {

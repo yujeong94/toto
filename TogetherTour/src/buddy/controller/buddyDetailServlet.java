@@ -35,7 +35,6 @@ public class buddyDetailServlet extends HttpServlet {
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
 		
 		buddyBoard board = new buddyBoardService().selectBoard(bnum); // 
-		System.out.println(bnum);
 		String page = null;
 		if(board != null) {
 			page = "views/buddy/buddyBoardDetail.jsp" ;

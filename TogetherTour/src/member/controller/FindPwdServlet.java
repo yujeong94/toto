@@ -52,7 +52,7 @@ public class FindPwdServlet extends HttpServlet {
 			request.setAttribute("findEmail", member.getEmail());
 		} else {
 			page="views/member/findResult.jsp";
-			request.setAttribute("msg", "존재하지 않는 회원입니다.");
+			request.setAttribute("pwdmsg", "존재하지 않는 회원입니다.");
 		}
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
@@ -62,7 +62,7 @@ public class FindPwdServlet extends HttpServlet {
 		
 		String host = "smtp.naver.com";
 		final String admin = "togethertour_team@naver.com";
-		final String password = "toto200110";
+		final String password = "KHTOTO200110";
 		
 		String userEmail = member.getEmail();
 		int port = 465;

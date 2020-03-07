@@ -226,7 +226,6 @@ public class GuideDAO {
 						rset.getDate("create_date"),
 						rset.getString("status")));
 			}
-			System.out.println(rList.get(0).getCreatDate());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

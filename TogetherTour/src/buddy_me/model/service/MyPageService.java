@@ -42,7 +42,6 @@ public class MyPageService {
 		int cResult = dao.updateGcount(conn, gradeNick);
 		int result = 0;
 		if(cResult > 0) {
-			
 			result = dao.updateGrade(conn, gradeNick, grade);
 			
 			if(result > 0) {
@@ -77,6 +76,44 @@ public class MyPageService {
 		int result = new MyPageDAO().insertReport(conn, r);
 		
 		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int selectCount(int bnum) {
+		Connection conn = getConnection();
+		int headC = new MyPageDAO().selectCount(conn,bnum);
+		
+		close(conn);
+		
+		return headC;
+	}
+
+	public int insertBuddy(int bnum, String userId, String buddyId) {
+		Connection conn = getConnection();
+		MyPageDAO dao = new MyPageDAO();
+		Buddy b = new Buddy();
+		// 작성자 들어갔는지 조회
+		int check = dao.selectWriter(conn,bnum,userId);
+		
+		// 작성자 존재여부에 따라 작성자도 넣거나, 동행자만 넣거나
+		int result = 0;
+		if(check > 0) {
+			//동행자만
+			b.setbNum(bnum);
+			b.setmId(buddyId);
+			result = dao.insertBuddy(conn,b);
+			commit(conn);
+		} else if(check == 0){
+			//작성자도 같이
+			b.setbNum(bnum);
+			b.setmId(buddyId);
+			b.setWriter_mid(userId);
+			result = dao.insertAll(conn,b);
 			commit(conn);
 		} else {
 			rollback(conn);

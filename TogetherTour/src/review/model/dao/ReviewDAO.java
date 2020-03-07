@@ -84,9 +84,11 @@ public class ReviewDAO {
 									rset.getString("nick"),
 									rset.getInt("rcount"),
 									rset.getInt("rpoint"),
-									rset.getString("location"),
 									rset.getDate("create_date"),
-									rset.getString("status"));
+									rset.getString("status"),
+									rset.getString("country"),
+									rset.getString("city"),
+									rset.getInt("kind"));
 				list.add(r);
 				
 				
@@ -135,18 +137,33 @@ public class ReviewDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+//				review = new Review(rs.getInt("rnum"),
+//						rs.getString("title"),
+//						rs.getString("mid"),
+//						rs.getString("content"),
+//						rs.getInt("rcount"),
+//						rs.getInt("rpoint"),
+//						rs.getString("location"),
+//						rs.getDate("create_date"),
+//						rs.getString("status"),
+//						rs.getDate("start_date"),
+//						rs.getDate("last_date"),
+//						rs.getString("guide"));
+				
 				review = new Review(rs.getInt("rnum"),
 						rs.getString("title"),
 						rs.getString("mid"),
 						rs.getString("content"),
 						rs.getInt("rcount"),
 						rs.getInt("rpoint"),
-						rs.getString("location"),
 						rs.getDate("create_date"),
 						rs.getString("status"),
 						rs.getDate("start_date"),
 						rs.getDate("last_date"),
-						rs.getString("guide"));
+						rs.getString("guide"),
+						rs.getString("country"),
+						rs.getString("city"),
+						rs.getInt("kind"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,10 +188,13 @@ public class ReviewDAO {
 			pstmt.setString(1, r.getTitle());
 			pstmt.setString(2, r.getmId());
 			pstmt.setString(3, r.getContent());
-			pstmt.setString(4, r.getLocation());
+			pstmt.setString(4, r.getCountry());
 			pstmt.setDate(5, r.getStartDate());
 			pstmt.setDate(6, r.getLastDate());
 			pstmt.setString(7, r.getGuide());
+			pstmt.setInt(8, r.getKind());
+			pstmt.setString(9, r.getCity());
+			
 			
 			
 			
@@ -218,11 +238,13 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, review.getLocation());
-			pstmt.setString(2, review.getTitle());
-			pstmt.setString(3, review.getContent());
-			pstmt.setString(4, review.getGuide());
-			pstmt.setInt(5, review.getrNum());
+			pstmt.setInt(1, review.getKind());
+			pstmt.setString(2, review.getCountry());
+			pstmt.setString(3, review.getCity());
+			pstmt.setString(4, review.getTitle());
+			pstmt.setString(5, review.getContent());
+			pstmt.setString(6, review.getGuide());
+			pstmt.setInt(7, review.getrNum());
 			
 			
 			result = pstmt.executeUpdate();
@@ -332,10 +354,18 @@ public class ReviewDAO {
 		
 		
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+content+'%');
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+			if(menu.equals("LOCATION")) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setString(2, '%'+content+'%');
+				pstmt.setInt(3, startRow);
+				pstmt.setInt(4, endRow);				
+			} else {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			}
 			
 			
 			rset = pstmt.executeQuery();
@@ -343,13 +373,15 @@ public class ReviewDAO {
 			
 			while(rset.next()) {
 				Review r = new Review(rset.getInt("rnum"),
-									rset.getString("title"),
-									rset.getString("nick"),
-									rset.getInt("rcount"),
-									rset.getInt("rpoint"),
-									rset.getString("location"),
-									rset.getDate("create_date"),
-									rset.getString("status"));
+										rset.getString("title"),
+										rset.getString("nick"),
+										rset.getInt("rcount"),
+										rset.getInt("rpoint"),
+										rset.getDate("create_date"),
+										rset.getString("status"),
+										rset.getString("country"),
+										rset.getString("city"),
+										rset.getInt("kind"));
 				list.add(r);
 				
 				
@@ -381,8 +413,16 @@ public class ReviewDAO {
 		
 		
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+content+'%');
+			
+			if(menu.equals("LOCATION")) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setString(2, '%'+content+'%');
+						
+			} else {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+			}
 			
 			
 			
@@ -516,7 +556,6 @@ public class ReviewDAO {
 				pstmt.setString(2, a.getOriginName());
 				pstmt.setString(3, a.getChangeName());
 				pstmt.setString(4, a.getFilePath());
-				pstmt.setInt(5, a.getFileLevel());
 				
 				result += pstmt.executeUpdate();
 			}
