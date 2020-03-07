@@ -9,7 +9,7 @@ import javax.servlet.ServletException ;
 import javax.servlet.annotation.WebServlet ;
 import javax.servlet.http.HttpServlet ;
 import javax.servlet.http.HttpServletRequest ;
-import javax.servlet.http.HttpServletResponse ;
+import javax.servlet.http.HttpServletResponse ; 
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload ;
 
@@ -17,8 +17,8 @@ import com.oreilly.servlet.MultipartRequest ;
 
 import common.MyFileRenamePolicy ;
 import share.model.service.ShareService ;
-import share.model.vo.Sattachment;
-import share.model.vo.Share;
+import share.model.vo.* ;
+import member.model.vo.* ;
 
 /** Servlet implementation class InsertShareServlet */
 @WebServlet("/insert.share")
@@ -35,7 +35,6 @@ public class InsertShareServlet extends HttpServlet {
 		if(ServletFileUpload.isMultipartContent(request)) {
 			System.out.println("[System] Insert Servlet Start Here") ;
 			int result = 0 ;
-			int count = 0 ;
 			int maxSize = 1024 * 1024 * 50 ;
 			String root = request.getSession().getServletContext().getRealPath("/") ;
 			String savePath = root + "uploadFiles/" ;
@@ -62,14 +61,14 @@ public class InsertShareServlet extends HttpServlet {
 			String kakao = multipartRequest.getParameter("kind") ;
 			String kakaoStr = "" ;
 			if(kakao.equals("")) {
-				kakaoStr = "입력된 주소가 없습니다." ;
+				kakaoStr = "입력된 주소가 없습니f다." ;
 				System.out.println("[Info] new 게시물("+title+")의 카카오톡 주소가 공란입니다. 「입력된 주소가 없습니다.」로 대체되어 삽입되었습니다.") ;
 			} else {
 				kakaoStr = kakao ;
 			}	
 			String mid = multipartRequest.getParameter("mid") ;
 			String fileCheck = multipartRequest.getParameter("fileBool") ;
-			System.out.println(fileCheck) ;
+			System.out.println("[Info] [Insert Share Servlet] [File 존재 여부 : "+(fileCheck.equals("trueFiles") ? "파일이 존재합니다.]" : "파일이 존재하지 않습니다.]")) ;
 			Share share = new Share() ;
 			share.setTitle(title) ;
 			share.setCategory(category) ;
@@ -92,7 +91,6 @@ public class InsertShareServlet extends HttpServlet {
 					System.out.println("[Info] originFiles["+i+"] : "+originFiles.get(i)) ;
 					at.setChangeName(saveFiles.get(i)) ;
 					System.out.println("[Info] saveFiles["+i+"] : "+saveFiles.get(i)) ;
-					count++ ;
 					fileList.add(at) ;
 				}
 				result = new ShareService().insertShare(share,fileList) ;

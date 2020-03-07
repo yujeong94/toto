@@ -126,9 +126,8 @@
 				$('#followList').css('display','none') ;
 			} else {
 				$('#followList').click(function() {
-					var mId = "<%=loginUser.getmId()%>" ;
-					location.href = "<%= request.getContextPath() %>/list.follow?mId="+mId ;
-				}) ;				
+					location.href = "<%= request.getContextPath() %>/list.follow" ;
+				}) ;
 			}
 		}) ;
 		

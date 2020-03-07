@@ -101,4 +101,31 @@ public class ShareService {
 			System.out.println("[Info] [Insert Reply : Share : Service] [insert-Reply Result : Failed]") ;
 		} return rList ;
 	}
+
+	public int updateShare(Share share, ArrayList<Sattachment> fileList) {
+		Connection conn = getConnection() ;
+		ShareDAO sDAO = new ShareDAO() ;
+		
+		return 0 ;
+	}
+
+	public int updateShare(Share share) {
+		Connection conn = getConnection() ;
+		ShareDAO sDAO = new ShareDAO() ;
+		int result = sDAO.updateShare(conn, share) ;
+		if(result>0) commit(conn) ;
+		else		 rollback(conn) ;
+		close(conn) ;
+		return result ;
+	}
+
+	public int updateOldSatt(int sbNum) {
+		Connection conn = getConnection() ;
+		ShareDAO sDAO = new ShareDAO() ;
+		int result = sDAO.updateOldSatt(conn, sbNum) ;
+		if(result>0) commit(conn) ;
+		else		 rollback(conn) ;
+		close(conn) ;
+		return result ;
+	}
 }

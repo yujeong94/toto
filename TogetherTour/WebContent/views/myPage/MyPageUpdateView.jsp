@@ -171,6 +171,16 @@
 				location.href='<%=request.getContextPath()%>/update.myPage' ;
 			}
 		}
+		
+		$(function() {
+			if(<%=loginUser.getmKind()%>==2) {
+				$('#followList').css('display','none') ;
+			} else {
+				$('#followList').click(function() {
+					location.href = "<%= request.getContextPath() %>/list.follow" ;
+				}) ;
+			}
+		}) ;
 	</script>
 </body>
 
