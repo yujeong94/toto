@@ -1,14 +1,13 @@
 package follow.model.service;
 
-import static common.JDBCTemplate.close;
-import static common.JDBCTemplate.commit;
-import static common.JDBCTemplate.getConnection;
-import static common.JDBCTemplate.rollback;
+import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import follow.model.dao.FollowDAO;
 import follow.model.vo.Follow;
+import member.model.vo.Member;
 import review.model.dao.ReviewDAO;
 
 public class FollowService {
@@ -26,6 +25,14 @@ public class FollowService {
 		
 		close(conn);
 		return result;
+	}
+
+	public ArrayList<Member> selectFollowList(String mId) {
+		Connection conn = getConnection() ;
+		System.out.println("[Info] [Follow List Service] [MID : ("+mId+")]") ;
+		ArrayList<Member> mList = new FollowDAO().selectFollowList(conn,mId) ;
+		close(conn) ;
+		return mList ;
 	}
 	
 }

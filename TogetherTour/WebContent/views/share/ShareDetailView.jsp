@@ -25,7 +25,7 @@
 					<tr>
 						<th id="detailList">게시글 번호</th>
 						<td colspan="4">
-							<input type="text" name="sbNum" value="<%=share.getSbNum()%>" style="width:100%;" readonly>
+							<input type="text" name="sbNum" id="sbNum" value="<%=share.getSbNum()%>" style="width:100%;" readonly>
 						</td>
 					</tr>
 					<tr>

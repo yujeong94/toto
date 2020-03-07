@@ -16,11 +16,5 @@
 			</tr>
 		</table>
 	</nav>
-	<script>
-		function follow() {
-			
-			
-		}
-	</script>
 </body>
 </html>

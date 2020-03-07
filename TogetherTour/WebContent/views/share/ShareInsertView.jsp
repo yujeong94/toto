@@ -40,20 +40,16 @@
 							</td>
 						</tr>
 						<tr>
-							<th id="wrtList">거래 장소 * : 미완</th>
+							<th id="wrtList">거래 장소 *</th>
 							<td colspan="4">
-								<select id="kind" name="kind" style="width:33%;">
-									<option value="0" selected>국내 / 국외</option>
-									<option value="1">국내</option>
-									<option value="2">국외</option>
+								<select name=kind id=kindList class="location">
+									<option>분류</option>
 								</select>
-								<select id="country" name="country" style="width:33%;">
-									<option value="none" selected>국가</option>
-									<option value="한국">한국</option>
+								<select name=country id=country class="location">
+									<option>국가</option>
 								</select>
-								<select id="city" name="city" style="width:33%;">
-									<option value="none" selected>도시</option>
-									<option value="서울">서울</option>
+								<select name=city id=city class="location">
+									<option>도시</option>
 								</select>
 							</td>
 						</tr>
@@ -88,20 +84,100 @@
 						</tr>
 					</table><hr><br>
 					<div id="wrtButton">
-						<button type="button" id="button" class="wrt" onclick="submitCheck();">작성하기</button>
-						<button id="button" class="wrt" onclick="location.href=<%= request.getContextPath() %>/views/share/ShareListView.jsp">취소하기</button>
+						<button type="button" id="button" class="wrt" onclick="submitCheck() ;">작성하기</button>
+						<button type="button" id="button" class="wrt" onclick="location.href='<%= request.getContextPath() %>/list.share'">취소하기</button>
 					</div><br>
 				</form>
 				<div id="fileArea">
-					
-					
-					
-					
 					
 				</div>
 			</div>
 		</div>
 		<script>
+			$(function() {
+				$.ajax({
+					url: '<%= request.getContextPath() %>/list.loca',
+				 	type: 'post',
+				 	success: function(data) {
+				 		$selectKind = $('#kindList') ;
+						$selectCountry = $('#country') ;
+						$selectCity = $('#city') ;
+						for(var i in data[0]) {
+							var $option = $('<option>') ;
+							$option.val(data[0][i]) ;
+							var con = null ;
+							if(data[0][i] == 1)	con = "국내";
+							else				con = "해외";
+							$option.text(con) ;
+							$selectKind.append($option) ;
+						}
+						
+						// county변경
+						$('#kindList').change(function() {
+							var kindSel = $('#kindList option:selected').text() ;
+							if(kindSel == "국내") {
+								$('#country').find('option').remove() ;
+								var $option = $('<option>') ;
+								$option.val('국가') ;
+								$option.text('국가') ;
+								$selectCountry.append($option) ;
+								var $option = $('<option>') ;
+								$option.val('한국') ;
+								$option.text('한국') ;
+								$selectCountry.append($option) ;
+							} else if(kindSel == "해외") {
+								$('#country').find('option').remove() ;
+								var $option = $('<option>') ;
+								$option.val('국가') ;
+								$option.text('국가') ;
+								$selectCountry.append($option) ;
+								for(var i in data[1]) {
+									var $option = $('<option>') ;
+									$option.val(data[1][i]) ;
+									$option.text(data[1][i]) 
+									$selectCountry.append($option) ;
+								}
+							} else {
+								$('#country').find('option').remove() ;
+								var $option = $('<option>') ;
+								$option.text('국가') ;
+								$selectCountry.append($option) ;
+							}
+						}) ;
+						// 해외city변경
+						$('#country').change(function() { 
+							var countrySel = $('#country option:selected').text() ;
+							$('#city').find('option').remove() ;
+							for(var i in data[2]) {
+								if(data[2][i].country == countrySel) {
+									var $option = $('<option>') ;
+									$option.val(data[2][i].city) ;
+									$option.text(data[2][i].city) ;
+									$selectCity.append($option) ;
+								}
+							}
+							$('#kindList').change(function() {
+								$('#city').find('option').remove() ;
+								var $option = $('<option>') ;
+								$option.val('도시') ;
+								$option.text('도시') ;
+								$selectCity.append($option) ;
+							}) ;
+						}) ;
+						
+						// 국내 city : 서울 자동선택
+						$('#country').change(function() {
+							var countryVal = $('#country').val() ;
+							if(countryVal == '한국')
+								$('#city option:eq(4)').prop('selected',true) ;
+						}) ;
+				 	},
+				 	error: function(data) {
+				 		console.log('error') ;
+				 	}
+				}) ;
+			}) ;
+			
 			// 각각의 영역에 파일을 첨부 했을 경우 미리 보기가 가능하도록 하는 함수
 			function LoadImg(value, num) {
 				if(value.files && value.files[0]) {
@@ -116,7 +192,6 @@
 						case 5 : $("#contentImg5").attr("src", e.target.result) ; break ;
 						}
 					}
-					
 					reader.readAsDataURL(value.files[0]) ;
 				}
 			}
@@ -133,11 +208,11 @@
 			
 			function submitCheck() {
 				var bool = true ;
-				var fileCheck1 = $('#shareImg1').value ;
-				var fileCheck2 = $('#shareImg2').value ;
-				var fileCheck3 = $('#shareImg3').value ;
-				var fileCheck4 = $('#shareImg4').value ;
-				var fileCheck5 = $('#shareImg5').value ;
+				var fileCheck1 = $('#shareImg1').val() ;
+				var fileCheck2 = $('#shareImg2').val() ;
+				var fileCheck3 = $('#shareImg3').val() ;
+				var fileCheck4 = $('#shareImg4').val() ;
+				var fileCheck5 = $('#shareImg5').val() ;
 				
 				if($('#title').val() == "") {
 					alert('제목을 입력하세요.') ;
@@ -152,8 +227,10 @@
 				}
 				
 				if(fileCheck1 == "" || fileCheck2 == "" || fileCheck3 == "" || fileCheck4 == "" || fileCheck5 == "") {
+					alert("falseFiles") ;
 					$('#fileBool').val("falseFiles") ;
 				} else {
+					alert("trueFiles") ;
 					$('#fileBool').val("trueFiles") ;
 				}
 				

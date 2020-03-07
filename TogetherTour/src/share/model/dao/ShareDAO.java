@@ -315,4 +315,50 @@ public	class ShareDAO {
 			close(ptmt) ;
 		} return result ;
 	}
+
+	public int updateOldSatt(Connection conn, int sbNum) {
+		PreparedStatement ptmt = null ;
+		int result = 0 ;
+		String query = prop.getProperty("updateOldSatt") ;
+		
+		try {
+			ptmt = conn.prepareStatement(query) ;
+			ptmt.setInt(1, sbNum) ;
+			result = ptmt.executeUpdate() ;
+		} catch (SQLException e) {
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
+		} finally {
+			close(ptmt) ;
+		} return result ;
+	}
+
+	public int updateShare(Connection conn, Share share) {
+		PreparedStatement ptmt = null ;
+		int result = 0 ;
+		String query = prop.getProperty("updateShare") ;
+		
+//		try {
+//			ptmt = conn.prepareStatement(query) ;
+//			ptmt.setString(1, share.getTitle()) ;
+//			ptmt.setInt(2, Integer.parseInt(share.getCategory())) ;
+//			ptmt.setString(1, share.getTitle()) ;
+//			ptmt.setString(1, share.getTitle()) ;
+//			ptmt.setString(1, share.getTitle()) ;
+//			ptmt.setString(1, share.getTitle()) ;
+//			ptmt.setString(1, share.getTitle()) ;
+//		} catch (SQLException e) {
+//			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+//			System.out.println(e.getMessage()) ;
+//			System.out.println("-------------------------------------------------------------") ;
+//			e.printStackTrace() ;
+//			System.out.println("-------------------------------------------------------------") ;
+//		} finally {
+//			close(ptmt) ;
+//		}
+		return result ;
+	}
 }
