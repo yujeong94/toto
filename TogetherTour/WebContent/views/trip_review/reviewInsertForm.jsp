@@ -22,9 +22,24 @@
 		<hr>
 		<form action="<%= request.getContextPath() %>/insert.rv" method="post" id ="insertForm" encType="multipart/form-data">
 			<table>
-				<tr>
+				<!-- <tr>
 					<th>여행지</th>
 					<td colspan="2"><input type="text" size="58" name="location"></td>
+				</tr>  -->
+				
+				<tr>
+					<th><label>활동장소</label></th>
+					<td>
+						<select name=kind id=kindList>
+						<option>분류</option>
+						</select>
+						<select name=country id=countryList>
+						<option>국가</option>
+						</select>
+						<select name=city id=cityList>
+						<option>도시</option>
+						</select>
+					</td>
 				</tr>
 				
 				<tr>
@@ -75,7 +90,7 @@
 			
 			<!-- 파일 업로드 하는 부분 -->
 			<div id="fileArea">
-				<input type="file" id="thumbnailImg1" multiple="multiple" name="thumbnailImg1" onchange="LoadImg(this,1)">
+				<input type="file" id="thumbnailImg1" multiple="multiple" name="thumbnailImg1" onchange="LoadImg(this,1)" required>
 				<input type="file" id="thumbnailImg2" multiple="multiple" name="thumbnailImg2" onchange="LoadImg(this,2)">
 				<input type="file" id="thumbnailImg3" multiple="multiple" name="thumbnailImg3" onchange="LoadImg(this,3)">
 			</div>
@@ -118,27 +133,132 @@
 						reader.readAsDataURL(value.files[0]);
 					}
 				}
+				
+				// 여행지부분
+				$(function(){
+					$.ajax({
+						url: '<%= request.getContextPath() %>/list.loca',
+					 	type: 'post',
+					 	success: function(data){
+					 		$selectKind = $('#kindList');
+							$selectCountry = $('#countryList');
+							$selectCity = $('#cityList');
+							for(var i in data[0]){
+								var $option = $('<option>');
+								$option.val(data[0][i]);
+								var con = null;
+								if(data[0][i] == 1){
+									con = "국내";
+								} else {
+									con = "해외";
+								}
+								$option.text(con);
+								$selectKind.append($option);
+							}
+							
+							// county변경
+							$('#kindList').change(function(){
+								var kindSel = $('#kindList option:selected').text();
+								if(kindSel == "국내"){
+									$('#countryList').find('option').remove();
+									var $option = $('<option>');
+									$option.val('국가');
+									$option.text('국가');
+									$selectCountry.append($option);
+									var $option = $('<option>');
+									$option.val('한국');
+									$option.text('한국');
+									$selectCountry.append($option);
+								} else if(kindSel == "해외"){
+									$('#countryList').find('option').remove();
+									var $option = $('<option>');
+									$option.val('국가');
+									$option.text('국가');
+									$selectCountry.append($option);
+									for(var i in data[1]){
+										var $option = $('<option>');
+										$option.val(data[1][i]);
+										$option.text(data[1][i]);
+										$selectCountry.append($option);
+									}
+								} else {
+									$('#countryList').find('option').remove();
+									var $option = $('<option>');
+									$option.text('국가');
+									$selectCountry.append($option);
+								}
+							});
+								// 해외city변경
+								$('#countryList').change(function(){ 
+									var countrySel = $('#countryList option:selected').text();
+									$('#cityList').find('option').remove();
+									for(var i in data[2]){
+										if(data[2][i].country == countrySel){
+											var $option = $('<option>');
+											$option.val(data[2][i].city);
+											$option.text(data[2][i].city);
+											$selectCity.append($option);
+										}
+									}
+									$('#kindList').change(function(){
+										$('#cityList').find('option').remove();
+										var $option = $('<option>');
+										$option.val('도시');
+										$option.text('도시');
+										$selectCity.append($option);
+									});
+								});
+					 	},
+					 	error: function(data){
+					 		console.log('error');
+					 	}
+					});
+				});
+				
+				
 			</script>	
 			
 			
 						
 			<div align="center">
 				<button type="submit" id="insertBtn">등록하기</button>
-					<%-- <div id="cancelBtn" onclick="location.href='<%= request.getContextPath()%>/list.rv'">취소</div>  --%>
+				
+				
+				
 					<input type="button" onclick="back();" id="canCelBtn" value="취소">
 			</div>
 		</form>
 		
 		<script>
+			$(function(){
+			   $('#insertBtn').click(function(){
+			      if($('#thumbnailImg1').val()== ''){
+			         alert('사진을 최소 1개이상 넣으주세요!');
+			      } else{
+			         
+			      }
+			   });
+			   
+			});
+		
+		
+		
+		
+		
 			function back(){
 				$('#insertForm').attr('action', '<%= request.getContextPath() %>/list.rv');
 				$('#insertForm').submit();
 			}
-		
+			
+			
+			
 		</script>
 	</div>	
-		
-		
+	
 	<%@ include file="../common/footer.jsp" %> 
+<script>
+
+</script>	
+	
 </body>
 </html>
