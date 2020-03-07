@@ -2,26 +2,26 @@ package trip_plan.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import trip_plan.model.service.TplanService;
+import com.google.gson.Gson;
+
 
 /**
- * Servlet implementation class TplanDeleteServlet
+ * Servlet implementation class TplanUpdateContentsServlet
  */
-@WebServlet("/delete.trip")
-public class TplanDeleteServlet extends HttpServlet {
+@WebServlet("/updateContents.trip")
+public class TplanUpdateContentsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TplanDeleteServlet() {
+    public TplanUpdateContentsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,24 +30,19 @@ public class TplanDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int tPnum = Integer.parseInt(request.getParameter("tPnum"));
-		int result = new TplanService().deleteTplan(tPnum);
-	
-		String page = null;
 		
-		if(result > 0) {
-			page="/list.trip?tPnum=" + tPnum;
-			request.setAttribute("msg", "게시글이 삭제되었습니다.");
+		String tContents = request.getParameter("tContents");
+		String[] tContentsArr = null;
+		
+		if(tContents != null) {
+			tContentsArr = tContents.split("-");
+		
 		} else {
-			page="views/guide/GuideDetail.jsp";
-			request.setAttribute("msg", "게시글 삭제에 실패했습니다.");
+			tContentsArr = null;
 		}
 		
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
-		
-		
+		response.setContentType("application/json; charset=UTF-8");
+	    new Gson().toJson(tContentsArr, response.getWriter());
 		
 	}
 

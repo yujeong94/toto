@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import guide.model.vo.Gboard;
 import trip_plan.model.vo.Tplan;
 
 public class TplanDAO {
@@ -80,7 +81,7 @@ public class TplanDAO {
 			list = new ArrayList<Tplan>();
 			
 			while(rset.next()) {
-				Tplan t = new Tplan(rset.getInt("rNum"),
+				Tplan t = new Tplan(rset.getInt("tpnum"),
 									rset.getString("title"),
 									rset.getString("nick"),
 									rset.getInt("day"),
@@ -125,12 +126,7 @@ public class TplanDAO {
 			pstmt.setDate(8, t.getEndDate());
 			pstmt.setInt(9, t.getKind());
 			
-			result = pstmt.executeUpdate();
-			System.out.println("country" + t.getCountry());
-			System.out.println("mid" + t.getmId());
-			System.out.println("day" + t.getDay());
-			System.out.println("content" + t.getContent());
-			
+			result = pstmt.executeUpdate();			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -174,7 +170,7 @@ public class TplanDAO {
 			pstmt.setInt(1, tPnum);
 			
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()) {	
 				t = new Tplan(rs.getInt("tpnum"),
 							  rs.getString("title"),
@@ -191,13 +187,13 @@ public class TplanDAO {
 							  rs.getInt("kind"));
 			}
 			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rs);
 			close(pstmt);
 		}
-		
 		return t;
 	}
 
@@ -211,13 +207,14 @@ public class TplanDAO {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, t.getTitle());
-			pstmt.setString(2, t.getContent());
-			pstmt.setString(3, t.getCountry());
-			pstmt.setString(4, t.getCity());
-			pstmt.setDate(5, t.getStartDate());
-			pstmt.setDate(6, t.getEndDate());
-			pstmt.setInt(7, t.getKind());
-			pstmt.setInt(8, t.gettPnum());
+			pstmt.setInt(2, t.getDay());
+			pstmt.setString(3, t.getContent());
+			pstmt.setString(4, t.getCountry());
+			pstmt.setString(5, t.getCity());
+			pstmt.setDate(6, t.getStartDate());
+			pstmt.setDate(7, t.getEndDate());
+			pstmt.setInt(8, t.getKind());
+			pstmt.setInt(9, t.gettPnum());
 			
 			result = pstmt.executeUpdate();
 			
@@ -250,6 +247,98 @@ public class TplanDAO {
 		}
 		
 		return result;
+	}
+
+	public int getSearchCount(Connection conn, String menu, String content) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query="";
+		switch(menu) {
+		case "title" : query = prop.getProperty("getTitleCount"); break;
+		case "nick" : query = prop.getProperty("getNickCount"); break;
+		case "location" : query = prop.getProperty("getLocationCount"); break;
+		}
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+content+'%');
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<Tplan> searchList(Connection conn, int currentPage, String menu, String content) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Tplan> list = null;
+		int posts = 10; // 한 페이지에 보여질 게시글 개수
+		
+		int startRow = (currentPage - 1) * posts + 1;
+		int endRow = startRow + posts - 1;
+		
+		String query = "";
+		
+		switch(menu) {
+		case "title" : query = prop.getProperty("searchTitle"); break;
+		case "nick" : query = prop.getProperty("searchNick"); break;
+		case "location" : query = prop.getProperty("searchLocation"); break;
+		}
+		
+		try {
+			if(menu.equals("LOCATION")) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setString(2, '%'+content+'%');
+				pstmt.setInt(3, startRow);
+				pstmt.setInt(4, endRow);				
+			} else {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setInt(2, startRow);
+				pstmt.setInt(3, endRow);
+			}
+			
+			rset = pstmt.executeQuery();
+			list = new ArrayList<Tplan>();
+			
+			while(rset.next()) {
+				Tplan t = new Tplan(rset.getInt("rNum"),
+									rset.getString("title"),
+									rset.getString("nick"),
+									rset.getInt("day"),
+									rset.getDate("create_date"),
+									rset.getString("country"),
+									rset.getString("city"),
+									rset.getInt("tcount"),
+									rset.getDate("start_date"),
+									rset.getDate("end_date"),
+									rset.getInt("kind"));
+									
+				list.add(t);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+
 	}
 
 }

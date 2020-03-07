@@ -36,29 +36,22 @@ public class TplanInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String title = request.getParameter("title");
-		String kind = request.getParameter("kind");
+		int kind = Integer.parseInt(request.getParameter("kind"));
 		String country = request.getParameter("country");
 		String city = request.getParameter("city");
 		String sDate = request.getParameter("tStart"); 
 		String eDate = request.getParameter("tEnd"); 
 		int day = Integer.parseInt(request.getParameter("tDay"));
-		System.out.println(day);
 		
-		/*String tContents = request.getParameter("tContents");*/
+		// 일차별 여행 일정 내용을 배열로 받아서
 		String[] tContentsArr = request.getParameterValues("tContents");
+		// "-"로 조인한 후 tContents에 담는다.
 		String tContents = "";
 		if(tContentsArr != null) {
 			tContents = String.join("-", tContentsArr);
 		}
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getmId();		
-		
-		int kindNum = 0;
-		if(kind.equals("국내")) {
-			kindNum = 1;
-		} else {
-			kindNum = 2;
-		}
 		
 		Date sqlSdate = null; 
 		Date sqlEdate = null;
@@ -92,7 +85,7 @@ public class TplanInsertServlet extends HttpServlet {
 		t.setCity(city);
 		t.setStartDate(sqlSdate);
 		t.setEndDate(sqlEdate);
-		t.setKind(kindNum);
+		t.setKind(kind);
 		
 		int result = new TplanService().insertTplan(t);
 		

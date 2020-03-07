@@ -56,20 +56,20 @@
 		
 		/*일정 입력박스에 대한 스타일*/
 		.date-box-date {
-			text-align : left;
-			margin-left : 108px;
+			text-align : center;
+
 		}
 		.date-box-date span{
 			display : inline-block;
-			width : 50px;
-			height : 50px;
-			line-height : 50px;
+			width : 100px;
+			height : 30px;
 			text-align : center;
-			background : #000;
-			color : #fff;
+			color : #cbcbcb;
+			padding-bootom : 10px;
+			margin-bottom : 10px;
 		}
 		.date-box-content {
-			margin-bottom : 30px;
+			margin-bottom : 40px;
 		}
 	</style>
 </head>
@@ -138,9 +138,10 @@
 		</form>
 	</div>
 	<!--S:footer-->
-		<%@ include file="../common/footer.jsp" %>
-		<!--E:footer-->
+	<%@ include file="../common/footer.jsp" %>
+	<!--E:footer-->
 	</div>
+	
 	<script>
 	
 	// 여행 시작일과 여행 종료일이 정해지면 일차가 계산되는 함수
@@ -163,9 +164,9 @@
 		if(tStart <= tEnd){
 			if(tEnd != null && tEnd != "") {
 				if(tStart == tEnd) {
-					betweenDay = Math.ceil(Math.abs((sDay.getTime() - eDayObj.getTime())/1000/60/60/24));   // 여행 일수(두 날짜 차이 + 1)
+					betweenDay = Math.ceil(Math.abs((sDay.getTime() - eDayObj.getTime())/1000/60/60/24));	// 여행 일수(두 날짜 차이 + 1)
 				} else{
-					betweenDay = Math.ceil(Math.abs((sDay.getTime() - eDayObj.getTime())/1000/60/60/24))+1;   // 여행 일수(두 날짜 차이 + 1)
+					betweenDay = Math.ceil(Math.abs((sDay.getTime() - eDayObj.getTime())/1000/60/60/24))+1;	// 여행 일수(두 날짜 차이 + 1)
 				}
 					document.getElementById("tDay").innerHTML = "(" + betweenDay + "일차)";
 					document.getElementById("tDay1").value = betweenDay;
@@ -190,16 +191,10 @@
 				$("#makePlan").html("");
 				
 				for(var i = 1; i <= betweenDay; i++){
-					$("#makePlan").append("<div id='date-box" 
-												+ i + "'><div class='date-box-date'><span>" 
-												+ i + "일차</span></div><textarea name='tContents' class='date-box-content' rows='10' cols='140' style='resize:none;' placeholder='" 
-												+ i + "일차 일정을 입력하세요'></textarea></div>");
+					$("#makePlan").append("<div class='date-box-date'><span>[ " 
+												+ i + "일차 ]</span></div><textarea name='tContents' class='date-box-content' rows='10' cols='140' style='resize:none;' placeholder='" 
+												+ i + "일차 일정을 입력하세요'></textarea>");
 
-					/* if(i < betweenDay) {
-						tContents += $('".date-box-content" + i').text() + "가치가조유동한대경" ;
-					} else if(i == betweenDay){
-						tContents += $('".date-box-content" + i').text();
-					} */
 				}
 			}
 			
