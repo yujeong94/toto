@@ -54,7 +54,7 @@ public class buddyBoard {
 		this.gender = gender;
 	}
 	
-	// 동행 등록폼
+	// 동행 등록 수정폼 
 	public buddyBoard(String title, int kind, String country, String city, Date start_date, Date end_date,
 			String theme, int head_cnt, String gender, int group_age, String kakao,String content) {
 
@@ -85,7 +85,6 @@ public class buddyBoard {
 		this.bcount = bcount;
 		this.create_date = create_date;
 	}
-
 	
 
 	public int getBnum() {
@@ -140,7 +139,7 @@ public class buddyBoard {
 	public String getMid() {
 		return mid;
 	}
-
+	
 	public void setMid(String mid) {
 		this.mid = mid;
 	}

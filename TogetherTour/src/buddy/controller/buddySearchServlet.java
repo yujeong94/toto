@@ -36,13 +36,15 @@ public class buddySearchServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String menu = request.getParameter("menu");
-		String content = request.getParameter("content");
+		System.out.println("서블릿menu는 뭐야? : " + menu); // select박스였음 제목,작성자,여행지  
+		
+		String content = request.getParameter("content"); // 내가 입력한 string 값이었음...
+		System.out.println("서블릿content는 뭐야? : " + content);
+		
 		
 		buddyBoardService service = new buddyBoardService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성
 		
-		
 		String search = "on";
-		
 		
 		int listCount = service.getSearchCount(menu,content); // 게시판 리스트 개수
 		
@@ -67,14 +69,15 @@ public class buddySearchServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
+		PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);		
 		
+		ArrayList<buddyBoard> list = service.searchList(currentPage, menu, content);		
 		
-		ArrayList<buddyBoard> list = service.searchList(currentPage, menu, content);
-		
-		
-		System.out.println(menu+ content);
-		
+/*		System.out.println(menu+ content);
+		System.out.println(menu);
+		System.out.println(content);
+		System.out.println(currentPage);
+		*/
 		String page = null;
 		if(list != null) {
 			page = "views/buddy/buddyListView.jsp";

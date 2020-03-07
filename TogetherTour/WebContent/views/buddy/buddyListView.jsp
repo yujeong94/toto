@@ -21,9 +21,9 @@
 	}
 
 	// 검색엔진
-	/* String search = (String)request.getAttribute("search");
+	String search = (String)request.getAttribute("search");
 	String menu = (String)request.getAttribute("menu");
-	String content = (String)request.getAttribute("content"); */
+	String content = (String)request.getAttribute("content"); 
 %>
 <!DOCTYPE html>
 <html>
@@ -94,9 +94,9 @@ label{vertical-align:middle;}
 					<tr>
 						<td>
 							<select name ="menu" id="menu">
-								<option value ="title">제목</option>
-								<option value ="nick">작성자</option>
-								<option value ="location">여행지</option>
+								<option value ="TITLE">제목</option>
+								<option value ="NICK">작성자</option>
+								<option value ="LOCATION">여행지</option>
 							</select>
 							<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
 							<input type="submit" id="search" value= "검색">
@@ -209,6 +209,7 @@ label{vertical-align:middle;}
 							location.href='<%= request.getContextPath() %>/detail.buddy?bnum=' + bnum;
 						<% } else{ %>
 							alert('회원만 이용할 수 있는 서비스입니다.');
+							location.href="<%=request.getContextPath()%>/views/member/loginView.jsp" ;
 						<% } %>  
 						
 					});

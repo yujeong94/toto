@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import buddy.model.service.buddyBoardService;
+import buddy.model.vo.buddyBoard;
 
 /**
  * Servlet implementation class buddyDeleteServlet
@@ -31,10 +32,11 @@ public class buddyDeleteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		
 		int result = new buddyBoardService().deleteBoard(bnum);
 		
-		String page = null;
+		System.out.println(bnum);
+		
+		String page = "";
 		if(result > 0) {
 			page="/list.buddy?bnum=" + bnum;
 			request.setAttribute("msg", "게시글이 삭제되었습니다.");

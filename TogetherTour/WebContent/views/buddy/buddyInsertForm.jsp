@@ -41,14 +41,6 @@
 						<th>제목</th>
 						<td><input type="text" size="80" name="title"></td>
 					</tr>
-				<!-- 	<tr>
-						<th>여행기간</th>
-						<td>
-						<input type="date" size="10" name="start_date" placeholder="년/월/일" value="2020-02-21" min="2020-02-21">
-						&nbsp; ~ &nbsp;
-						<input type="date" size="10" name="end_date" placeholder="년/월/일">
-						</td>
-					</tr> -->
 					<tr>
 						<th>여행지역</th>
 						<td>
@@ -74,12 +66,12 @@
 					<tr>
 						<th>여행테마</th>
 						<td>
-							<input type="radio" name="theme" value="rest" onClick="this.form.textbox.disabled=true">휴식
-							<input type="radio" name="theme" value="tour" onClick="this.form.textbox.disabled=true">관광
-							<input type="radio" name="theme" value="shopping" onClick="this.form.textbox.disabled=true">쇼핑
-							<input type="radio" name="theme" value="food" onClick="this.form.textbox.disabled=true">식도락
-							<input type="radio" name="theme" value="art" onClick="this.form.textbox.disabled=true">공연관람
-							<input type="radio" name="theme" value="etc" onClick="this.form.etc.disabled=false">기타
+							<input type="radio" name="theme" value="휴식" onClick="this.form.textbox.disabled=true">휴식
+							<input type="radio" name="theme" value="관광" onClick="this.form.textbox.disabled=true">관광
+							<input type="radio" name="theme" value="쇼핑" onClick="this.form.textbox.disabled=true">쇼핑
+							<input type="radio" name="theme" value="식도락" onClick="this.form.textbox.disabled=true">식도락
+							<input type="radio" name="theme" value="관람" onClick="this.form.textbox.disabled=true">공연관람
+							<input type="radio" name="theme" value="기타" onClick="this.form.etc.disabled=false">기타
 							<input type="text" name="etc" placeholder="입력해주세요."><!-- style="background:#E5E5E5" -->
 							<!-- 원하는것-> 기타 활성화 되면 텍스트박스 컬러 그레이>화이트로 변경, 기타를 한번밖에 체크가 안됌;; -->
 						</td>
