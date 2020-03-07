@@ -113,102 +113,7 @@ public class buddyBoardService {
 		
 		return result;
 	}
-/*	
-	public ArrayList<buddyReply> selectReplyList(Connection conn, int refGid) {
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		ArrayList<buddyReply> rList = null;
-		buddyBoard r = null;
-		
-		String query = prop.getProperty("selectReplyList");
-		
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, refGid);
-			
-			rset = pstmt.executeQuery();
-			rList = new ArrayList<buddyReply>();
-			while(rset.next()) {
-				rList.add(new gReply(
-						 rset.getInt("rId"),
-						 rset.getString("rContent"),
-						 rset.getInt("refBid"),
-						 rset.getString("rNick"),
-						 rset.getDate("createDate"),
-						 rset.getString("status")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return rList;
-	}
-	public ArrayList<buddyReply> insertReply(buddyReply r) {
-		Connection conn = getConnection();
-		buddyBoardDAO dao = new buddyBoardDAO();
-		
-		int result = dao.insertReply(conn, r);
-		
-		ArrayList<Reply> list = null;
-		if(result > 0) {
-			commit(conn);
-			list = dao.selectReplyList(conn, r.getRefBid());
-		} else {
-			rollback(conn);
-		}
-		return list;
-	}*/
 
-	
-
-
-
-/*	public ArrayList selectTList(int i) {
-		// 2번 만들어야하니까 제네릭 지워서 사용
-		Connection conn = getConnection();
-		
-		ArrayList list = null;
-		
-		BoardDAO dao = new BoardDAO();
-		
-		if(i == 1) {
-			list = dao.selectBList(conn);
-		} else {
-			list = dao.selectFList(conn);
-		}
-		return list;
-	}
-
-	public int insertThumbnail(Board b, ArrayList<Attachment> fileList) {
-		Connection conn = getConnection();
-		
-		BoardDAO dao = new BoardDAO();
-		
-		int result1 = dao.insertThBoard(conn, b);
-		int result2 = dao.insertAttachment(conn, fileList);
-		
-		if(result1 > 0 && result2 > 0 ) {
-			commit(conn);
-		} else {
-			rollback(conn);
-		}
-		
-		return result1;
-	}
-
-	public ArrayList<Attachment> selectThumbnail(int bId) {
-		Connection conn = getConnection();
-		ArrayList<Attachment> list = new BoardDAO().selectThumbnail(conn, bId);
-		close(conn);
-		
-		
-		return list;
-	}
-
-	*/
 	
 	public int getSearchCount(String menu, String content) {
 		Connection conn = getConnection();
@@ -219,10 +124,12 @@ public class buddyBoardService {
 	}
 	
 	public ArrayList<buddyBoard> searchList(int currentPage, String menu, String content) {
+	
 		Connection conn = getConnection();
 		ArrayList<buddyBoard> list = new buddyBoardDAO().searchList(conn, currentPage, menu, content);
 		close(conn);
 		return list;
+
 	}
 	
 }

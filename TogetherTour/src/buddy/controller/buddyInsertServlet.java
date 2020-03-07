@@ -91,7 +91,7 @@ public class buddyInsertServlet extends HttpServlet {
 			response.sendRedirect("list.buddy");
 		} else {
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
-			request.setAttribute("msg", "게시판 등록에 실패하였습니다."); // D왜 자꾸 여기로 넘어가지냐고.. 
+			request.setAttribute("msg", "게시판 등록에 실패하였습니다.");  
 			view.forward(request, response);
 		}
 	}

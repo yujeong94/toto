@@ -5,6 +5,14 @@
 	
 	/* String strKind = null; */
 	
+	String gKind = null;
+	if(b != null){
+		if(b.getKind() == 1){
+			gKind = "국내";
+		} else {
+			gKind = "해외";=
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -47,22 +55,7 @@
 	
 	#Btn{margin-right:10px;}	    
  </style>
- <script>
- $(function() {
-	 alert(b.getbNum()) ;
- }) ;
- 
- 
- $(function() {
- 	var strKind = "";
- 	if(b.getKind() == 1 ){
-		strKind = "국내" ;
-	} else {
-		strKind = "해외" ;
-	}
- 	$('#location').val("국내/해외&nbsp; "+strKind) ;
- }) ;
- </script>
+
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
@@ -74,36 +67,41 @@
 				<tr>
 					<th>제목</th>
 					<td colspan="3">
-					<input type="hidden" name="bnum"<%--  value="<%= b.getBnum() %>" --%>>
-						<%= b.getTitle() %>
+						<input type="hidden" name="bnum" value="<%= b.getBnum() %>"> <%= b.getTitle() %>
 					</td>
 				</tr>
 				<tr>
 					<th>여행지역</th>
 					<td id=location>국내/해외&nbsp; </td>
-					<td>국가 &nbsp; <%-- <%= b.getCountry() %> --%></td>
-					<td>도시 &nbsp; <%-- <%= b.getCity() %> --%></td>
+					<td name="country">국가 &nbsp; <%= b.getCountry() %></td>
+					<td name="city">도시 &nbsp; <%= b.getCity() %></td>	
 				</tr>
-
+				<tr>
+					<th>동행 날짜</th>
+					<td colspan="3">
+						<input type="date" placeholder="시작날짜" name="start_date">&nbsp; ~ &nbsp;
+						<input type="date" placeholder="종료날짜" name="end_date">
+					</td>
+				</tr>
 				<tr>
 					<th>여행테마</th>
-					<td colspan="3">
-						<%-- <%= b.getTheme() %> --%>
+					<td colspan="3" name="theme">
+						<%= b.getTheme() %>
 					</td>
 				</tr>
 				<tr>
 					<th rowspan="3">동행자 모집</th>
-					<td colspan="3">모집인원 <%-- <%=b.getHead_cnt() %> --%></td>
+					<td colspan="3" name="head_cnt">모집인원 <%=b.getHead_cnt() %></td>
 				</tr>
 				<tr>
-					<td colspan="3">모집성별<%-- <%= b.getGender()%> --%></td>
+					<td colspan="3" name="gender">모집성별<%= b.getGender()%></td>
 				</tr>
 				<tr>
-					<td colspan="3">연령대 <%--  <%=b.getGroup_age() %>  --%></td>
+					<td colspan="3" name="group_age">연령대  <%=b.getGroup_age() %> </td>
 				</tr>
 				<tr>
 					<th>여행소개</th>
-					<td colspan="3"><textarea rows="8" cols="80" style="resize:none; overflow:scroll;"><%-- <%=b.getContent() %> --%></textarea></td>
+					<td colspan="3" name="content"><textarea rows="8" cols="80" style="resize:none; overflow:scroll;"><%=b.getContent() %></textarea></td>
 				</tr>
 			</table>
 		<br>
@@ -128,6 +126,8 @@
 						$('#detailForm').submit();
 					}
 				}
+				
+		
 				// 참가 버튼 클릭시
 				function join(){
 					alert('참가되었습니다.');
@@ -135,13 +135,11 @@
 				}
 				
 				
-				// 참가인원이 다 차면 동행 마감되었습니다 뜨게끔
+
 				
 			</script>
-				
-		
 	</form>
-		
+		<%System.out.println(b.getBnum()); %>
 	
 		<%@ include file="../common/footer.jsp"%> 
 		<br> <br>

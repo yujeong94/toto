@@ -20,35 +20,20 @@
 			<section class="total-search">
 				<div>
 					<h3>동행 찾기</h3>
-					<form>
+					<form  action="<%= request.getContextPath() %>/search.main" method="post" id ="searchForm">
 						<fieldset>
 							<legend>국가별 검색</legend>
 							<h4>국가별 검색</h4>
 							<div>
-								<input type="radio" name="nation"><label>국내</label>
-								<input type="radio" name="nation"><label>해외</label>
-							</div>
-							<!--국내 선택일때-->
-							<div class="domestic">
-								<select class="local">
-									<option>지역 선택</option>
-									<option>전주</option>
-									<option>경주</option>
-								</select>
-								<button>검색</button>
-							</div>
-							<!--해외선택일때-->
-							<div class="overseas">
-								<select class="nation">
-									<option>국가 선택</option>
-									<option>미국</option>
-									<option>영국</option>
-								</select>
-								<select class="local">
-									<option>지역 선택</option>
-									<option>워싱턴</option>
-									<option>뉴욕</option>
-								</select>
+								<select name=kind id=kindList>
+								<option value="KIND">분류</option>
+							</select>
+							<select name=country id=countryList style="width:140px;">
+								<option value="COUNTRY">국가</option>
+							</select>
+							<select name=city id=cityList style="width:90px;">
+								<option value="CITY">도시</option>
+							</select>
 								<button>검색</button>
 							</div>
 						</fieldset>
@@ -64,35 +49,92 @@
 					</form>
 				</div>
 			</section>
-			<div class="best-rank clear-fix">
-				<ol class="best best-trip">
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-				</ol>
-				<ol class="best best-follower">
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-				</ol>
-				<ol class="best best-guide">
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-					<li><a href="">list</a></li>
-				</ol>
-			</div>
 		</div>
 		<!--E:contents-->
 		<!--S:footer-->
 		<%@ include file="views/common/footer.jsp" %>
 		<!--E:footer-->
 	</div>
+	<script>
+		$(function(){
+			$.ajax({
+				url: '<%= request.getContextPath() %>/list.loca',
+			 	type: 'post',
+			 	success: function(data){
+			 		$selectKind = $('#kindList');
+					$selectCountry = $('#countryList');
+					$selectCity = $('#cityList');
+					for(var i in data[0]){
+						var $option = $('<option>');
+						$option.val(data[0][i]);
+						var con = null;
+						if(data[0][i] == 1){
+							con = "국내";
+						} else {
+							con = "해외";
+						}
+						$option.text(con);
+						$selectKind.append($option);
+					}
+					
+					// county변경
+					$('#kindList').change(function(){
+						var kindSel = $('#kindList option:selected').text();
+						if(kindSel == "국내"){
+							$('#countryList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('국가');
+							$option.text('국가');
+							$selectCountry.append($option);
+							var $option = $('<option>');
+							$option.val('한국');
+							$option.text('한국');
+							$selectCountry.append($option);
+						} else if(kindSel == "해외"){
+							$('#countryList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('국가');
+							$option.text('국가');
+							$selectCountry.append($option);
+							for(var i in data[1]){
+								var $option = $('<option>');
+								$option.val(data[1][i]);
+								$option.text(data[1][i]);
+								$selectCountry.append($option);
+							}
+						} else {
+							$('#countryList').find('option').remove();
+							var $option = $('<option>');
+							$option.text('국가');
+							$selectCountry.append($option);
+						}
+					});
+						// 해외city변경
+						$('#countryList').change(function(){ 
+							var countrySel = $('#countryList option:selected').text();
+							$('#cityList').find('option').remove();
+							for(var i in data[2]){
+								if(data[2][i].country == countrySel){
+									var $option = $('<option>');
+									$option.val(data[2][i].city);
+									$option.text(data[2][i].city);
+									$selectCity.append($option);
+								}
+							}
+							$('#kindList').change(function(){
+								$('#cityList').find('option').remove();
+								var $option = $('<option>');
+								$option.val('도시');
+								$option.text('도시');
+								$selectCity.append($option);
+							});
+						});
+			 	},
+			 	error: function(data){
+			 		console.log('error');
+			 	}
+			});
+		});
+	</script>
 </body>
-
 </html>

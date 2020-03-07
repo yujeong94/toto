@@ -1,5 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+request.setCharacterEncoding("UTF-8");
+String title = request.getParameter("title");
+String kind = request.getParameter("kind");
+String country = request.getParameter("country");
+String city = request.getParameter("city");
+String theme = request.getParameter("theme");
+
+String[] selected = new String[2];
+
+if(kind.equals("국내")){
+	selected[0] = "selected";
+	selected[1] = "";
+} else {
+	selected[0] = "";
+	selected[1] = "selected";
+}	
+
+
+String[] checkedTheme = new String[6];
+if(!theme.equals("")){
+	String[] themeArr = theme.split(",");
+	
+	for(int i = 0; i < themeArr.length; i++){
+		switch(themeArr[i]){
+		case "휴식": checkedTheme[0] = "checked"; break;
+		case "관광": checkedTheme[1] = "checked"; break;
+		case "쇼핑": checkedTheme[2] = "checked"; break;
+		case "식도락": checkedTheme[3] = "checked"; break;
+		case "관람": checkedTheme[4] = "checked"; break;
+		case "기타": checkedTheme[5] = "checked"; break;
+		}
+	}
+}
+
+
+
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,37 +55,34 @@
 	<br><br><br>
 	<hr>
 	<div class="contents">
-		<h2><span>동행자 수정</span></h2>
+		<h2><span>동행자찾기 수정</span></h2>
 			<form action="<%=request.getContextPath()%>/update.buddy" method="post" id=buddyUpdateForm>
 				<!-- 등록폼 테이블 -->
 				<table>
 					<tr>
 						<th>제목</th>
 						<td><input type="text" size="80" name="title" value=<%=request.getParameter("title") %>></td>
+							<input type=hidden value="<%= request.getParameter("bnum") %>" name=bnum>
 					</tr>
-				<!-- 	<tr>
-						<th>여행기간</th>
-						<td>
-						<input type="date" size="10" name="start_date" placeholder="년/월/일" value="2020-02-21" min="2020-02-21">
-						&nbsp; ~ &nbsp;
-						<input type="date" size="10" name="end_date" placeholder="년/월/일">
-						</td>
-					</tr> -->
-					<tr>
-						<th>여행지역</th>
-						<td>
-							<select name=kind id=kindList>
-								<option>분류</option>
-							</select>
-							<select name=country id=countryList>
-								<option>국가</option>
-							</select>
-							<select name=city id=cityList>
-								<option>도시</option>
-							</select>
-						</td>
-					</tr>
-					<!-- name값으로 서블릿에 불러가서.. -->
+							<tr>
+					<th><label>여행지역</label></th>
+					<td>
+						<select name=kind id=kindList>
+							<option>분류</option>
+							<option value="국내" <%= selected[0] %>>국내</option>
+							<option value="해외" <%= selected[1] %>>해외</option>
+						</select>
+						<select name=country id=countryList>
+							<option><%= country %></option>
+							<!-- <option>국가</option> -->
+						</select>
+						<select name=city id=cityList>
+							<option><%= city %></option>
+							<!-- <option>도시</option> -->
+						</select>
+					</td>
+				</tr>
+					
 					<tr>
 						<th>동행 날짜</th>
 						<td>
@@ -56,75 +93,67 @@
 					<tr>
 						<th>여행테마</th>
 						<td>
-							<input type="radio" name="theme" value=<%=request.getParameter() %> onClick="this.form.textbox.disabled=true">휴식
-							<input type="radio" name="theme" value="tour" onClick="this.form.textbox.disabled=true">관광
-							<input type="radio" name="theme" value="shopping" onClick="this.form.textbox.disabled=true">쇼핑
-							<input type="radio" name="theme" value="food" onClick="this.form.textbox.disabled=true">식도락
-							<input type="radio" name="theme" value="art" onClick="this.form.textbox.disabled=true">공연관람
-							<input type="radio" name="theme" value="etc" onClick="this.form.etc.disabled=false">기타
+							<input type="radio" name="theme" value="휴식"  <%= checkedTheme[0] %> onClick="this.form.textbox.disabled=true">휴식
+							<input type="radio" name="theme" value="관광"  <%= checkedTheme[1] %> onClick="this.form.textbox.disabled=true">관광
+							<input type="radio" name="theme" value="쇼핑"  <%= checkedTheme[2] %>onClick="this.form.textbox.disabled=true">쇼핑
+							<input type="radio" name="theme" value="식도락" <%= checkedTheme[3] %>onClick="this.form.textbox.disabled=true">식도락
+							<input type="radio" name="theme" value="관광"  <%= checkedTheme[4] %>onClick="this.form.textbox.disabled=true">공연관람
+							<input type="radio" name="theme" value="기타"  <%= checkedTheme[5] %>onClick="this.form.etc.disabled=false">기타
 							<input type="text" name="etc" placeholder="입력해주세요."><!-- style="background:#E5E5E5" -->
-							<!-- 원하는것-> 기타 활성화 되면 텍스트박스 컬러 그레이>화이트로 변경, 기타를 한번밖에 체크가 안됌;; -->
+							
 						</td>
 					</tr>
 					<tr>
 						<th rowspan="3">동행자 모집</th>
 						<td>모집인원&nbsp; &nbsp;&nbsp;
-							<input type="number" name="head_cnt" style="width: 70px;"> 명
+							<input type="number" name="head_cnt" style="width: 70px;"  value="<%=request.getParameter("head_cnt") %>"> 명
 						</td>
 					</tr>
 					<tr>
 						<td>모집성별&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="gender" value="남자">남자
-							<input type="radio" name="gender" value="여자">여자 
-							<input type="radio" name="gender" value="상관없음">상관없음		
+							<input type="radio" name="gender" value="<%=request.getParameter("gender") %>">남자
+							<input type="radio" name="gender" value="<%=request.getParameter("gender") %>">여자 
+							<input type="radio" name="gender" value="<%=request.getParameter("gender") %>">상관없음		
 						</td>
 					</tr>
 					<tr>
 						<td>모집연령대 &nbsp;
-							<input type="radio" name="group_age" value="10"> 10대 
-							<input type="radio" name="group_age" value="20"> 20대 이상
-							<input type="radio" name="group_age" value="30"> 30대 이상
-							<input type="radio" name="group_age" value="40"> 40대 이상
-							<input type="radio" name="group_age" value="00"> 상관없음
+							<input type="radio" name="group_age" value="<%=request.getParameter("group_age") %>"> 10대 
+							<input type="radio" name="group_age" value="<%=request.getParameter("group_age") %>"> 20대 이상
+							<input type="radio" name="group_age" value="<%=request.getParameter("group_age") %>"> 30대 이상
+							<input type="radio" name="group_age" value="<%=request.getParameter("group_age") %>"> 40대 이상
+							<input type="radio" name="group_age" value="<%=request.getParameter("group_age") %>"> 상관없음
 						</td>
 					</tr>
 					
 					<tr>
 						<th>여행소개</th>
 						<td>
-							<textarea rows="8" cols="80" style="resize: none;" overflow="scroll" name="content"></textarea>
+							<textarea rows="8" cols="80" style="resize: none;" overflow="scroll" name="content" value="<%=request.getParameter("content") %>"></textarea>
 						</td>
 					</tr>
 				</table>
 			<br> <br> <br>
 			<div id=b_insert align="center">
-				<button type="submit" id="insertBtn">등록하기</button>
+				<button type="submit" id="insertBtn">수정하기</button>
 				<button onclick="location.href='<%=request.getContextPath()%>/list.buddy'">취소</button>
 			</div>
 		</form>	
 	</div>
-		<script>
-			$(function(){
-				$('#listArea td').mouseenter(function(){
-					$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
-				}).mouseout(function(){
-					$(this).parent().css('background', 'none');
-				}).click(function(){
-					var bid = $(this).parent().children().children('input').val();
-						
-					// 로그인 한 사람만 상세보기 이용할 수 있게 하기
-					<%if (loginUser != null) {%>
-						location.href='<%=request.getContextPath()%>/insert.buddy?mid=' + mid;
-					<%} else {%>
-						alert('회원만 이용할 수 있는 서비스입니다.');
-					<%}%>
-				});
-			});
-		</script>
-		<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br>
+	<script>
+	$('td').click(function(){
+            var bid = $(this).parent().children().children('input').val();
+            
+            // 로그인 한 사람만 상세보기 이용할 수 있게하기
+            <% if(loginUser != null){%>
+               location.href='<%= request.getContextPath() %>/detail.bo?bid=' + bid;
+            <% } else{ %>
+               alert('회원만 이용할 수 있는 서비스입니다.');
+            <% } %>
+         });
 		<%@ include file="../common/footer.jsp"%>
-		<br> <br>
-
+		
+	</script>
 
 	<!-- LOCATION SCRIPT  -->
 	<script>

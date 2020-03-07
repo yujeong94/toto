@@ -350,7 +350,6 @@ public class GuideDAO {
 				pstmt.setInt(3, endRow);
 			}
 			
-			
 			rset = pstmt.executeQuery();
 			list = new ArrayList<Gboard>();
 			

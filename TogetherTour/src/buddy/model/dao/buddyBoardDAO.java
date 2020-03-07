@@ -15,7 +15,6 @@ import java.util.Properties;
 
 import buddy.model.vo.buddyBoard;
 import buddy.model.vo.buddyReply;
-import guide.model.vo.gReply;
 
 public class buddyBoardDAO {
 	//
@@ -182,6 +181,7 @@ public class buddyBoardDAO {
 									   rset.getString("content"),
 									   rset.getDate("create_date"),
 									   rset.getString("nick"),
+									   rset.getString("mid"),
 									   rset.getString("country"),
 									   rset.getString("city"),
 									   rset.getDate("start_date"),
@@ -403,11 +403,17 @@ public class buddyBoardDAO {
 				pstmt.setString(1, '%'+content+'%');
 				pstmt.setString(2, '%'+content+'%');
 				pstmt.setInt(3, startRow);
-				pstmt.setInt(4, endRow);
+				pstmt.setInt(4, endRow);				
 			} else {
+				System.out.println("query: " + query);
+				System.out.println("content:" +content);
+				System.out.println("menu : " + menu);
+
+				
 				pstmt = conn.prepareStatement(query);
-				pstmt.setString(1,  '%' + content +'%');
-				pstmt.setInt(2,  startRow);
+				
+				pstmt.setString(1, '%'+content+'%');
+				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
 			}
 			
