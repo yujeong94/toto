@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList, trip_plan.model.vo.*" %>
 <%
 	ArrayList<Tplan> list = (ArrayList<Tplan>)request.getAttribute("list");

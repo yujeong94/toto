@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan, java.util.Date"%>
+    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan, java.util.Date" %>  
 <%
 	Tplan t = (Tplan)request.getAttribute("Tplan");
 	String tKind = null;

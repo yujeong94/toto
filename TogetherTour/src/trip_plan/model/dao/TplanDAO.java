@@ -16,6 +16,7 @@ import java.util.Properties;
 import guide.model.vo.Gboard;
 import trip_plan.model.vo.Tplan;
 
+
 public class TplanDAO {
 	
 	private Properties prop = new Properties();
