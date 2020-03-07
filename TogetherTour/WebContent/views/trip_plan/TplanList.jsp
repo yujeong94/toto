@@ -1,17 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList, trip_plan.model.vo.*" %>
 <%
 	ArrayList<Tplan> list = (ArrayList<Tplan>)request.getAttribute("list");
-	String strKind = null; // kind string으로 바꿔서 담을 변수
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	String msg = (String)request.getAttribute("msg");
 	
-	int listCount = pi.getListCount();
-	int currentPage = pi.getCurrentPage();
-	int maxPage = pi.getMaxPage();
-	int startPage = pi.getStartPage();
-	int endPage = pi.getEndPage();
+	int listCount = 1;
+	int currentPage = 1;
+	int maxPage = 1;
+	int startPage = 1;
+	int endPage = 1;
+	
+	if(!list.isEmpty()){
+		listCount = pi.getListCount();
+		currentPage = pi.getCurrentPage();
+		maxPage = pi.getMaxPage();
+		startPage = pi.getStartPage();
+		endPage = pi.getEndPage();
+	}
+	
+	String tKind = null; // kind string으로 바꿔서 담을 변수
+	String msg = (String)request.getAttribute("msg");
 %>
 
 <!DOCTYPE html>
@@ -87,7 +96,7 @@
 		<!--E:header-->
 		<div class="contents">
 			<h2><span>여행 리스트</span></h2>
-			<form>
+			<form action="<%= request.getContextPath() %>/search.trip" method="post" id ="searchForm">
 				<fieldset>
 					<legend>국가 및 여행날짜 검색</legend>
 					<div class="searchArea">
@@ -96,10 +105,11 @@
 								<td style="text-align : center;">
 								
 									<select name ="menu" id="menu">
-										<option value ="tStart">최근 출발일</option>
-										<option value ="tCreate">최신등록순</option>
-										<option value ="NICK">작성자</option>
-										<option value ="LOCATION">여행지</option>
+										<!-- <option value ="tStart">최근 출발일</option>
+										<option value ="tCreate">최신등록순</option> -->
+										<option value ="title">제목</option>
+										<option value ="nick">작성자</option>
+										<option value ="location">여행지</option>
 									</select>
 									<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
 									<input type="submit" id="search" value= "검색">
@@ -135,9 +145,9 @@
 					<% } else{ 
 							for(Tplan t : list){
 								if(t.getKind() == 1){
-									strKind = "국내";
+									tKind = "국내";
 								} else {
-									strKind = "해외";
+									tKind = "해외";
 								}
 					%>
 					<tr>
@@ -236,6 +246,7 @@
 				} else {
 					alert('회원만 이용할 수 있는 서비스입니다.');
 				}
+				
 			});
 		<% } %>
 	});

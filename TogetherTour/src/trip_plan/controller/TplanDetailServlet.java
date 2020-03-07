@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import trip_plan.model.service.TplanService;
+import trip_plan.model.vo.Tplan;
 
 
 /**
- * Servlet implementation class TplanDeleteServlet
+ * Servlet implementation class TripDetailServlet
  */
-@WebServlet("/delete.trip")
-public class TplanDeleteServlet extends HttpServlet {
+@WebServlet("/detail.trip")
+public class TplanDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public TplanDeleteServlet() {
+    public TplanDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,24 +32,23 @@ public class TplanDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		int tPnum = Integer.parseInt(request.getParameter("tPnum"));
-		int result = new TplanService().deleteTplan(tPnum);
-	
+		
+		Tplan t = new TplanService().detailTplan(tPnum);
+		
 		String page = null;
 		
-		if(result > 0) {
-			page="/list.trip?tPnum=" + tPnum;
-			request.setAttribute("msg", "게시글이 삭제되었습니다.");
+		if(t != null) {
+			page = "views/trip_plan/TplanDetail.jsp";
+			request.setAttribute("Tplan", t);
 		} else {
-			page="views/guide/GuideDetail.jsp";
-			request.setAttribute("msg", "게시글 삭제에 실패했습니다.");
+			page="views/trip_plan/TplanList.jsp";
+			request.setAttribute("msg", "게시글 조회에 실패했습니다");
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
-		
-		
 		
 	}
 

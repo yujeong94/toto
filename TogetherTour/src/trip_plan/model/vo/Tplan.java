@@ -19,7 +19,6 @@ public class Tplan {
 	
 	public Tplan() {}
 	
-	
 	// 상세보기(status 제외 생성자) 
 	public Tplan(int tPnum, String title, String mId, int day, String content, Date createDate, String country,
 			String city, int tCount, Date startDate, Date endDate, int kind) {

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan, java.util.Date"%>
+    pageEncoding="UTF-8" import="trip_plan.model.vo.Tplan, java.util.Date" %>  
 <%
 	Tplan t = (Tplan)request.getAttribute("Tplan");
 	String tKind = null;
@@ -10,7 +10,10 @@
 			tKind = "해외";
 		}
 	}
+	
+	// 서블릿에서 "-"로 조인된 문자열을 tContents에 받아서
 	String tContents = t.getContent();
+	// 다시 "-"로 분리한 후 tContentsArr 배열에 담는다.
 	String[] tContentsArr = tContents.split("-");
 	
 	//게시글 수정 알림창
@@ -79,16 +82,16 @@
 			margin : 0 100px;
 		}
 		.date-box-date {
-			text-align : left;
+			text-align : center;
 		}
 		.date-box-date span{
 			display : inline-block;
-			width : 50px;
-			height : 50px;
-			line-height : 50px;
+			width : 100px;
+			height : 30px;
 			text-align : center;
-			background : #000;
-			color : #fff;
+			color : #cbcbcb;
+			padding-bootom : 10px;
+			margin-bottom : 10px;		
 		}
 		.date-box-content {
 			padding : 8px 12px;
@@ -96,7 +99,7 @@
 			margin-bottom : 50px;
 			min-height : 200px;
 			border : 1px solid #cbcbcb;
-			background : #fff;
+			background : #f0f0f0;
 			color : #000;
 			box-shadow : inset 1px 1px 3px #e6e6e6;
 		}
@@ -114,10 +117,6 @@
 				<legend>여행 일정 상세</legend>
 				<table class="tableArea" id="tWrite">
 					<caption>여행 일정 상세</caption>
-					<col>
-					<col>
-					<col>
-					<col>
 					<tbody>
 						<tr>
 							<th width="200px">제목</th>
@@ -166,7 +165,7 @@
 					<% if(tContentsArr.length != 0){ %>
 						<% for(int i = 0; i < tContentsArr.length; i++){ %>
 							
-								<div class='date-box-date'><span><%= i+1 %>일차</span></div>
+								<div class='date-box-date'><span>[ <%= i+1 %>일차 ]</span></div>
 								<div class="date-box-content"><%= tContentsArr[i] %></div>
 								<input type="hidden" name="tcontents" value="<%= tContentsArr[i] %>">
 							
@@ -272,7 +271,10 @@
 	});
 	
 	function deleteTplan(){
-		location.href="<%= request.getContextPath() %>/delete.trip?tPnum=" + <%= t.gettPnum() %>;
+		var bool = confirm("정말로 삭제하시겠습니까?");
+		if(bool) {
+			location.href="<%= request.getContextPath() %>/delete.trip?tPnum=" + <%= t.gettPnum() %>;
+		}
 	}
 	</script>
 </body>

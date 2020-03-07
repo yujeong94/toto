@@ -10,8 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import guide.model.dao.GuideDAO;
+import guide.model.vo.Gboard;
 import trip_plan.model.dao.TplanDAO;
 import trip_plan.model.vo.Tplan;
+
 
 public class TplanService {
 
@@ -51,11 +54,12 @@ public class TplanService {
 		Connection conn = getConnection();
 		TplanDAO tDAO = new TplanDAO();
 		
+		// 조회수 증가
 		int result  = tDAO.updateCount(conn, tPnum);
-		
 		Tplan t = null;
 		
 		if(result > 0) {
+			// 조회수에대한 반환값이 있으면 상세보기
 			t = tDAO.detailTplan(conn, tPnum);
 			
 			if(t != null) {
@@ -98,6 +102,21 @@ public class TplanService {
 		}
 		
 		return result;
+	}
+
+	public int getSearchCount(String menu, String content) {
+		Connection conn = getConnection();
+		
+		int result = new TplanDAO().getSearchCount(conn, menu, content);
+		close(conn);
+		return result;
+	}
+
+	public ArrayList<Tplan> searchList(int currentPage, String menu, String content) {
+		Connection conn = getConnection();
+		ArrayList<Tplan> list = new TplanDAO().searchList(conn, currentPage, menu, content);
+		close(conn);
+		return list;
 	}
 
 }
