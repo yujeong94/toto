@@ -4,7 +4,8 @@
 	buddyBoard b = (buddyBoard)request.getAttribute("board") ; 
 	
 	/* String strKind = null; */
-	
+	String headC = (String)request.getAttribute("headC");
+	System.out.println(headC);
 %>
 <!DOCTYPE html>
 <html>
@@ -49,13 +50,13 @@
  </style>
  <script>
  $(function() {
-	 alert(b.getbNum()) ;
+	 alert('<%= b.getMid() %>') ;
  }) ;
  
  
  $(function() {
  	var strKind = "";
- 	if(b.getKind() == 1 ){
+ 	if(<%= b.getKind() %> == 1 ){
 		strKind = "국내" ;
 	} else {
 		strKind = "해외" ;
@@ -130,10 +131,17 @@
 				}
 				// 참가 버튼 클릭시
 				function join(){
-					alert('참가되었습니다.');
-					location.href="<%= request.getContextPath() %>/list.buddy"  
+					var headCnt = <%= b.getHead_cnt() %> + 1;
+					if(<%= headC %> > headCnt) {
+						alert('동행이 마감되었습니다.');
+					} else {
+						alert('참가되었습니다.');
+					 	var bnum = <%= b.getBnum() %>;
+					 	var userId = '<%= b.getMid() %>';
+					 	var head_cnt = <%= b.getHead_cnt() %>;
+						location.href="<%= request.getContextPath() %>/insert.myBuddy?bnum=" + bnum + "&userId=" + userId;  
+					}
 				}
-				
 				
 				// 참가인원이 다 차면 동행 마감되었습니다 뜨게끔
 				
@@ -143,7 +151,7 @@
 	</form>
 		
 	
-		<%@ include file="../common/footer.jsp"%> 
+		<%@ include file="../common/footer.jsp" %> 
 		<br> <br>
 		
 	</div>

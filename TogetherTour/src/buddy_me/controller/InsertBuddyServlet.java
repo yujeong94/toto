@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import buddy_me.model.service.MyPageService;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class UpdateGradeServlet
+ * Servlet implementation class InsertBuddyServlet
  */
-@WebServlet("/updateGrade.me")
-public class UpdateGradeServlet extends HttpServlet {
+@WebServlet("/insert.myBuddy")
+public class InsertBuddyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateGradeServlet() {
+    public InsertBuddyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +31,28 @@ public class UpdateGradeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String gradeNick = request.getParameter("gradeNick");
-		int grade = Integer.parseInt(request.getParameter("grade"));
-		System.out.println("servlet" + grade);
-		int result = new MyPageService().updateGrade(gradeNick, grade);
+		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		String userId = request.getParameter("userId");
+		String buddyId = ((Member)request.getSession().getAttribute("loginUser")).getmId();
 		
-		response.setContentType("application/json; charset=UTF-8");
-	    new Gson().toJson(result, response.getWriter());
+		MyPageService service = new MyPageService();
+		// 동행 등록
+		int result = service.insertBuddy(bnum,userId,buddyId);
+		
+		// 동행인원수 카운트 
+		int headC = service.selectCount(bnum);
+		
+		String page = null;
+		if(result > 0) {
+			page = "/list.buddy";
+			request.setAttribute("headC", headC);
+		} else {
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "동행참가에 실패했습니다.");
+		}
+		RequestDispatcher view = request.getRequestDispatcher(page);
+		view.forward(request, response);
+		
 	}
 
 	/**

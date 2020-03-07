@@ -115,12 +115,12 @@
 		} else {
 			grade = 1;
 		}
+		console.log(grade);
 		$.ajax({
 			url : '<%= request.getContextPath() %>/updateGrade.me',
 			type : 'post',
 			data : {grade:grade, gradeNick:gradeNick},
 			success : function(data){
-					console.log(data);
 				if(data > 0){
 					alert('평가완료');
 					/* $('.starBtn').attr('class','show');

@@ -182,6 +182,7 @@ public class buddyBoardDAO {
 									   rset.getString("content"),
 									   rset.getDate("create_date"),
 									   rset.getString("nick"),
+									   rset.getString("mid"),
 									   rset.getString("country"),
 									   rset.getString("city"),
 									   rset.getDate("start_date"),

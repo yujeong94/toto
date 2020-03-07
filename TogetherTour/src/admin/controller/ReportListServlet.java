@@ -1,29 +1,28 @@
-package buddy_me.controller;
+package admin.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
-import buddy_me.model.service.MyPageService;
+import admin.model.service.adminService;
+import buddy_me.model.vo.Report;
 
 /**
- * Servlet implementation class UpdateGradeServlet
+ * Servlet implementation class ReportListServlet
  */
-@WebServlet("/updateGrade.me")
-public class UpdateGradeServlet extends HttpServlet {
+@WebServlet("/list.report")
+public class ReportListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateGradeServlet() {
+    public ReportListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +31,16 @@ public class UpdateGradeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String gradeNick = request.getParameter("gradeNick");
-		int grade = Integer.parseInt(request.getParameter("grade"));
-		System.out.println("servlet" + grade);
-		int result = new MyPageService().updateGrade(gradeNick, grade);
+		ArrayList<Report> report = new adminService().reportList();
 		
-		response.setContentType("application/json; charset=UTF-8");
-	    new Gson().toJson(result, response.getWriter());
+		String page = null;
+		if(report != null) {
+			page = "views/admin/reportList.jsp";
+			request.setAttribute("report", report);
+		} else {
+			page = "views/common/errorPage.jsp";
+			request.setAttribute("msg", "신고자 목록 조회에 실패했습니다.");
+		}
 	}
 
 	/**

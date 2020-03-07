@@ -10,7 +10,8 @@
 	String findEmail = (String)request.getAttribute("findEmail");
 	
 	// 존재하지 않을때 안내메시지
-	String msg = (String)request.getAttribute("msg");
+	String idmsg = (String)request.getAttribute("idmsg");
+	String pwdmsg = (String)request.getAttribute("pwdmsg");
 %>
 <!DOCTYPE html>
 <html>
@@ -51,15 +52,15 @@
 				<!-- 아이디 찾기 결과 화면 -->
 				<% if(userName != null && resultID != null) { %>
 					<%= userName %>회원님의 아이디는 <%= resultID %> 입니다. 
-				<% } else if(msg != null){%>
-					<%= msg %>
+				<% } else if(idmsg != null){%>
+					<%= idmsg %>
 				<% } %>
 				
 				<!-- 비밀번호 찾기 결과 화면 -->
 				<% if(userFindId != null && findEmail != null) { %>
 					<%= userFindId %>회원님의 임시비밀번호를 <%= findEmail %>로 보냈습니다.
-				<% } else if(msg != null){%>
-					<%= msg %>
+				<% } else if(pwdmsg != null){%>
+					<%= pwdmsg %>
 				<% } %>
 			</p>
 			
