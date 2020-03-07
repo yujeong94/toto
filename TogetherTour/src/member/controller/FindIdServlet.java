@@ -43,7 +43,7 @@ public class FindIdServlet extends HttpServlet {
 			request.setAttribute("resultID",member.getmId());
 		} else {
 			page="views/member/findResult.jsp";
-			request.setAttribute("msg", "존재하지 않는 회원입니다.");
+			request.setAttribute("idmsg", "존재하지 않는 회원입니다.");
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(page);

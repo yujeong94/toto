@@ -11,6 +11,7 @@ public class buddyBoard {
 	private String content;		// 내용
 	private Date create_date;	// 게시글 작성일		
 	private String nick;		// 작성자
+	private String mid;
 	private String country;		// 국가
 	private String city;		// 도시
 	private Date start_date;	// 여행시작	
@@ -28,7 +29,7 @@ public class buddyBoard {
 	public buddyBoard() {}
 
 	// 전체
-	public buddyBoard(int bnum, String title, String part_yn, String content, Date create_date, String nick,
+	public buddyBoard(int bnum, String title, String part_yn, String content, Date create_date, String nick, String mid,
 			String country, String city, Date start_date, Date end_date, String status, int bcount, String theme,
 			int group_age, String kakao, int kind, int head_cnt, String gender) {
 		super();
@@ -38,6 +39,7 @@ public class buddyBoard {
 		this.content = content;
 		this.create_date = create_date;
 		this.nick = nick;
+		this.mid = mid;
 		this.country = country;
 		this.city = city;
 		this.start_date = start_date;
@@ -133,6 +135,14 @@ public class buddyBoard {
 
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+	
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
 
 	public String getCountry() {

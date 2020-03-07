@@ -69,19 +69,20 @@ public class MyPageDAO {
 				pstmt.setString(2, userId);
 				rset = pstmt.executeQuery();
 			}
-			
-			while(rset.next()) {
-				mybuddyList.add(new Buddy(
-										  rset.getString("mid"),
-										  rset.getString("nick"),
-										  rset.getString("name"),
-										  rset.getString("writer_nick"),
-										  rset.getString("writer_name"),
-										  rset.getString("country"),
-										  rset.getString("city"),
-										  rset.getDate("start_date"),
-										  rset.getDate("end_date"),
-										  rset.getInt("head_cnt")));
+			if(rset != null) {
+				while(rset.next()) {
+					mybuddyList.add(new Buddy(
+											  rset.getString("mid"),
+											  rset.getString("nick"),
+											  rset.getString("name"),
+											  rset.getString("writer_nick"),
+											  rset.getString("writer_name"),
+											  rset.getString("country"),
+											  rset.getString("city"),
+											  rset.getDate("start_date"),
+											  rset.getDate("end_date"),
+											  rset.getInt("head_cnt")));
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,7 +116,7 @@ public class MyPageDAO {
 	public int updateGrade(Connection conn, String gradeNick, int grade) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+		System.out.println("dao grade + " + grade);
 		String query = prop.getProperty("updateGrade");
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -123,6 +124,7 @@ public class MyPageDAO {
 			pstmt.setString(2, gradeNick);
 			
 			result = pstmt.executeUpdate();
+			System.out.println("dao result + " + result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -164,6 +166,102 @@ public class MyPageDAO {
 			pstmt.setString(4, r.getReason());
 			
 			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int selectCount(Connection conn, int bnum) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int headC = 0;
+		
+		String query = prop.getProperty("selectCount");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bnum);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				headC = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return headC;
+	}
+
+	public int selectWriter(Connection conn, int bnum, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int check = 0;
+		String query = prop.getProperty("selectWriter");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bnum);
+			pstmt.setString(2, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				check = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return check;
+	}
+
+	public int insertBuddy(Connection conn, Buddy b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertBuddy");
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, b.getbNum());
+			pstmt.setString(2, b.getmId());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertAll(Connection conn, Buddy b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = prop.getProperty("insertAll");
+		
+		try {
+			for(int i = 0; i < 2; i++) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, b.getbNum());
+				if(i == 0) {
+					pstmt.setString(2, b.getmId());					
+				} else {
+					pstmt.setString(2, b.getWriter_mid());
+				}
+				result = pstmt.executeUpdate();
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
