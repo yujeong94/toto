@@ -10,8 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import guide.model.dao.GuideDAO;
-import guide.model.vo.Gboard;
 import trip_plan.model.dao.TplanDAO;
 import trip_plan.model.vo.Tplan;
 
