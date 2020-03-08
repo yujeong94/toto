@@ -111,7 +111,7 @@ label{vertical-align:middle;}
 				<th>제목</th>
 				<th>국가</th>
 				<th>도시</th>
-				<th>여행날짜</th>
+				<th>동행시작일</th>
 				<th>모집인원</th>
 				<th>작성자</th>
 				<th>조회수</th>

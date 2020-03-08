@@ -6,12 +6,12 @@
 	/* String strKind = null; */
 
 	
-	String gKind = null;
+	String kind = null;
 	if(b != null){
 		if(b.getKind() == 1){
-			gKind = "국내";
+			kind = "국내";
 		} else {
-			gKind = "해외";=
+			kind = "해외";
 		}
 	}
 
@@ -92,15 +92,15 @@
 				</tr>
 				<tr>
 					<th>여행지역</th>
-					<td id=location>국내/해외&nbsp; </td>
-					<td name="country">국가 &nbsp; <%= b.getCountry() %></td>
-					<td name="city">도시 &nbsp; <%= b.getCity() %></td>	
+					<td id=location style="font-weight:bold;">국내/해외&nbsp;<a style="font-weight:normal;"> <%= b.getKind() %></a></td>
+					<td name="country" style="font-weight:bold;">국가 &nbsp;<a style="font-weight:normal;"> <%= b.getCountry() %></a></td>
+					<td name="city" style="font-weight:bold;">도시 &nbsp;<a style="font-weight:normal;"><%= b.getCity() %></a></td>	
 				</tr>
 				<tr>
 					<th>동행 날짜</th>
 					<td colspan="3">
-						<input type="date" placeholder="시작날짜" name="start_date">&nbsp; ~ &nbsp;
-						<input type="date" placeholder="종료날짜" name="end_date">
+						<%=b.getStart_date() %> &nbsp; ~ &nbsp;
+						<%=b.getEnd_date()%>
 					</td>
 				</tr>
 				<tr>
@@ -111,13 +111,13 @@
 				</tr>
 				<tr>
 					<th rowspan="3">동행자 모집</th>
-					<td colspan="3" name="head_cnt">모집인원 <%=b.getHead_cnt() %></td>
+					<td colspan="3" name="head_cnt" style="font-weight:bold;">모집인원&nbsp;<a style="font-weight:normal;"> <%=b.getHead_cnt() %></a></td>
 				</tr>
 				<tr>
-					<td colspan="3" name="gender">모집성별<%= b.getGender()%></td>
+					<td colspan="3" name="gender" style="font-weight:bold;">모집성별&nbsp;<a style="font-weight:normal;"><%= b.getGender()%></a></td>
 				</tr>
 				<tr>
-					<td colspan="3" name="group_age">연령대  <%=b.getGroup_age() %> </td>
+					<td colspan="3" name="group_age" style="font-weight:bold;">연령대&nbsp; <a style="font-weight:normal;"><%=b.getGroup_age() %></a></td>
 				</tr>
 				<tr>
 					<th>여행소개</th>
@@ -131,7 +131,10 @@
 			 <div id=btnArea align="center">
 				 <% if(b.getNick().equals(loginUser.getNickName())){ %>
 				<button type="submit" id="alterBtn">수정하기</button>
+				
+				<% if(b.getNick().equals(loginUser.getNickName()) || loginUser.getmId().equals("amdin")) { %>
 				<button type=button id=delete onclick="deleteBoard();">삭제하기</button><br>
+				<% } %>
 				<div onclick='location.href="<%= request.getContextPath() %>/list.buddy"' id=listBtn>목록으로</div>
 				<% } else { %> 
 				<div onclick="join();" id=joinBtn>참가하기</div>
