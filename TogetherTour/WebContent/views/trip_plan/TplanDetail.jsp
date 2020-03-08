@@ -177,6 +177,8 @@
 				<div id=tBtnArea align=center>
 					<% if(t.getmId().equals(loginUser.getmId())){ %>
 					<button type=submit id=tBtn>수정하기</button>
+					<% } %>
+					<% if(t.getmId().equals(loginUser.getmId()) || t.getmId().equals("admin")){ %>
 					<button type=button id=delBtn onclick="deleteTplan();">삭제하기</button><br>
 					<% } %>
 				<div onclick='location.href="<%= request.getContextPath() %>/list.trip"' id=listBtn>목록으로</div>

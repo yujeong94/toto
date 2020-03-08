@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import guide.model.vo.Gboard;
 import trip_plan.model.vo.Tplan;
 
 
