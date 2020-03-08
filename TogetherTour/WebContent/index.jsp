@@ -8,7 +8,18 @@
 	<title>여행동행사이트 투투</title>
 	<link rel="stylesheet" href="css/index.css">
 	<link rel="stylesheet" href="css/common.css">
+	
+	<style>
+	#dateSearch {
+		padding : 9px 20px;
+		border : none;
+		background : #000;
+		color : white;
+	  }
+</style>
 </head>
+
+
 
 <body>
 	<div class="wrapper">
@@ -36,17 +47,31 @@
 							</select>
 								<button>검색</button>
 							</div>
+							
+							
 						</fieldset>
 						<fieldset>
 							<legend>날짜별 검색</legend>
 							<h4>날짜별 검색</h4>
 							<div>
-								<input type="date"> -
-								<input type="date">
-								<button>검색</button>
+								<input type="date" name="startDate"> -
+								<input type="date" name="endDate">
+								<input type="button" onclick="dateSeacrch();" id="dateSearch" value="검색">
 							</div>
 						</fieldset>
 					</form>
+					
+					
+					<script>
+					function dateSeacrch(){
+						$('#searchForm').attr('action', '<%= request.getContextPath() %>/dSearch.main');
+						$('#searchForm').submit();
+					}
+					
+					
+					</script>
+					
+					
 				</div>
 			</section>
 		</div>

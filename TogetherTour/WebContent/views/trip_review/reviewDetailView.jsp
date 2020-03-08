@@ -167,10 +167,11 @@
 			
 			
 			
-			
 			<div align="center">
-			<% if(review.getmId().equals(loginUser.getmId())){ %>
+			<% if(review.getmId().equals(loginUser.getmId()) || loginUser.getmId().equals("admin")){ %>
+				<% if(review.getmId().equals(loginUser.getmId())){ %>
 				<input type="submit" id="updateBtn" value="수정">
+				<%} %>
 				<input type="button" onclick="deleteReview();" id="deleteBtn" value="삭제">
 				<% } %>  
 			 	<%-- <div onclick="location.href='<%= request.getContextPath() %>/list.rv'" id="menuBtn" >메뉴로</div> 
@@ -262,7 +263,7 @@
 								<td width="50px"><%= rlist.get(i).getrWriter() %><input type="hidden" name = "rId" value="<%= rlist.get(i).getrId() %>"></td>
 								<td width="300px"><%= rlist.get(i).getrContent() %><input type="hidden" id ="rnum" name ="rnum" value="<%= review.getrNum()%>"></td>
 								<td width="100px"><%= rlist.get(i).getCreateDate() %></td>
-								<% if(rlist.get(i).getrWriter().equals(loginUser.getmId())){ %>
+								<% if(rlist.get(i).getrWriter().equals(loginUser.getmId()) || loginUser.getmId().equals("admin")){ %>
 								<td width="10px" id ="Replydelete"><div onclick="deleteReviewReply();" id="ReplydeleteBtn">댓글 삭제</div></td>
 								<%} %>
 							</tr>

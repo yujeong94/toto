@@ -7,7 +7,6 @@
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	/* Member loginUser = (Member)session.getAttribute("loginUser"); */
 	
-	
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage();
 	int maxPage = pi.getMaxPage();
@@ -89,7 +88,7 @@
 			</tr>
 			<% if(list.isEmpty()){ %>
 			<tr>
-				<td colspan="8">조회된 리스트가 없습니다.</td>
+				<td colspan="8" align="center">조회된 후기 게시글이 없습니다.</td>
 			</tr>
 			<% } else{
 					for(Review r : list) {

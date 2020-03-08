@@ -10,7 +10,6 @@
 	int startPage = pi.getStartPage();
 	int endPage = pi.getEndPage();
 
-		
 %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +49,7 @@
 				</tr>
 				<% if(list.isEmpty()){ %>
 				<tr>
-					<td colspan="5">존재하는 공지사항이 없습니다.</td>
+					<td colspan="5" align="center">존재하는 질문게시글이 없습니다.</td>
 				</tr>
 				<% } else {  
 					for(Qna q : list) { 
