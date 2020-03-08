@@ -226,7 +226,7 @@
 					bool = false ;
 				}
 				
-				if(fileCheck1 == "" || fileCheck2 == "" || fileCheck3 == "" || fileCheck4 == "" || fileCheck5 == "") {
+				if(fileCheck1 == "" && fileCheck2 == "" && fileCheck3 == "" && fileCheck4 == "" && fileCheck5 == "") {
 					alert("falseFiles") ;
 					$('#fileBool').val("falseFiles") ;
 				} else {

@@ -9,7 +9,6 @@ import member.model.vo.mAttachment;
 import myPage.model.dao.MyPageDAO;
 
 public class MyPageService {
-
 	public mAttachment profileImg(String userNick) {
 		Connection conn = getConnection();
 		mAttachment profileImg = new MyPageDAO().profileImg(conn,userNick);

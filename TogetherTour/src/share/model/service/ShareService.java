@@ -17,10 +17,8 @@ public class ShareService {
 	public int insertShare(Share share, ArrayList<Sattachment> fileList) {
 		Connection	conn = getConnection() ;
 		ShareDAO	sDAO = new ShareDAO()  ;
-		System.out.println("[Info] 사진 포함 게시글 등록 Service에 입력된 게시글의 이름은 ("+share.getTitle()+")입니다.") ;
 		int result1 = sDAO.insertShare(conn, share) ;
 		int result2 = sDAO.insertSattachment(conn, fileList, share) ;
-		System.out.println("[Info] 사진 sAttachment 등록 결과는 "+((result2>0) ? "(성공,1)" : "(실패,0)")+"입니다.") ;
 		if(result1>0 && result2>0)	commit(conn) ;
 		else						rollback(conn) ;
 		return result1 ;
@@ -29,7 +27,6 @@ public class ShareService {
 	public int insertShare(Share share) {
 		Connection	conn = getConnection() ;
 		ShareDAO	sDAO = new ShareDAO()  ;
-		System.out.println("title - sBoard : ["+share.getTitle()+"]") ;
 		int result = sDAO.insertShare(conn, share) ;
 		if(result>0) commit(conn) ;
 		else		 rollback(conn) ;
@@ -80,33 +77,33 @@ public class ShareService {
 	public ArrayList<sReply> selectReplyList(int sbNum) {
 		Connection	conn = getConnection() ;
 		ShareDAO	sDAO = new ShareDAO()  ;
-		ArrayList<sReply> rList = new ShareDAO().selectReplyList(conn, sbNum) ;
-		System.out.println("[Test] 나눔 서비스의 selectReplyList 메소드에서 DAO안의 selectReplyList(conn, sbNum)에 접근하였습니다. 접근 결과는 다음과 같습니다.") ;
+		ArrayList<sReply> rList = sDAO.selectReplyList(conn, sbNum) ;
 		return rList ;
 	}
 
 	public ArrayList<sReply> insertReply(sReply reply) {
 		Connection	conn = getConnection() ;
 		ShareDAO	sDAO = new ShareDAO()  ;
-		
 		int result = sDAO.insertReply(conn, reply) ;
 		
 		ArrayList<sReply> rList = null ;
 		if(result>0) {
 			commit(conn) ;
 			rList = sDAO.selectReplyList(conn, reply.getSbNum()) ;
-			System.out.println("[Info] [Insert Reply : Share : Service] [insert-Reply Result : Success]") ;
 		} else {
 			rollback(conn) ;
-			System.out.println("[Info] [Insert Reply : Share : Service] [insert-Reply Result : Failed]") ;
 		} return rList ;
 	}
 
 	public int updateShare(Share share, ArrayList<Sattachment> fileList) {
 		Connection conn = getConnection() ;
 		ShareDAO sDAO = new ShareDAO() ;
-		
-		return 0 ;
+		int result1 = sDAO.updateSattachment(conn, fileList, share) ;
+		System.out.println("result1 : "+result1) ;
+		int result2 = sDAO.updateShare(conn, share) ;
+		if(result1>0 && result2>0)	commit(conn) ;
+		else						rollback(conn) ;
+		return result2 ;
 	}
 
 	public int updateShare(Share share) {
@@ -127,5 +124,16 @@ public class ShareService {
 		else		 rollback(conn) ;
 		close(conn) ;
 		return result ;
+	}
+
+	public int deleteReply(int rId) {
+		Connection conn = getConnection();
+		ShareDAO sDAO = new ShareDAO();
+		System.out.println("deleteReply service 입장") ;
+		int result = sDAO.deleteReply(conn,rId);
+		System.out.println("deleteReply service"+result) ;
+		if(result>0) commit(conn) ;
+		else		 rollback(conn) ;
+		return result;
 	}
 }

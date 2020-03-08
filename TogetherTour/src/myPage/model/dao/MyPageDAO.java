@@ -94,17 +94,4 @@ public class MyPageDAO {
 		}
 		return userProfile;
 	}
-	
-	public mAttachment selectProfilePicture(Connection conn, String mId) {
-		PreparedStatement ptmt = null ;
-		ResultSet rset = null ;
-		String query = prop.getProperty("selectProfile") ;
-		try {
-			ptmt = conn.prepareStatement(query) ;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null ;
-	}
 }
