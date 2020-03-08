@@ -1,29 +1,26 @@
-package admin.controller;
+package guide.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import admin.model.service.adminService;
-import buddy_me.model.vo.Report;
+import guide.model.service.GuideService;
 
 /**
- * Servlet implementation class ReportListServlet
+ * Servlet implementation class gReplyDeleteServlet
  */
-@WebServlet("/list.report")
-public class ReportListServlet extends HttpServlet {
+@WebServlet("/rdelete.guide")
+public class gReplyDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportListServlet() {
+    public gReplyDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +29,18 @@ public class ReportListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Report> report = new adminService().reportList();
+		int gNum = Integer.parseInt(request.getParameter("gnum"));
+		int grId = Integer.parseInt(request.getParameter("grId"));
 		
-		String page = null;
-		if(report != null) {
-			page = "views/admin/reportList.jsp";
-			request.setAttribute("report", report);
+		int result = new GuideService().deleteReply(grId);
+		
+		
+		if(result > 0) {
+			response.sendRedirect(request.getContextPath()+"/detail.guide?gbNum=" +  gNum);
 		} else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "신고자 목록 조회에 실패했습니다.");
+			request.setAttribute("msg", "댓글 삭제에 실패하였습니다.");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		RequestDispatcher view = request.getRequestDispatcher(page);
-		view.forward(request, response);
 	}
 
 	/**

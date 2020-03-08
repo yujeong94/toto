@@ -18,4 +18,17 @@ public class adminService {
 		return report;
 	}
 
+	public int deleteUser(String userId) {
+		Connection conn = getConnection();
+		int result = new adminDAO().deleteUser(conn,userId);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
 }

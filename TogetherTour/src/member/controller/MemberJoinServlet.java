@@ -69,7 +69,6 @@ public class MemberJoinServlet extends HttpServlet {
 			String nickName = multipartRequest.getParameter("nickName");
 			String userName = multipartRequest.getParameter("userName");
 			String joinUserPwd = multipartRequest.getParameter("joinUserPwd");
-			String pwd2 = multipartRequest.getParameter("pwd2");
 			String email = multipartRequest.getParameter("email");
 			String gender = multipartRequest.getParameter("gender");
 			String age = multipartRequest.getParameter("age");

@@ -15,8 +15,10 @@
 		
 		if(loginUser.getmKind() == 1){
 			Strkind = "일반";
-		} else {
+		} else if(loginUser.getmKind() == 2) {
 			Strkind = "가이드";
+		} else {
+			Strkind = "관리자";
 		}
 	}
 	
@@ -42,7 +44,11 @@
 					<% } else { %> 
 						<li><span><%= Strkind %>회원 <%= loginUser.getNickName() %>님</span></li>
 						<li><a href="javascript:void(0)" onclick="logout();">로그아웃</a></li>
+						<% if(loginUser.getmId().equals("admin")){ %>
+							<li><a href="<%= request.getContextPath() %>/list.report">신고자목록</a></li>
+						<% } else { %>
 						<li><a href="<%= request.getContextPath() %>/viewSelf.myPage">마이페이지</a></li> 
+						<% } %>
 					<% } %>
 				</ul>
 				<br clear="both">
@@ -141,9 +147,7 @@
 						});
 						$(this).find('a:first').removeClass('is-act');
 					});
-
 			});
-			
 			// 유정: 주석함
 			<%-- function login(){
 				window.open('<%= request.getContextPath() %>/login.me', 'loginForm', 'width=500, height=300');
@@ -250,6 +254,6 @@
 				}
 			}; 
 			
-		</script>
+	</script>
 </body>
 </html>

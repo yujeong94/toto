@@ -97,7 +97,6 @@ public class GuideService {
 		if(result > 0) {
 			commit(conn);
 			rList = dao.selectReplyList(conn, reply.getRefGid());
-			System.out.println("이건 서비스" + rList.get(0).getCreatDate());
 		} else {
 			rollback(conn);
 		}
@@ -133,6 +132,20 @@ public class GuideService {
 		ArrayList<Gboard> list = new GuideDAO().searchList(conn, currentPage, menu, content);
 		close(conn);
 		return list;
+	}
+
+	public int deleteReply(int grId) {
+		Connection conn = getConnection();
+		GuideDAO dao = new GuideDAO();
+		
+		int result = dao.deleteReply(conn,grId);
+		
+		if(result> 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		} 
+		return result;
 	}
 
 }
