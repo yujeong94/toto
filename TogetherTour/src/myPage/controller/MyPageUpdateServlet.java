@@ -37,18 +37,15 @@ public class MyPageUpdateServlet extends HttpServlet {
 			String savePath = root + "uploadFiles/" ; // 파일 저장 경로
 			MultipartRequest multipartRequest = new MultipartRequest(request,savePath, maxSize, "UTF-8", new MyFileRenamePolicy()) ;
 			
-			Enumeration<String> files = multipartRequest.getFileNames();
-			
-			String saveFile = null; // 바뀐이름
-			String originFile = null;
-			while(files.hasMoreElements()) {
-				String name = files.nextElement();
-				
-				if(multipartRequest.getFilesystemName(name) != null) {
-					// getFilesystemName(name) : MyFileRenamePolicy에 있는 rename메소드에서 작성한 대로 rename된 파일명
-					saveFile = multipartRequest.getFilesystemName(name); 
-					originFile = multipartRequest.getOriginalFileName(name);
-				}
+			String saveFile = null ; // 바뀐이름
+			String originFile = null ;
+			Enumeration<String> files = multipartRequest.getFileNames() ;
+			String name = files.nextElement() ;
+			if(multipartRequest.getFilesystemName(name) != null) {
+				// getFilesystemName(name) : MyFileRenamePolicy에 있는 rename메소드에서 작성한 대로 rename된 파일명
+				saveFile = multipartRequest.getFilesystemName(name) ;
+				originFile = multipartRequest.getOriginalFileName(name) ;
+				System.out.println(originFile+"\n"+saveFile) ;
 			}
 			mAttachment userImg = new mAttachment();
 			userImg.setFilePath(savePath) ;

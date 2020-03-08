@@ -37,7 +37,6 @@ public	class ShareDAO {
 			ptmt = conn.prepareStatement(query) ;
 			ptmt.setString(1, share.getTitle()) ;
 			int category = Integer.parseInt(share.getCategory()) ;
-			System.out.println("[Info] DAO 정상입력 Test : 변수 'category'의 값은 ("+category+")입니다.") ;
 			ptmt.setInt(2, category) ;
 			ptmt.setString(3, share.getWriter()) ;
 			ptmt.setString(4, share.getContent()) ;
@@ -64,14 +63,13 @@ public	class ShareDAO {
 		String query = prop.getProperty("insertSattachment") ;
 		
 		try {
-				for(int i=0; i<fileList.size(); i++) {
-					Sattachment sa = fileList.get(i) ;
-					ptmt = conn.prepareStatement(query);
-					ptmt.setString(1, sa.getOriginName()) ;
-					ptmt.setString(2, sa.getChangeName()) ;
-					ptmt.setString(3, sa.getFilePath()) ;
-					result += ptmt.executeUpdate() ;
-					System.out.println("result2 "+i+" : "+result) ;
+			for(int i=0; i<fileList.size(); i++) {
+				Sattachment sa = fileList.get(i) ;
+				ptmt = conn.prepareStatement(query);
+				ptmt.setString(1, sa.getOriginName()) ;
+				ptmt.setString(2, sa.getChangeName()) ;
+				ptmt.setString(3, sa.getFilePath()) ;
+				result += ptmt.executeUpdate() ;
 			}
 		} catch (SQLException e) {
 			System.out.println("\n---------------------------[ERROR]---------------------------") ;
@@ -341,24 +339,74 @@ public	class ShareDAO {
 		int result = 0 ;
 		String query = prop.getProperty("updateShare") ;
 		
-//		try {
-//			ptmt = conn.prepareStatement(query) ;
-//			ptmt.setString(1, share.getTitle()) ;
-//			ptmt.setInt(2, Integer.parseInt(share.getCategory())) ;
-//			ptmt.setString(1, share.getTitle()) ;
-//			ptmt.setString(1, share.getTitle()) ;
-//			ptmt.setString(1, share.getTitle()) ;
-//			ptmt.setString(1, share.getTitle()) ;
-//			ptmt.setString(1, share.getTitle()) ;
-//		} catch (SQLException e) {
-//			System.out.println("\n---------------------------[ERROR]---------------------------") ;
-//			System.out.println(e.getMessage()) ;
-//			System.out.println("-------------------------------------------------------------") ;
-//			e.printStackTrace() ;
-//			System.out.println("-------------------------------------------------------------") ;
-//		} finally {
-//			close(ptmt) ;
-//		}
+		try {
+			ptmt = conn.prepareStatement(query) ;
+			ptmt.setString(1, share.getTitle()) ;
+			ptmt.setInt(2, Integer.parseInt(share.getCategory())) ;
+			ptmt.setString(3, share.getContent()) ;
+			ptmt.setInt(4, Integer.parseInt(share.getStName())) ;
+			ptmt.setString(5, share.getKakao()) ;
+			ptmt.setInt(6, share.getKind()) ;
+			ptmt.setString(7, share.getCountry()) ;
+			ptmt.setString(8, share.getCity()) ;
+			ptmt.setInt(9, share.getSbNum()) ;
+			result = ptmt.executeUpdate() ;
+		} catch (SQLException e) {
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
+		} finally {
+			close(ptmt) ;
+		}
 		return result ;
+	}
+
+	public int updateSattachment(Connection conn, ArrayList<Sattachment> fileList, Share share) {
+		PreparedStatement ptmt = null ;
+		int result = 0 ;
+		String query = prop.getProperty("updateSattachment") ;
+		
+		try {
+			for(int i=0; i<fileList.size(); i++) {
+				Sattachment sa = fileList.get(i) ;
+				ptmt = conn.prepareStatement(query);
+				ptmt.setString(1, sa.getOriginName()) ;
+				ptmt.setString(2, sa.getChangeName()) ;
+				ptmt.setString(3, sa.getFilePath()) ;
+				ptmt.setInt(4, share.getSbNum()) ;
+				result += ptmt.executeUpdate() ;
+			}
+		} catch (SQLException e) {
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
+		} finally {
+			close(ptmt) ;
+		} return result ;
+	}
+
+	public int deleteReply(Connection conn, int rId) {
+		PreparedStatement ptmt = null ;
+		int result = 0 ;
+		String query = prop.getProperty("deleteReply") ;
+		System.out.println("deleteReply dao 입장") ; 
+		try {
+			ptmt = conn.prepareStatement(query) ;
+			ptmt.setInt(1, rId) ;
+			
+			result = ptmt.executeUpdate() ;
+		} catch (SQLException e) {
+			System.out.println("\n---------------------------[ERROR]---------------------------") ;
+			System.out.println(e.getMessage()) ;
+			System.out.println("-------------------------------------------------------------") ;
+			e.printStackTrace() ;
+			System.out.println("-------------------------------------------------------------") ;
+		} finally {
+			close(ptmt) ;
+		} return result ;
 	}
 }

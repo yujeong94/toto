@@ -39,12 +39,6 @@ public class DetailShareServlet extends HttpServlet {
 			request.setAttribute("share", share) ;
 			request.setAttribute("fileList", fileList) ;
 			request.setAttribute("rList", rList) ;
-			System.out.println("[Info] 사진 게시판 상세보기에 입장합니다. 사진 게시판 주소는 다음과 같습니다.") ;
-			for(int i=0; i<fileList.size(); i++)
-				System.out.println("[Info] - [Picture "+i+"] ("+fileList.get(i).getChangeName()+")") ;
-			System.out.println("[Info] 댓글이 로드되었습니다. 댓글은 총 ("+rList.size()+")개입니다.") ;
-			for(int i=0; i<rList.size(); i++)
-				System.out.println("[Info] - [Reply "+i+"] Writer:("+rList.get(i).getWriter()+") Content:("+rList.get(i).getContent()+")") ;
 			page = "views/share/ShareDetailView.jsp" ;
 		} else {
 			request.setAttribute("msg", "사진 게시판 상세보기에 실패하였습니다.") ;

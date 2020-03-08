@@ -167,6 +167,9 @@
 				console.log(isIdChecked) ;
 				console.log(isNickChecked) ;
 				alert('중복확인을 해주세요.') ;
+			} else if($('#profile').val() == "") {
+				alert($('#profile').val()) ;
+				alert("프로필 사진을 추가해 주세요.") ;
 			} else {
 				location.href='<%=request.getContextPath()%>/update.myPage' ;
 			}
@@ -183,5 +186,4 @@
 		}) ;
 	</script>
 </body>
-
 </html>

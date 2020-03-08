@@ -18,7 +18,6 @@ import com.oreilly.servlet.MultipartRequest ;
 import common.MyFileRenamePolicy ;
 import share.model.service.ShareService ;
 import share.model.vo.* ;
-import member.model.vo.* ;
 
 /** Servlet implementation class InsertShareServlet */
 @WebServlet("/insert.share")
@@ -33,7 +32,6 @@ public class InsertShareServlet extends HttpServlet {
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(ServletFileUpload.isMultipartContent(request)) {
-			System.out.println("[System] Insert Servlet Start Here") ;
 			int result = 0 ;
 			int maxSize = 1024 * 1024 * 50 ;
 			String root = request.getSession().getServletContext().getRealPath("/") ;
@@ -61,8 +59,7 @@ public class InsertShareServlet extends HttpServlet {
 			String kakao = multipartRequest.getParameter("kind") ;
 			String kakaoStr = "" ;
 			if(kakao.equals("")) {
-				kakaoStr = "입력된 주소가 없습니f다." ;
-				System.out.println("[Info] new 게시물("+title+")의 카카오톡 주소가 공란입니다. 「입력된 주소가 없습니다.」로 대체되어 삽입되었습니다.") ;
+				kakaoStr = "입력된 주소가 없습니다." ;
 			} else {
 				kakaoStr = kakao ;
 			}	
@@ -80,28 +77,19 @@ public class InsertShareServlet extends HttpServlet {
 			share.setWriter(mid) ;
 			
 			if(fileCheck.equals("trueFiles")) {
-				System.out.println("[Info] 파일 확인 체크 서비스 [fileCheck:"+fileCheck+"]를 통해 사진 포함 게시글 등록 서비스 ("+title+")에 입장했습니다.") ; 
 				ArrayList<Sattachment> fileList = new ArrayList<Sattachment>() ;
 				for(int i=originFiles.size()-1; i>=0; i--) {
-					System.out.println("[Info] trueFiles를 통해 사진 포함 서비스의 for문에 입장했습니다.") ;
 					Sattachment at = new Sattachment() ;
 					at.setFilePath(savePath) ;
-					System.out.println("[Info] savePath["+i+"] : "+savePath) ;
 					at.setOriginName(originFiles.get(i)) ;
-					System.out.println("[Info] originFiles["+i+"] : "+originFiles.get(i)) ;
 					at.setChangeName(saveFiles.get(i)) ;
-					System.out.println("[Info] saveFiles["+i+"] : "+saveFiles.get(i)) ;
 					fileList.add(at) ;
 				}
 				result = new ShareService().insertShare(share,fileList) ;
-				System.out.println("[Info] 파일 확인 체크 서비스 [fileCheck:"+fileCheck+"]를 통해 일반 게시글 등록 서비스 ("+title+")에 입장했습니다.") ;
 			} else {
-				System.out.println("[Info] 게시물("+title+")") ;
 				result = new ShareService().insertShare(share) ;
 			}
-			
-			System.out.println("[Info] sevlet result : "+result) ;
-			
+						
 			if(result>0) {
 				response.sendRedirect("list.share") ;
 			} else {
@@ -113,7 +101,7 @@ public class InsertShareServlet extends HttpServlet {
 				request.setAttribute("msg", "사진 게시판 등록에 실패했습니다.") ;
 				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response) ;
 			}
-		} System.out.println("[System] Insert Servlet Ends Here") ;
+		}
 	}
 
 	/** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */

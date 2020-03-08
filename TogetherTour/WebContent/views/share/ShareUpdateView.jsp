@@ -18,11 +18,6 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head> 
 <body>
-	<script>
-		$(function() {
-			alert("<%=sbNum%>") ;
-		}) ;
-	</script>
 	<div id="wrapper">
 		<%@ include file="../common/header.jsp"%>
 		<div class="contents">
@@ -34,7 +29,7 @@
 						<th id="wrtList">게시글 제목 * </th>
 						<td colspan="4">
 							<input type="hidden" id="sbNum" value="<%=sbNum%>" class="wrtInput">
-							<input type="text" placeholder="제목 입력" id="title" value="<%=title%>" class="wrtInput">
+							<input type="text" placeholder="제목 입력" id="title" name="title" value="<%=title%>" class="wrtInput" required>
 						</td>
 					</tr>
 					<tr>
@@ -59,7 +54,7 @@
 									}
 								}) ;
 							</script>
-							<select id="category" class="wrtInput">
+							<select id="category" name="category" class="wrtInput" required>
 								<option id="category1" value="1">유심(USIM)</option>
 								<option id="category2" value="2">교통권</option>
 								<option id="category3" value="3">티켓(ticket)</option>
@@ -72,19 +67,19 @@
 					<tr>
 						<th id="wrtList">거래 장소 *</th>
 						<td colspan="4">
-							<select name=kind id=kindList class="location">
-								<option>분류</option>
+							<select name=kind id=kindList class="location" required>
+								<option value="0">분류</option>
 							</select>
-							<select name=country id=country class="location">
-								<option>국가</option>
+							<select name=country id=country class="location" required>
+								<option value="0">국가</option>
 							</select>
 							<select name=city id=city class="location">
-								<option>도시</option>
+								<option value="0">도시</option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th id="wrtList">연락처</th>
+						<th id="wrtList">오픈채팅방 주소</th>
 						<td colspan="4">
 							<input type="text" placeholder="연락처 입력" id="kakao" name="kakao" class="wrtInput" value="<%=kakao%>" style="width:100%;">
 						</td>
@@ -102,7 +97,7 @@
 									}
 								})
 							</script>
-							<select id="stNum">
+							<select id="stNum" name="stNum">
 								<option value="1" id="stName1" selected>거래 가능</option>
 								<option value="2" id="stName2" selected>거래 진행중</option>
 								<option value="3" id="stName3"selected>거래 완료</option>
@@ -112,26 +107,24 @@
 					<tr>
 						<th id="wrtList">내용 *</th>
 						<td colspan="4">
-							<textarea id="content"><%=content%></textarea>
+							<textarea id="content" name="content"><%=content%></textarea>
 						</td>
 					</tr>
 					<tr id="insertArea">
 						<th id="wrtList">첨부파일</th>
 						<td colspan="4">
-							<!-- <input type="file" style="width:100%;" value="파일 업로드" id="file" name="file" accept=".gif, .jpg, .jpeg, .png" multiple><br> -->
-							<!-- <p id="fileText">파일은 .jpg, .jpeg .png, .gif 파일만 업로드 가능합니다. 여러 사진을 선택하시려면 [ctrl] 키나 [shift] 키를 눌러주십시오. 최대 5개까지 입력 가능합니다.</p> -->
-							<input type="file" id="shareImg1" accept=".gif, .jpg, .jpeg, .png" name="shareImg1" class="shareImg" onchange="LoadImg(this,1)">
-							<input type="file" id="shareImg2" accept=".gif, .jpg, .jpeg, .png" name="shareImg2" class="shareImg" onchange="LoadImg(this,2)">
-							<input type="file" id="shareImg3" accept=".gif, .jpg, .jpeg, .png" name="shareImg3" class="shareImg" onchange="LoadImg(this,3)">
-							<input type="file" id="shareImg4" accept=".gif, .jpg, .jpeg, .png" name="shareImg4" class="shareImg" onchange="LoadImg(this,4)">
-							<input type="file" id="shareImg5" accept=".gif, .jpg, .jpeg, .png" name="shareImg5" class="shareImg" onchange="LoadImg(this,5)"><br><br>
+							<input type="file" id="shareImg1" name="shareImg1" accept=".gif, .jpg, .jpeg, .png" name="shareImg1" class="shareImg" onchange="LoadImg(this,1)">
+							<input type="file" id="shareImg2" name="shareImg2" accept=".gif, .jpg, .jpeg, .png" name="shareImg2" class="shareImg" onchange="LoadImg(this,2)">
+							<input type="file" id="shareImg3" name="shareImg3" accept=".gif, .jpg, .jpeg, .png" name="shareImg3" class="shareImg" onchange="LoadImg(this,3)">
+							<input type="file" id="shareImg4" name="shareImg4" accept=".gif, .jpg, .jpeg, .png" name="shareImg4" class="shareImg" onchange="LoadImg(this,4)">
+							<input type="file" id="shareImg5" name="shareImg5" accept=".gif, .jpg, .jpeg, .png" name="shareImg5" class="shareImg" onchange="LoadImg(this,5)"><br><br>
 							<img id="contentImg1" class="contentImg" src=""><br><br>
 							<img id="contentImg2" class="contentImg" src=""><br><br>
 							<img id="contentImg3" class="contentImg" src=""><br><br>
 							<img id="contentImg4" class="contentImg" src=""><br><br>
 							<img id="contentImg5" class="contentImg" src=""><br><br>
 							<p id="fileText">파일은 .jpg, .jpeg, .png, .gif 파일만 업로드 가능합니다. 최대 5개까지 입력 가능합니다.</p>
-							<input type="hidden" id="fileBool" name="fileBool" value="trueFiles">
+							<input type="hidden" id="fileBool2" name="fileBool2" value="trueFiles">
 						</td>
 					</tr>
 				</table><br>
@@ -268,20 +261,20 @@
 					} else if($('#category').val() == "0") {
 						alert('물품 종류를 선택하세요.') ;
 						bool = false ;
-					} else if($('#kind').val() == "0" || $('#country').val() == "none" || $('#city').val() == "none") {
+					} else if($('#kind').val() == 0 || $('#country').val() == 0 || $('#city').val() == 0) {
 						alert('거래 장소를 입력하세요.') ;
 						bool = false ;
 					} else if($('#stNum').val() == "")
-					
-					if(fileCheck1 == "" || fileCheck2 == "" || fileCheck3 == "" || fileCheck4 == "" || fileCheck5 == "") {
-						$('#fileBool').val("falseFiles") ;
-					} else {
-						$('#fileBool').val("trueFiles") ;
+					alert($('#kind').val()) ;
+					if($('#kakao').val() == "") {
+						$('#kakao').text("내용이 입력되지 않았습니다.") ;
+						alert("Kakao : "+$('#kakao').val()) ;
 					}
 					
-					if($('#kakao').val() == "") {
-						$('#kakao').val("#empty") ;
-						alert('카카오톡 주소가 비었습니다. "'+$('#kakao').val()+'"로 대체되었습니다.') ;
+					if(fileCheck1 == "" && fileCheck2 == "" && fileCheck3 == "" && fileCheck4 == "" && fileCheck5 == "") {
+						$('#fileBool2').val("falseFiles") ;
+					} else {
+						$('#fileBool2').val("trueFiles") ;
 					}
 					
 					if(bool) $('#uptForm').submit() ;
