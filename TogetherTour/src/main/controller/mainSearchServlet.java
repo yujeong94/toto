@@ -30,7 +30,9 @@ public class mainSearchServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+ 
+    
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -40,6 +42,8 @@ public class mainSearchServlet extends HttpServlet {
 		int kind =Integer.parseInt(request.getParameter("kind"));
 		String country = request.getParameter("country");
 		String city = request.getParameter("city");
+		
+		System.out.println(kind + country + city);
 
 		
 		mainSearchService service = new mainSearchService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성

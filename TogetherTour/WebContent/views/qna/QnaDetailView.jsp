@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="qna.model.vo.*, java.util.ArrayList"%>
-    
 <%
 	Qna qna = (Qna)request.getAttribute("qna");
 	ArrayList<Qna> list = new ArrayList<Qna>(); 
@@ -55,8 +54,10 @@
 							
 			</table>
 			<div align="center">
+			<% if(qna.getmId().equals(loginUser.getmId()) || loginUser.getmId().equals("admin")){ %>
 			<% if(qna.getmId().equals(loginUser.getmId())){ %>
 				<input type="submit" id="updateBtn" value="수정">
+			<%} %>
 				<input type="button" onclick="deleteQna();" id="deleteBtn" value="삭제">
 				<% } %>  
 			 	<%-- <div onclick="location.href='<%= request.getContextPath() %>/list.sh'" id="menuBtn" >메뉴로</div> --%> 
