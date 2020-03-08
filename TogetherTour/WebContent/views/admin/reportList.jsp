@@ -2,6 +2,8 @@
     pageEncoding="UTF-8" import="java.util.ArrayList,buddy_me.model.vo.Report"%>
 <%
 	ArrayList<Report> list = (ArrayList<Report>)request.getAttribute("report");
+
+	String msg = (String)request.getAttribute("msg");
 %>
 <!DOCTYPE html>
 <html>
@@ -14,7 +16,7 @@
 <style>
 th,td{border-top:1px solid; border-bottom:1px solid;}
 td{border-bottom:1px solid lightgray; text-align:center;}
-	.deleteBtn{color:#FF8000; font-weight:bold; cursor:pointer;}
+.deleteBtn{color:#FF8000; font-weight:bold; cursor:pointer;}
 
 </style>
 </head>
@@ -22,7 +24,7 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 <div class="wrapper">
 	<%@ include file="../common/header.jsp" %>
 	<div class=contents>
-	<h2 align=center><span>나의 동행자 리스트</span></h2>
+	<h2 align=center><span>신고자 리스트</span></h2>
 	<form method=post id=reportListForm>
 		<table>
 			<tr>
@@ -32,17 +34,17 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 				<th>신고사유번호</th>
 				<th>신고내용</th>
 				<th>처리상태</th>
-				<td></td>
+				<th></th>
 			</tr>
 			<% if(list.isEmpty()) { %>
 			<tr>
-				<td colspan=6>조회된 리스트가 없습니다.</td>
+				<td colspan=7>조회된 리스트가 없습니다.</td>
 			</tr>
 			<% } else { %>
 				<% for(Report r : list) { %>
 						<tr>
 							<td>r.getRkey()</td>
-							<td>r.getRmid()</td>
+							<td class=userId>r.getRmid()</td>
 							<td>r.getMid()</td>
 							<td>r.getRsNum()</td>
 							<td>r.getReason()</td>
@@ -59,9 +61,20 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 <script>
 	
 	$('.deleteBtn').click(function(){
-		confirm("정말 탈퇴시키겠습니까?");
+		var bool = confirm("정말 탈퇴시키겠습니까?");
+		var userId = $('.userId').text();
+		if(bool){
+			location.href="<%= request.getContextPath() %>/delete.admin?userId="+userId;
+		}
 	});
-
+	
+	var msg = '<%= msg %>';
+	
+	$(function(){
+		if(msg != 'null'){
+			alert(msg);
+		}
+	});
 </script>
 </body>	
 </html>

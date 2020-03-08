@@ -51,7 +51,7 @@
 	}
 	#gBtn{margin-right:10px;}
 	#replySelectTable td{text-align:center;}
-	
+	#ReplydeleteBtn{cursor:pointer; background:gray; color:white; text-align:center;}
 </style>
 </head>
 <body>
@@ -128,6 +128,8 @@
 			<div id=gBtnArea align=center>
 				<% if(gboard.getgWriter().equals(loginUser.getNickName())){ %>
 				<button type=submit id=gBtn>수정하기</button>
+				<% } %>
+				<% if(gboard.getgWriter().equals(loginUser.getNickName()) || loginUser.getmId().equals("admin")) { %>
 				<button type=button id=delBtn onclick="deleteGboard();">삭제하기</button><br>
 				<% } %>
 				<div onclick='location.href="<%= request.getContextPath() %>/list.guide"' id=listBtn>목록으로</div>
@@ -143,6 +145,7 @@
 				</table>
 			</div>
 		</div>
+		<form action="<%= request.getContextPath() %>" id="ReplyForm" method="post">
 		<div id=replySelectArea> <!-- 댓글 조회부분 -->
 			<table id=replySelectTable>
 				<% if(list.isEmpty()){ %>
@@ -150,14 +153,18 @@
 				<% } else { %>
 					<% for(int i = 0; i < list.size(); i++) { %>
 						<tr>
-							<td width=100px><%= list.get(i).getWriter() %></td>
-							<td width=400px><%= list.get(i).getGrContent() %></td>
-							<td width=200px><%= list.get(i).getCreatDate() %></td>
+							<td width=100px><%= list.get(i).getWriter() %><input type="hidden" name = "grId" value="<%= list.get(i).getGrId() %>"></td>
+							<td width=300px><%= list.get(i).getGrContent() %><input type="hidden" id ="gnum" name ="gnum" value="<%= gboard.getGbNum() %>"></td>
+							<td width=100px><%= list.get(i).getCreatDate() %></td>
+							<% if(list.get(i).getWriter().equals(loginUser.getNickName()) || loginUser.getmId().equals("admin")){ %>
+								<td width="10px" id ="Replydelete"><div onclick="deleteGuideReply();" id="ReplydeleteBtn">댓글 삭제</div></td>
+							<%} %>
 						</tr>
 					<% } %>
 				<% } %>
 			</table>
 		</div>
+		</form>
 	</div>
 	<%@ include file="../common/footer.jsp" %>
 </div>
@@ -199,6 +206,14 @@
 		});
 	}); 
 	
+	function deleteGuideReply(){
+		var bool = confirm('댓글을 정말로 삭제하시겠습니까?');
+		if(bool){
+			$('#ReplyForm').attr('action', '<%= request.getContextPath() %>/rdelete.guide');
+			$('#ReplyForm').submit();
+		}
+	} 
+
 	var msg = "<%= msg %>";
 	
 	$(function(){

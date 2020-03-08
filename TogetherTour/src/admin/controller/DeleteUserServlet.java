@@ -1,7 +1,6 @@
 package admin.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,19 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import admin.model.service.adminService;
-import buddy_me.model.vo.Report;
 
 /**
- * Servlet implementation class ReportListServlet
+ * Servlet implementation class DeleteUserServlet
  */
-@WebServlet("/list.report")
-public class ReportListServlet extends HttpServlet {
+@WebServlet("/delete.admin")
+public class DeleteUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportListServlet() {
+    public DeleteUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +30,22 @@ public class ReportListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Report> report = new adminService().reportList();
+		String userId = request.getParameter("userId");
+		
+		int result = new adminService().deleteUser(userId);
 		
 		String page = null;
-		if(report != null) {
+		if(result > 0) {
+			request.setAttribute("msg", "회원을 성공적으로 탈퇴시켰습니다.");
 			page = "views/admin/reportList.jsp";
-			request.setAttribute("report", report);
 		} else {
+			request.setAttribute("msg", "회원을 탈퇴시키는데 실패했습니다.");
 			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "신고자 목록 조회에 실패했습니다.");
 		}
+		
 		RequestDispatcher view = request.getRequestDispatcher(page);
 		view.forward(request, response);
+		
 	}
 
 	/**

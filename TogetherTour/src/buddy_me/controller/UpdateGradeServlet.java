@@ -2,7 +2,6 @@ package buddy_me.controller;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +33,6 @@ public class UpdateGradeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String gradeNick = request.getParameter("gradeNick");
 		int grade = Integer.parseInt(request.getParameter("grade"));
-		System.out.println("servlet" + grade);
 		int result = new MyPageService().updateGrade(gradeNick, grade);
 		
 		response.setContentType("application/json; charset=UTF-8");

@@ -16,7 +16,7 @@ import buddy_me.model.vo.Report;
 
 public class MyPageDAO {
 	
-	Properties prop = new Properties();
+	private Properties prop = new Properties();
 	
 	public MyPageDAO () {
 		String fileName = MyPageDAO.class.getResource("/sql/buddy_me/buddy-query.properties").getPath();
@@ -116,7 +116,6 @@ public class MyPageDAO {
 	public int updateGrade(Connection conn, String gradeNick, int grade) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		System.out.println("dao grade + " + grade);
 		String query = prop.getProperty("updateGrade");
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -124,7 +123,6 @@ public class MyPageDAO {
 			pstmt.setString(2, gradeNick);
 			
 			result = pstmt.executeUpdate();
-			System.out.println("dao result + " + result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
