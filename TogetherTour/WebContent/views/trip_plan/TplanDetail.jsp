@@ -58,7 +58,8 @@
 		#listBtn{
 		 	padding : 9px 20px;
 			border : none;
-		    background: #999999;
+		    /* background: #999999; */
+		    background : #005952;
 		    color: #fff;
 		    box-sizing: border-box;
 		    display: inline-block;
@@ -75,6 +76,7 @@
 		.tableArea tr:last-child th, .tableArea tr:last-child td {
 			border-bottom : 1px solid #000;
 		}
+		
 		
 		/*일정에 대한 스타일*/
 		.date-box-title{text-align:center; margin-top:50px;}

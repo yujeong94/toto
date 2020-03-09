@@ -32,7 +32,9 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
+
 	<header class="header">
+	
 			<div class="inner clear-fix">
 				<h1 class="logo">
 					<a href="<%= request.getContextPath() %>/index.jsp"><img src="<%= request.getContextPath() %>/images/logo-o.png"></a>
@@ -98,6 +100,7 @@
 					</ul>
 				</nav>
 			</div>
+		
 		</header>
 
 		<script>
@@ -107,6 +110,7 @@
 					var $window = $(window),
 						  $header = $(this),
 						  headerOffsetTop = $header.offset().top; // 헤더의 기본 위치
+						  console.log(headerOffsetTop);
 
 					// 윈도우 스크롤 이벤트를 모니터링
 					$window.on('scroll', function() {
@@ -142,7 +146,7 @@
 					}, function() {
 						$(this).find('.sub-menu').stop().animate({
 							height: '0%'
-						}, 300, function() {
+						}, 200, function() {
 							$(this).hide();
 						});
 						$(this).find('a:first').removeClass('is-act');

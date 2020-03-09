@@ -22,8 +22,6 @@
 		tContents = String.join("-", tContentsArr);
 	}
 	tContentsArr = tContents.split("-");
-	
-	System.out.println("들어온 내용이 있나?" + tContents);
 
 %>
 <!DOCTYPE html>
@@ -48,7 +46,8 @@
  		#cancleBtn{
 		 	padding : 9px 20px;
 			border : none;
-		    background: #999999;
+		    /* background: #999999; */
+		    background : #005952;
 		    color: #fff;
 		    box-sizing: border-box;
 		    display: inline-block;

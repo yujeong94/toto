@@ -20,7 +20,8 @@
  		#cancleBtn{
 		 	padding : 9px 20px;
 			border : none;
-		    background: #999999;
+		    /* background: #999999; */
+		    background : #005952;
 		    color: #fff;
 		    box-sizing: border-box;
 		    display: inline-block;
@@ -53,6 +54,7 @@
 		#tBtnArea {
 			margin-top : 50px;
 		}
+
 		
 		/*일정 입력박스에 대한 스타일*/
 		.date-box-date {
