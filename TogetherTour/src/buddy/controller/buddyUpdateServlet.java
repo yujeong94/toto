@@ -43,9 +43,11 @@ public class buddyUpdateServlet extends HttpServlet {
 		String theme = request.getParameter("theme");
 		int head_cnt = Integer.parseInt(request.getParameter("head_cnt"));
 		String gender = request.getParameter("gender");
-		int group_age =Integer.parseInt( request.getParameter("group_age"));
+		String group_age =request.getParameter("group_age");
 		String content = request.getParameter("content");
+		String kakao = request.getParameter("kakao");
 		int kindInt = 0;
+			
 		if(kind.equals("국내")) {
 			kindInt = 1;
 		} else {
@@ -74,6 +76,17 @@ public class buddyUpdateServlet extends HttpServlet {
 			sqlEdate = new Date(new GregorianCalendar().getTimeInMillis());
 		}
 		
+		int age = 0;
+		
+		switch(group_age) {
+		case "10대" : age = 10; break;
+		case "20대 이상" : age = 20; break;
+		case "30대 이상" : age = 30; break;
+		case "40대 이상" : age = 40; break;
+		default : age = 0;
+		}
+
+		
 		buddyBoard b = new buddyBoard();
 		b.setBnum(bnum);
 		b.setTitle(title);
@@ -83,15 +96,18 @@ public class buddyUpdateServlet extends HttpServlet {
 		b.setStart_date(sqlSdate);
 		b.setEnd_date(sqlEdate);
 		b.setTheme(theme);
-		b.setGroup_age(group_age);
+		b.setGroup_age(age);
 		b.setContent(content);
+		b.setGender(gender);
+		b.setHead_cnt(head_cnt);
+		b.setKakao(kakao);
 		
 		int result = new buddyBoardService().updateBoard(b);
 		
 		String page = null;
 		if(result > 0) {
 			request.setAttribute("msg", "게시글이 수정되었습니다.");
-			page = "/detail.buddy?=" + bnum;
+			page = "/list.buddy?=" + bnum;
 		} else {
 			request.setAttribute("msg", "게시글 수정에 실패하였습니다.");
 			page = "views/buddy/buddyBoardDetail.jsp";

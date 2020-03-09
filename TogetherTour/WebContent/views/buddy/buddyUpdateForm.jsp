@@ -10,8 +10,9 @@ String city = request.getParameter("city");
 String theme = request.getParameter("theme");
 String kakao = request.getParameter("kakao");
 String gender = request.getParameter("gender");
-int group_age = Integer.parseInt(request.getParameter("group_age"));
-/* 
+String group_age = request.getParameter("group_age");
+
+
 String[] selected = new String[2];
 
 if(kind.equals("국내")){
@@ -21,16 +22,11 @@ if(kind.equals("국내")){
 	selected[0] = "";
 	selected[1] = "selected";
 }	 
- */
-
  
- // theme 
+//theme
 String[] checkedTheme = new String[6];
 if(!theme.equals("")){
-	String[] themeArr = theme.split(",");
-	
-	for(int i = 0; i < themeArr.length; i++){
-		switch(themeArr[i]){
+		switch(theme){
 		case "휴식": checkedTheme[0] = "checked"; break;
 		case "관광": checkedTheme[1] = "checked"; break;
 		case "쇼핑": checkedTheme[2] = "checked"; break;
@@ -38,45 +34,42 @@ if(!theme.equals("")){
 		case "관람": checkedTheme[4] = "checked"; break;
 		case "기타": checkedTheme[5] = "checked"; break;
 		}
-	}
-} 
-
-
-// gender
-String[] checkedGender = new String[3];
-if(!theme.equals("")){
-	String[] genderArr = gender.split(",");
-	
-	for(int i = 0; i < genderArr.length; i++){
-		switch(genderArr[i]){
-		case "남자": checkedGender[0] = "checked"; break;
-		case "여자": checkedGender[1] = "checked"; break;
-		case "상관없음" : checkedGender[2] = "checked"; break;
-		}
-	}
-} 
-
-// group_age
-/* int[] checkedGroup_age = new int[5];
-/* if(!group_age.equals("")){
-	String[] group_ageArr = group_age.split(",");
-	
-	for(int i = 0; i < group_ageArr.length; i++){
-		switch(group_ageArr[i]){
-		case "남자": checkedGender[0] = "checked"; break;
-		case "여자": checkedGender[1] = "checked"; break;
-		case "상관없음" : checkedGender[2] = "checked"; break;
-		}
-	}
 }
- */ 
+
+//gender
+String[] checkedGender = new String[3];
+if(!gender.equals("")){
+		switch(gender){
+		case "남자": checkedGender[0] = "checked"; break;
+		case "여자": checkedGender[1] = "checked"; break;
+		case "상관없음" : checkedGender[2] = "checked"; break;
+		}
+}  
+
+//group_age 
+String[] checkedGroup_age = new String[5];
+if(!group_age.equals("")){
+		switch(group_age){
+		case "10대": checkedGroup_age[0] = "checked"; break;
+		case "20대 이상": checkedGroup_age[1] = "checked"; break;
+		case "30대 이상 " : checkedGroup_age[2] = "checked"; break;
+		case "40대 이상 " : checkedGroup_age[3] = "checked"; break;
+		case "상관 없음 " : checkedGroup_age[4] = "checked"; break;
+		}
+}
+String KaKao = null;
+if(kakao == null){
+	KaKao = "";
+} else {
+	KaKao = kakao;
+}
 %> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>동행자수정 | 투투</title>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/index.css">
+
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/common_sub.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/buddy/buddyInsertForm.css">
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.min.js"></script>
@@ -112,11 +105,10 @@ if(!theme.equals("")){
 						<th>제목</th>
 						<td>
 							<input type="text" size="80" name="title" value=<%=request.getParameter("title") %>>
-							<%System.out.println("수정폼의 title 은 null인가? : " + title); %>  <!-- OK 잘들어옴 -->
 							<input type=hidden name="bnum" value="<%= request.getParameter("bnum") %>">
 						</td>
 					</tr>
-					<%-- <tr>
+					<tr>
 						<th><label>여행지역</label></th>
 						<td>
 							<select name=kind id=kindList>
@@ -133,7 +125,7 @@ if(!theme.equals("")){
 								<!-- <option>도시</option> -->
 							</select>
 						</td>
-					</tr>  --%>
+					</tr> 
 					<tr>
 						<th>동행 날짜</th>
 						<td>
@@ -144,12 +136,12 @@ if(!theme.equals("")){
 					<tr>
 						<th>여행테마</th>
 						<td>
-							<input type="radio" name="theme" value="휴식"  <%= checkedTheme[0] %> onClick="this.form.etc.disabled=true">휴식
-							<input type="radio" name="theme" value="관광"  <%= checkedTheme[1] %> onClick="this.form.etc.disabled=true">관광
-							<input type="radio" name="theme" value="쇼핑"  <%= checkedTheme[2] %> onClick="this.form.etc.disabled=true">쇼핑
-							<input type="radio" name="theme" value="식도락" <%= checkedTheme[3] %> onClick="this.form.etc.disabled=true">식도락
-							<input type="radio" name="theme" value="관광"  <%= checkedTheme[4] %> onClick="this.form.etc.disabled=true">공연관람
-							<input type="radio" name="theme" value="기타"  <%= checkedTheme[5] %> onClick="this.form.etc.disabled=false">기타
+							<input type="radio" name="theme" value="휴식"  <%=checkedTheme[0] %> onClick="this.form.etc.disabled=true">휴식
+							<input type="radio" name="theme" value="관광"  <%=checkedTheme[1] %> onClick="this.form.etc.disabled=true">관광
+							<input type="radio" name="theme" value="쇼핑"  <%=checkedTheme[2] %> onClick="this.form.etc.disabled=true">쇼핑
+							<input type="radio" name="theme" value="식도락" <%=checkedTheme[3] %> onClick="this.form.etc.disabled=true">식도락
+							<input type="radio" name="theme" value="관광"  <%=checkedTheme[4] %> onClick="this.form.etc.disabled=true">공연관람
+							<input type="radio" name="theme" value="기타"  <%=checkedTheme[5] %> onClick="this.form.etc.disabled=false">기타
 							<input type="text" name="etc" placeholder="입력해주세요.">
 							
 						</td>
@@ -169,22 +161,24 @@ if(!theme.equals("")){
 					</tr>
 					<tr>
 						<td>모집연령대 &nbsp;
-							<input type="radio" name="group_age"  value="<%=request.getParameter("group_age") %>" > 10대 
-							<input type="radio" name="group_age"  value="<%=request.getParameter("group_age") %>" > 20대 이상
-							<input type="radio" name="group_age"  value="<%=request.getParameter("group_age") %>" > 30대 이상
-							<input type="radio" name="group_age"  value="<%=request.getParameter("group_age") %>" > 40대 이상
-							<input type="radio" name="group_age"  value="<%=request.getParameter("group_age") %>" > 상관없음
+							<input type="radio" name="group_age"  value="10대" <%= checkedTheme[0] %> > 10대 
+							<input type="radio" name="group_age"  value="20대 이상" <%= checkedTheme[1] %>> 20대 이상
+							<input type="radio" name="group_age"  value="30대 이상" <%= checkedTheme[2] %>> 30대 이상
+							<input type="radio" name="group_age"  value="40대 이상" <%= checkedTheme[3] %>> 40대 이상
+							<input type="radio" name="group_age"  value="40대 이상" <%= checkedTheme[4] %>> 상관없음
 						</td>
 					</tr>
 					<tr>
 						<th><label>오픈카카오톡주소</label></th>
-						<td><input type=text size=81px name="kakao" value="<%= kakao%>"></td>
+						<td><input type=text size=81px name="kakao" value="<%= KaKao%>"></td>
 						
 					</tr>
 					<tr>
 						<th>여행소개</th>
 						<td>
-							<textarea rows="8" cols="80" style="resize: none;" overflow="scroll" name="content" value="<%=request.getParameter("content")%>"></textarea>
+							<textarea rows="8" cols="80" style="resize: none;" overflow="scroll" 
+								name="content"> <%= request.getParameter("content") %>
+							</textarea>
 						</td>
 					</tr>
 				</table>

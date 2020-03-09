@@ -250,13 +250,18 @@ public class buddyBoardDAO {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, board.getTitle());
-			pstmt.setDate(2, board.getStart_date());
-			pstmt.setString(3, board.getCountry());
-			pstmt.setString(4, board.getTheme());
-			pstmt.setInt(5, board.getHead_cnt());
-			pstmt.setInt(6, board.getGroup_age());
-			pstmt.setString(7, board.getContent());
-			
+			pstmt.setString(2, board.getCountry());
+			pstmt.setString(3,  board.getCity());
+			pstmt.setDate(4, board.getStart_date());
+			pstmt.setDate(5,  board.getEnd_date());
+			pstmt.setString(6, board.getTheme());
+			pstmt.setInt(7, board.getHead_cnt());
+			pstmt.setString(8, board.getGender());
+			pstmt.setInt(9, board.getGroup_age());
+			pstmt.setString(10, board.getKakao());
+			pstmt.setString(11, board.getContent());
+			pstmt.setInt(12, board.getKind());
+			pstmt.setInt(13, board.getBnum());
 			
 			result = pstmt.executeUpdate();
 			

@@ -1,45 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>동행자등록 | 투투</title>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/index.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/common_sub.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/buddy/buddyInsertForm.css">
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.min.js"></script>
 <style>
-#cancleBtn{padding : 9px 20px;
-		border : none;
-	    background: #999999;
-	    color: #fff;
-	    box-sizing: border-box;
-	    display: inline-block;
-	    align-items: flex-start;
-	    letter-spacing: normal;
-	    word-spacing: normal;
-	    text-rendering: auto;
-	    cursor: pointer;
-	    vertical-align: middle;
-	    font: inherit;
-	    margin-top:20px;
-	    float:right; }
 
+#cancleBtn{padding : 9px 20px; border : none; background: #999999;
+	    color: #fff; box-sizing: border-box; display: inline-block;
+	    align-items: flex-start; letter-spacing: normal; word-spacing: normal;
+	    text-rendering: auto; cursor: pointer;	vertical-align: middle;
+	    font: inherit;	margin-top:20px; float:right; }
+.tableArea tr:last-child th, .tableArea tr:last-child td {
+			border-bottom : 1px solid #000;
+		}
 </style>
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
-	<br><br><br>
-	<hr>
 	<div class="contents">
 		<h2><span>동행자 등록</span></h2>
 			<form action="<%=request.getContextPath()%>/insert.buddy" method="post"  id=buddyInsertForm>
 				<!-- 등록폼 테이블 -->
-				<table>
+				<table class="tableArea">
 					<tr>
 						<th>제목</th>
-						<td><input type="text" size="80" name="title" required></td>
+						<td><input type="text" size="80" name="title" border: required ></td>
 					</tr>
 					<tr>
 						<th>여행지역</th>
@@ -66,14 +57,13 @@
 					<tr>
 						<th>여행테마</th>
 						<td>
-							<input type="radio" name="theme" value="휴식" onClick="this.form.textbox.disabled=true">휴식
-							<input type="radio" name="theme" value="관광" onClick="this.form.textbox.disabled=true">관광
-							<input type="radio" name="theme" value="쇼핑" onClick="this.form.textbox.disabled=true">쇼핑
-							<input type="radio" name="theme" value="식도락" onClick="this.form.textbox.disabled=true">식도락
-							<input type="radio" name="theme" value="관람" onClick="this.form.textbox.disabled=true">공연관람
-							<input type="radio" name="theme" value="기타" onClick="this.form.etc.disabled=false">기타
+							<input type="radio" name="theme" value="휴식"   onClick="this.form.etc.disabled=true">휴식
+							<input type="radio" name="theme" value="관광"   onClick="this.form.etc.disabled=true">관광
+							<input type="radio" name="theme" value="쇼핑"   onClick="this.form.etc.disabled=true">쇼핑
+							<input type="radio" name="theme" value="식도락"  onClick="this.form.etc.disabled=true">식도락
+							<input type="radio" name="theme" value="관광"   onClick="this.form.etc.disabled=true">공연관람
+							<input type="radio" name="theme" value="기타"   onClick="this.form.etc.disabled=false">기타
 							<input type="text" name="etc" placeholder="입력해주세요.">
-							
 						</td>
 					</tr>
 					<tr>
