@@ -16,7 +16,6 @@
 	#buddyListTh, #buddyListTd{border-top:1px solid; border-bottom:1px solid;}
 	#buddyList td{border-bottom:1px solid lightgray; text-align:center;}
 	.gradeBtn{color:#FF8000; font-weight:bold; cursor:pointer;}
-
 </style>
 </head>
 <body>
