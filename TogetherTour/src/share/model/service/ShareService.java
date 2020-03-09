@@ -21,24 +21,22 @@ public class ShareService {
 		int result2 = sDAO.insertSattachment(conn, fileList, share) ;
 		if(result1>0 && result2>0)	commit(conn) ;
 		else						rollback(conn) ;
+		close(conn)    ;
 		return result1 ;
 	}
 
 	public int insertShare(Share share) {
 		Connection	conn = getConnection() ;
-		ShareDAO	sDAO = new ShareDAO()  ;
-		int result = sDAO.insertShare(conn, share) ;
+		int result = new ShareDAO().insertShare(conn, share) ;
 		if(result>0) commit(conn) ;
 		else		 rollback(conn) ;
+		close(conn)   ;
 		return result ;
 	}
 
-	public ArrayList selectShareList(int i) {
+	public ArrayList<Share> selectShareList() {
 		Connection	conn = getConnection() ;
-		ArrayList  list = null ;
-		ShareDAO	sDAO = new ShareDAO() ;
-		if(i==1) list = sDAO.selectSList(conn) ;
-		else	 list = sDAO.selectFList(conn) ;
+		ArrayList<Share> list = new ShareDAO().selectSList(conn) ;
 		close(conn) ;
 		return list ;
 	}
@@ -55,29 +53,29 @@ public class ShareService {
 			else			rollback(conn) ;
 		} else {
 			rollback(conn);
-		} return share ;
+		} close(conn) ;
+		return share ;
 	}
 
 	public ArrayList<Sattachment> selectPicture(int sbNum) {
 		Connection	conn = getConnection() ;
 		ArrayList<Sattachment> list = new ShareDAO().selectPicture(conn, sbNum) ;
+		close(conn) ;
 		return list ;
 	}
 
 	public int deleteShare(int sbNum) {
 		Connection	conn = getConnection() ;
 		int result = new ShareDAO().deleteShare(conn, sbNum) ;
-		
 		if(result>0) commit(conn) ;
 		else		 rollback(conn) ;
-		
+		close(conn)   ;
 		return result ;
 	}
 
 	public ArrayList<sReply> selectReplyList(int sbNum) {
 		Connection	conn = getConnection() ;
-		ShareDAO	sDAO = new ShareDAO()  ;
-		ArrayList<sReply> rList = sDAO.selectReplyList(conn, sbNum) ;
+		ArrayList<sReply> rList = new ShareDAO().selectReplyList(conn, sbNum) ;
 		return rList ;
 	}
 
@@ -92,48 +90,45 @@ public class ShareService {
 			rList = sDAO.selectReplyList(conn, reply.getSbNum()) ;
 		} else {
 			rollback(conn) ;
-		} return rList ;
+		} close(conn) ;
+		return rList  ;
 	}
 
 	public int updateShare(Share share, ArrayList<Sattachment> fileList) {
 		Connection conn = getConnection() ;
 		ShareDAO sDAO = new ShareDAO() ;
 		int result1 = sDAO.updateSattachment(conn, fileList, share) ;
-		System.out.println("result1 : "+result1) ;
 		int result2 = sDAO.updateShare(conn, share) ;
 		if(result1>0 && result2>0)	commit(conn) ;
 		else						rollback(conn) ;
+		close(conn)    ;
 		return result2 ;
 	}
 
 	public int updateShare(Share share) {
 		Connection conn = getConnection() ;
-		ShareDAO sDAO = new ShareDAO() ;
-		int result = sDAO.updateShare(conn, share) ;
+		int result = new ShareDAO().updateShare(conn, share) ;
 		if(result>0) commit(conn) ;
 		else		 rollback(conn) ;
-		close(conn) ;
+		close(conn)   ;
 		return result ;
 	}
 
 	public int updateOldSatt(int sbNum) {
 		Connection conn = getConnection() ;
-		ShareDAO sDAO = new ShareDAO() ;
-		int result = sDAO.updateOldSatt(conn, sbNum) ;
+		int result = new ShareDAO().updateOldSatt(conn, sbNum) ;
 		if(result>0) commit(conn) ;
 		else		 rollback(conn) ;
-		close(conn) ;
+		close(conn)   ;
 		return result ;
 	}
 
 	public int deleteReply(int rId) {
-		Connection conn = getConnection();
-		ShareDAO sDAO = new ShareDAO();
-		System.out.println("deleteReply service 입장") ;
-		int result = sDAO.deleteReply(conn,rId);
-		System.out.println("deleteReply service"+result) ;
+		Connection conn = getConnection() ;
+		int result = new ShareDAO().deleteReply(conn,rId) ;
 		if(result>0) commit(conn) ;
 		else		 rollback(conn) ;
-		return result;
+		close(conn)   ;
+		return result ;
 	}
 }

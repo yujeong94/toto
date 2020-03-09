@@ -25,12 +25,10 @@ public class ShareListServlet extends HttpServlet {
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ShareService service = new ShareService() ;
-		ArrayList<Share>		sList = service.selectShareList(1) ;
-		ArrayList<Sattachment>	fList = service.selectShareList(2) ;
+		ArrayList<Share> sList = service.selectShareList() ;
 		String page = null ;
-		if(sList != null && fList != null) {
+		if(sList != null) {
 			request.setAttribute("sList", sList) ;
-			request.setAttribute("fList", fList) ;
 			page = "views/share/ShareListView.jsp" ;
 		} else {
 			request.setAttribute("msg","나눔 게시판 조회에 실패했습니다.") ;

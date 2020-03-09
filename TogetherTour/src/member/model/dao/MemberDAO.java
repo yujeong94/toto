@@ -285,9 +285,6 @@ public class MemberDAO {
 			pstmt.setString(3, userImg.getFilePath()) ;
 			pstmt.setString(4, member.getmId()) ;
 			result = pstmt.executeUpdate() ;
-			System.out.println("[Info] [DAO : updateUserImg] [OriginName : '"+userImg.getOriginName()+"']") ;
-			System.out.println("[Info] [DAO : updateUserImg] [ChangeName : '"+userImg.getChangeName()+"']") ;
-			System.out.println("[Info] [DAO : updateUserImg] [FilePath : '"+userImg.getFilePath()+"']") ;
 		} catch (SQLException e) {
 			System.out.println("\n---------------------------[ERROR]---------------------------") ;
 			System.out.println(e.getMessage()) ;

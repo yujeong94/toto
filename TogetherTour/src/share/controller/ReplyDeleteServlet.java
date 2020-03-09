@@ -29,9 +29,7 @@ public class ReplyDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("delete Reply Servlet");
 		int sbNum = Integer.parseInt(request.getParameter("sbNum"));
-		System.out.println("sbNum"+sbNum);
 		int rId = Integer.parseInt(request.getParameter("rId"));
 		
 		int result = new ShareService().deleteReply(rId);

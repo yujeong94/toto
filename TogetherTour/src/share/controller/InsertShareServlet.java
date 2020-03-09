@@ -65,7 +65,6 @@ public class InsertShareServlet extends HttpServlet {
 			}	
 			String mid = multipartRequest.getParameter("mid") ;
 			String fileCheck = multipartRequest.getParameter("fileBool") ;
-			System.out.println("[Info] [Insert Share Servlet] [File 존재 여부 : "+(fileCheck.equals("trueFiles") ? "파일이 존재합니다.]" : "파일이 존재하지 않습니다.]")) ;
 			Share share = new Share() ;
 			share.setTitle(title) ;
 			share.setCategory(category) ;

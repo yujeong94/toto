@@ -227,10 +227,8 @@
 				}
 				
 				if(fileCheck1 == "" && fileCheck2 == "" && fileCheck3 == "" && fileCheck4 == "" && fileCheck5 == "") {
-					alert("falseFiles") ;
 					$('#fileBool').val("falseFiles") ;
 				} else {
-					alert("trueFiles") ;
 					$('#fileBool').val("trueFiles") ;
 				}
 				

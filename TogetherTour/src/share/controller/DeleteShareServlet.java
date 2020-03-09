@@ -22,7 +22,6 @@ public class DeleteShareServlet extends HttpServlet {
 
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("test") ;
 		int sbNum = Integer.parseInt(request.getParameter("sbNum")) ;
 		int result = new ShareService().deleteShare(sbNum) ;
 		

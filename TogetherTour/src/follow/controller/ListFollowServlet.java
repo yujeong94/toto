@@ -32,7 +32,6 @@ public class ListFollowServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Member> mList = null ;
 		String mId = ((Member)session.getAttribute("loginUser")).getmId() ;
-		System.out.println("[Info] [Follow List Servlet] [MID : ("+mId+")]") ;
 		
 		String page = "" ;
 		

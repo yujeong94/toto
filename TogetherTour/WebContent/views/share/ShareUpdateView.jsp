@@ -264,11 +264,6 @@
 					} else if($('#kind').val() == 0 || $('#country').val() == 0 || $('#city').val() == 0) {
 						alert('거래 장소를 입력하세요.') ;
 						bool = false ;
-					} else if($('#stNum').val() == "")
-					alert($('#kind').val()) ;
-					if($('#kakao').val() == "") {
-						$('#kakao').text("내용이 입력되지 않았습니다.") ;
-						alert("Kakao : "+$('#kakao').val()) ;
 					}
 					
 					if(fileCheck1 == "" && fileCheck2 == "" && fileCheck3 == "" && fileCheck4 == "" && fileCheck5 == "") {

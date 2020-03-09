@@ -12,6 +12,9 @@
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/common_sub.css">
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/share/share_board.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<style>
+		#lists {border:1px solid black;}
+	</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -20,38 +23,10 @@
 			<h2><span>나눔 게시판</span></h2>
 			<p style="margin-top:-70px; margin-bottom:30px; font-size:1.4rem; font-weight:normal; text-align:center;">여행하면서 서로 남은 물건들을 공유할 수 있는 곳입니다.</p>
 			<hr>
-			<form id="schForm">
-				<div class="search">
-					<select id="schKind">
-						<option value="none">검색 옵션 선택</option>
-						<option value="category">물품 종류</option>
-						<option value="title">게시물 이름</option>
-						<option value="nick">작성자 닉네임</option>
-						<option value="state">거래 상태</option>
-					</select>&nbsp;&nbsp;
-					<input type="text" id="defaultSch" class="schElement" placeholder="물품 종류를 선택하세요." disabled>
-					<select id="category" class="schElement" style="display:none;">
-						<option value="none">물품 종류 선택</option>
-						<option value="USIM">유심(USIM)</option>
-						<option value="traffic">교통권</option>
-						<option value="ticket">티켓(ticket)</option>
-						<option value="necess">생필품(necessity)</option>
-						<option value="money">돈(money)</option>
-						<option value="etc">기타(..etc)</option>
-					</select>
-					<input type="text" placeholder="게시물 이름 입력" id="title" class="schElement" style="display:none;">
-					<input type="text" placeholder="작성자 닉네임 입력" id="nick" class="schElement" style="display:none;">
-					<select id="state" class="schElement" style="display:none;">
-						<option value="none">거래 상태 설정</option>
-						<option value="possible">거래 가능</option>
-						<option value="complete">거래 완료</option>
-						<option value="progress">진행중</option>
-					</select>&nbsp;&nbsp;
-					<input type="submit" value="검색하기" id="button" class="sch">
-				</div>
+			<form id="shareListForm">
 				<hr><br>
 				<table id="shareContent" class="listArea">
-					<tr><th width="7.5%">번호</th><th width="12.5%">나눔카테고리</th><th width="20%">게시글명</th><th width="20%">작성자</th><th width="10%">작성일</th><th width="15%">거래지</th><th width="7%">조회수</th><th width="8%">거래 상태</th></tr>
+					<tr id="lists"><th width="7.5%">번호</th><th width="12.5%">나눔카테고리</th><th width="18%">게시글명</th><th width="18%">작성자</th><th width="10%">작성일</th><th width="19%">거래지</th><th width="7%">조회수</th><th width="8%">거래 상태</th></tr>
 					<% if(sList.size() == 0) { %>
 						<tr>
 							<td colspan="8" style="text-align:center;">
@@ -77,7 +52,7 @@
 										해외 / <%= share.getCountry() %> / <%= share.getCity() %>
 									<% } %>
 								</td>
-								<td><input type="hidden" value="<%= share.getsCount()	%>"><%= share.getsCount()	%></td>
+								<td><input type="hidden" value="<%= share.getsCount()	%>"><%= share.getsCount()	%>회</td>
 								<td><input type="hidden" value="<%= share.getStatus()	%>"><%= share.getStName()	%></td>
 							</tr>
 						<% } %>
