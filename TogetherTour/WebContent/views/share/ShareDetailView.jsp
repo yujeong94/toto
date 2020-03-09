@@ -121,17 +121,15 @@
 				</table>
 			</div>
 			<form action="<%= request.getContextPath() %>" id="ReplyForm" method="post">
-				<div id="replySelectArea">
-					<hr>
-					<hr>
+				<div id="replySelectArea"><hr><hr>
 					<table id = "replySelectTable">
 						<% if(rList.isEmpty()){ %>
-						<tr><td colspan = "3">댓글이 없습니다.</td></tr>
+							<tr><td colspan="3">댓글이 없습니다.</td></tr>
 						<% } else { %>
 							<% for(int i = 0 ; i < rList.size() ; i++) { %>
 								<tr>
 									<td width="50px"><%= rList.get(i).getWriter() %><input type="hidden" name = "rId" value="<%= rList.get(i).getrId() %>"></td>
-									<td width="300px"><%= rList.get(i).getContent() %><input type="hidden" id ="rnum" name ="rnum" value="<%= share.getSbNum()%>"></td>
+									<td width="300px"><%= rList.get(i).getContent() %><input type="hidden" id ="sbNum" name ="sbNum" value="<%= share.getSbNum()%>"></td>
 									<td width="100px"><%= rList.get(i).getCreateDate() %></td>
 									<% if(loginUser.getNickName().equals(rList.get(i).getWriter()) || loginUser.getNickName().equals("admin")){ %>
 										<td width="10px" id ="Replydelete"><div onclick="deleteReviewReply() ;" id="ReplydeleteBtn">댓글 삭제</div></td>
@@ -149,7 +147,7 @@
 			function deleteShare() {
 				var bool = confirm('정말로 삭제하시겠습니까?') ;
 				if(bool) {
-					$('#detailForm').attr('action', 'delete.share') ;
+					$('#detailForm').attr('action', '<%= request.getContextPath() %>/Rdelete.share') ;
 					$('#detailForm').submit() ;
 				} else {
 					alert('취소하셨습니다.') ;
@@ -183,60 +181,10 @@
 					 			$tr.append($dateTd) ;
 					 			$replyTable.append($tr) ;
 					 		}
-					 		$('#replyContent').val('') ; },
-					 	error: function(data) {
-					 		alert('Ajax ERROR') ;
-					 		alert('writer : '+writer) ;
-					 		alert('content : '+content) ;
-					 		alert('sbNum : '+sbNum) ; },
-					 	complete: function(data) {
-					 		alert('Ajax COMPLETE') ;
-					 		alert('writer : '+writer) ;
-					 		alert('content : '+content) ;
-					 		alert('sbNum : '+sbNum) ; }
+					 		$('#replyContent').val('') ;
+				 		}
 					}) ;
 				}
-			}) ;
-		</script>
-		<script>
-			function deleteReviewReply(){
-				var bool = confirm('댓글을 정말로 삭제하시겠습니까?') ;
-				if(bool){
-					$('#ReplyForm').attr('action', '<%= request.getContextPath() %>/Rdelete.share') ;
-					$('#ReplyForm').submit() ;
-				}
-			}
-			$('#addReply').click(function(){
-				var writer = '<%=loginUser.getmId()%>' ;
-				var sbNum = "<%=share.getSbNum()%>" ;
-				var content =$('#replyContent').val() ;
-				
-				$.ajax({
-					url:'<%= request.getContextPath()%>/insertReply.share',
-					type:'post',
-					data: {writer: writer, content:content, sbNum:sbNum},
-					success:function(data){
-						$replyTable = $('#replySelectTable') ;
-						$replyTable.html("") ;
-						for(var key in data){
-							var $tr = $('<tr>') ;
-							var $writerTd = $('<td>').text(data[key].rWriter).css('width','50px') ;
-							var $contentTd = $('<td>').text(data[key].rContent).css('width','300px') ;
-							var $dateTd = $('<td>').text(data[key].createDate).css('width','100px') ;
-							
-							$tr.append($writerTd) ;
-							$tr.append($contentTd) ;
-							$tr.append($dateTd) ;
-							
-							/* if(writer.equals(loginUser.getmId())){
-								$tr.append('#Replydelete') ;
-							} */
-							
-							$replyTable.append($tr) ;
-						}
-						$('#replyContent').val('') ;
-					}
-				}) ;
 			}) ;
 		</script>
 	</div>
