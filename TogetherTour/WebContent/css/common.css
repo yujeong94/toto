@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean');
+@import url("reset.css");
 
 *, *::before, *::after {
 	box-sizing : border-box;
@@ -10,13 +11,14 @@ html {
 	font-size:10px;
 	width : 100%;
 	height: 100%;
+	overflow-y:scroll;
 }
 
 body {
 	font-family: 'Nanum Gothic', sans-serif;
 	font-size : 1.2rem;
 	line-height : 1.5;
-	color: #efefef;
+	color: #efefef; 
 	width : 100%;
 	height : 100%;
 	background : url("../images/airplanenew.jpg") center 0 no-repeat fixed;
@@ -115,10 +117,11 @@ img {
 /* 메뉴 상단 고정 */
 .header {
 	position: absolute;
+	top:0;
 	width: 100%;
 	z-index: 100;
-	background : url("../images/airplanenew.jpg") center 0 no-repeat fixed;
-	background-size : cover; 
+	/* background : url("../images/airplanenew.jpg") center 0 no-repeat fixed;
+	background-size : cover; */
 }
 .header.sticky {
 	position: fixed;
@@ -156,6 +159,7 @@ img {
 	z-index: 1000;
 	top : 40px;
 	white-space: nowrap;
+	display : none;
 }
 .sub-menu > li {
 	display : inline-block;
@@ -163,24 +167,25 @@ img {
 }
 
 /* 푸터  */
+.footer-bg {
+	width:100%;
+	position:fixed; 
+	bottom: 0;
+	background-image: linear-gradient(to top, #01244c, rgba(1, 36, 76, 0));
+	padding : 20px 0;
+}
 .footer {
 	border-top : 1px solid #cbcbcb;
 	padding : 50px 0 0;
 	margin-top : 30px;
-	margin-bottom : 70px;
+	padding-bottom : 30px;
 } 
-.footer-logo, .footer-text {
-	float : left;
-}
-.footer-menu {
-	float : right;
-	margin-right : 30px;
-}
 
 .footer-logo {
 	margin-right : 30px;
 	margin-top: 5px;
 	margin-left : 20px;
+	float : left;
 }
 .footer-logo img {
 	width : 100px;
@@ -189,8 +194,8 @@ img {
 .footer-text {
 	text-align : center;
 	border-left : 1px solid #cbcbcb;
-	border-right : 1px solid #cbcbcb;
-	padding : 0 150px;
+	float : right;
+	width : 80%;
 }
 
 
@@ -251,7 +256,7 @@ legend {
 }
 
 button.is-act {
-	background : #595959;
+	background : #00749d/* #595959 */;
 	color : #fff;
 }
 

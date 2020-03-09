@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
@@ -18,7 +17,7 @@
 	.loginArea{width:600px; height:600px; 
 	           margin:auto;}
 	#btnArea{margin-top:10px; font-size:13px;}
-	#loginBtn{width:80px; margin-bottom:20px; background:#F7BE81; border: 0px; box-shadow:none; color:white;}
+	#loginBtn{width:80px; margin-bottom:20px; background:#000/* background:#F7BE81 */; border: 0px; box-shadow:none; color:white;}
 	#loginBtn,#enrollBtn,.find{cursor:pointer;}
 	.inputStyle{border: 0px; box-shadow:none; border-bottom:1px solid black;}
 </style>

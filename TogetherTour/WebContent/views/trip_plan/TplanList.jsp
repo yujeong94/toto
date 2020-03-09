@@ -28,9 +28,9 @@
 <head>
 <meta charset="UTF-8">
 <title>여행 리스트 | TogetherTour</title>
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
 	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
-	
+	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/trip/trip_common.css">
+
 	<style>
 
 		td{cursor:default;}
@@ -68,13 +68,9 @@
 		}
 		
 		.insertBtnArea {
-			padding : 50px 0 0;
+			padding : 50px 0;
 		}
 		
-		.searchBtnArea button, .insertBtnArea button {
-			width : 150px;
-		
-		}
 		.tableArea tr:first-of-type th {
 			border-bottom : 1px solid #000;
 		}
@@ -111,7 +107,7 @@
 										<option value ="nick">작성자</option>
 										<option value ="location">여행지</option>
 									</select>
-									<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content">
+									<input type="text" placeholder="검색어를 입력해주세요." name = "content" id="content" size="70">
 									<input type="submit" id="search" value= "검색">
 								
 								</td>
@@ -169,10 +165,10 @@
 				<!-- 페이징  -->
 				<% if(!list.isEmpty()){ %>
 					<!-- 맨 처음으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=1'" id="firstBtn">&lt;&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=1'" id="firstBtn" class="icon-fast-backward"></button>
 					
 					<!-- 이전 페이지로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage-1 %>'" id="beforeBtn" class="icon-to-start"></button>
 					<script>
 						if(<%= currentPage %> <= 1){
 							var first = $('#firstBtn');
@@ -192,10 +188,10 @@
 					<% } %>
 					
 					<!-- 다음 페이지로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= currentPage + 1 %>'" id="afterBtn" class="icon-to-end"></button>
 					
 					<!-- 맨 끝으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= maxPage %>'" id="lastBtn">&gt;&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.trip?currentPage=<%= maxPage %>'" id="lastBtn" class="icon-fast-forward"></button>
 				<% } %>
 				<script>
 					if(<%= currentPage %> >= <%= maxPage %>){
@@ -231,7 +227,7 @@
 	$(function(){
 		<% if(!list.isEmpty()){ %>
 			$('.listArea td').mouseenter(function(){
-				$(this).parent().css({'background':'lightgray'});
+				$(this).parent().css({'background':'#F6E3CE'}); /* #F6E3CE */
 			}).mouseout(function(){
 				$(this).parent().css('background','none');
 			});

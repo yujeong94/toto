@@ -6,8 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>여행동행사이트 투투</title>
-	<link rel="stylesheet" href="css/index.css">
 	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/index.css">
 	
 	<style>
 	#dateSearch {
@@ -15,8 +15,9 @@
 		border : none;
 		background : #000;
 		color : white;
+		margin-left: 20px;
 	  }
-</style>
+	</style>
 </head>
 
 

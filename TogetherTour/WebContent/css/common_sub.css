@@ -1,6 +1,8 @@
 @charset "utf-8";
 
 @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&display=swap&subset=korean');
+@import url("fontello.css");
+@import url("reset.css");
 
 *, *::before, *::after {
 	box-sizing : border-box;
@@ -16,9 +18,11 @@ body {
 	font-family: 'Nanum Gothic', sans-serif;
 	font-size : 1.2rem;
 	line-height : 1.5;
-	color: #000;
+/* 	color: #efefef; */
 	width : 100%;
 	height : 100%;
+	background : url("../images/airplanenew.jpg") center 0 no-repeat fixed;
+	background-size : cover;
 }
 
 /* 링크 */
@@ -116,10 +120,15 @@ img {
 	top: 0;
 	width: 100%;
 	z-index: 100; 
-	background : url("../images/main_sub.jpg") center 0 no-repeat;
+	/* background-color : #fff; */
+	background : url("../images/airplanenew.jpg") center 0 no-repeat fixed;
 	background-size : cover;
-	border-bottom: 1px solid #444;
+	color : #efefef; 
+	/* border-bottom: 1px solid #444; */
+	text-shadow : 1px 1px 1px #000;
+	/* box-shadow : 0 2px 5px #ccc; */
 }
+
 .header.sticky {
 	position: fixed;
 	top: 0;
@@ -156,6 +165,7 @@ img {
 	z-index: 1000;
 	top : 40px;
 	white-space: nowrap;
+	display : none;
 }
 .sub-menu > li {
 	display : inline-block;
@@ -165,29 +175,29 @@ img {
 /* 콘텐츠 */
 .contents {
 	margin-top: 150px;
-	background : url("../images/sub-back.png") center 0 no-repeat;
-	padding-top: 1px;
+	/* background-color : rgba(255, 255, 255, 0.9); */
+	background :rgba(255, 255, 255, 0.93) url("../images/sub-back.png") center 0 no-repeat;
+	padding: 50px 50px 70px;
 }
 
 /* 푸터  */
 .footer {
 	border-top : 1px solid #cbcbcb;
 	padding : 50px 0 0;
-	margin-top : 150px;
-	margin-bottom : 70px;
+	margin-top : 100px;
+	padding-bottom : 30px;
 } 
-.footer-logo, .footer-text {
-	float : left;
+.footer-bg {
+	width:100%;
+	background-image: linear-gradient(to top, #01244c, rgba(1, 36, 76, 0));
+	padding : 20px 0;
+	color : #efefef;
 }
-.footer-menu {
-	float : right;
-	margin-right : 30px;
-}
-
 .footer-logo {
 	margin-right : 30px;
 	margin-top: 5px;
 	margin-left : 20px;
+	float : left;
 }
 .footer-logo img {
 	width : 100px;
@@ -196,8 +206,8 @@ img {
 .footer-text {
 	text-align : center;
 	border-left : 1px solid #cbcbcb;
-	border-right : 1px solid #cbcbcb;
-	padding : 0 150px;
+	float : right;
+	width : 80%;
 }
 
 
@@ -208,8 +218,8 @@ img {
 h2 {
 	font-size : 2.4rem;
 	font-weight : 800;	
-	margin-top : 200px;
-	margin-bottom : 100px;
+	margin-top : 100px;
+	margin-bottom : 50px;
 	color : #333f50;
 	text-align: center;
 }
@@ -267,16 +277,15 @@ button.is-act {
 button {
 	padding : 9px 20px;
 	border : none;
-	background : #999999;
+	background :#005952;/*  #F7BE81 */ /* #00749d */
 	color : #fff;
 }
 
 input, select, option, textarea {
 	padding : 8px 12px;
-	border : 1px solid #cbcbcb;
-	background : #fff;
+	border : 1px solid #000; /* #cbcbcb */
+	background : inherit;
 	color : #000;
-	box-shadow : inset 1px 1px 3px #e6e6e6;
 	vertical-align: middle;
 }
 
@@ -286,13 +295,12 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 select, option {
-	padding : 10px 12px;
-	border : 1px solid #cbcbcb;
+	padding : 9px 12px;
+	border : 1px solid #000;
 	background : #fff;
-	box-shadow : inset 1px 1px 3px #e6e6e6;
 }
 
-input[type="button"], button {
+input[type="button"], input[type="submit"], button {
 	cursor: pointer;
 }
 
@@ -309,5 +317,16 @@ input:focus, textarea:focus, button:focus, select:focus {
 }
 
 
+/* 페이지 버튼 */
+#firstBtn, #beforeBtn, #afterBtn, #lastBtn, #numBtn, #choosen {
+	color : #000;
+	background : none;
+	padding : 9px 10px;
+} 
+
+#numBtn, #choosen {
+	font-weight : 700;
+	padding : 9px 10px;
+}
 
 
