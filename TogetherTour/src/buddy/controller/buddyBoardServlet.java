@@ -69,7 +69,7 @@ public class buddyBoardServlet extends HttpServlet {
 		page = "views/buddy/buddyListView.jsp";
 		request.setAttribute("list", list);
 		request.setAttribute("pi", pi);
-	} else {
+	} else { 
 		page = "views/common/errorPage.jsp";
 		request.setAttribute("msg", "게시판 조회에 실패하였습니다.");
 	}

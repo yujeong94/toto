@@ -40,12 +40,13 @@ public class InsertBuddyServlet extends HttpServlet {
 		int result = service.insertBuddy(bnum,userId,buddyId);
 		
 		// 동행인원수 카운트 
-		int headC = service.selectCount(bnum);
-		
+		int head = service.selectCount(bnum);
+		String headC = head + "";
 		String page = null;
 		if(result > 0) {
-			page = "/list.buddy";
+			page = "/detail.buddy";
 			request.setAttribute("headC", headC);
+			request.setAttribute("msg","참가 되었습니다."); 
 		} else {
 			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "동행참가에 실패했습니다.");

@@ -5,7 +5,7 @@
 	ArrayList<buddyBoard> list = (ArrayList<buddyBoard>)request.getAttribute("list");
 	PageInfo pi = (PageInfo) request.getAttribute("pi");
 	
-	
+	 
 	int listCount = pi.getListCount();
 	int currentPage = pi.getCurrentPage(); // 현재페이지 
 	int maxPage = pi.getMaxPage(); //

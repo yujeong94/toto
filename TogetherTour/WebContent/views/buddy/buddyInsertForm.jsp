@@ -39,7 +39,7 @@
 				<table>
 					<tr>
 						<th>제목</th>
-						<td><input type="text" size="80" name="title"></td>
+						<td><input type="text" size="80" name="title" required></td>
 					</tr>
 					<tr>
 						<th>여행지역</th>
@@ -72,8 +72,8 @@
 							<input type="radio" name="theme" value="식도락" onClick="this.form.textbox.disabled=true">식도락
 							<input type="radio" name="theme" value="관람" onClick="this.form.textbox.disabled=true">공연관람
 							<input type="radio" name="theme" value="기타" onClick="this.form.etc.disabled=false">기타
-							<input type="text" name="etc" placeholder="입력해주세요."><!-- style="background:#E5E5E5" -->
-							<!-- 원하는것-> 기타 활성화 되면 텍스트박스 컬러 그레이>화이트로 변경, 기타를 한번밖에 체크가 안됌;; -->
+							<input type="text" name="etc" placeholder="입력해주세요.">
+							
 						</td>
 					</tr>
 					<tr>
@@ -98,7 +98,11 @@
 							<input type="radio" name="group_age" value="00"> 상관없음
 						</td>
 					</tr>
-					
+					<tr>
+						<th><label>오픈카카오톡주소</label></th>
+						<td><input type=text name=kakao id=kakao size=81px></td>
+					</tr>
+				
 					<tr>
 						<th>여행소개</th>
 						<td>

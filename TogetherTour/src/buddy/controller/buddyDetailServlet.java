@@ -33,12 +33,16 @@ public class buddyDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int bnum = Integer.parseInt(request.getParameter("bnum"));
-		
+		String headC = (String)request.getAttribute("headC");
+		String msg = (String)request.getAttribute("msg");
 		buddyBoard board = new buddyBoardService().selectBoard(bnum); // 
+		System.out.println("디테일이다 "+ msg + headC);
 		String page = null;
 		if(board != null) {
 			page = "views/buddy/buddyBoardDetail.jsp" ;
-			request.setAttribute("board", board) ;
+			request.setAttribute("headC", headC);
+			request.setAttribute("board", board) ; 
+			request.setAttribute("msg", msg);
 		} else {
 			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "게시판 조회에 실패했습니다.");
