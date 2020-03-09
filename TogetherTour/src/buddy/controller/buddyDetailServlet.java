@@ -41,7 +41,7 @@ public class buddyDetailServlet extends HttpServlet {
 		if(board != null) {
 			page = "views/buddy/buddyBoardDetail.jsp" ;
 			request.setAttribute("headC", headC);
-			request.setAttribute("board", board) ;
+			request.setAttribute("board", board) ; 
 			request.setAttribute("msg", msg);
 		} else {
 			page = "views/common/errorPage.jsp";

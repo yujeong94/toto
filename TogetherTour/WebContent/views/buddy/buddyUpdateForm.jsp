@@ -54,11 +54,11 @@ if(!theme.equals("")){
 		case "상관없음" : checkedGender[2] = "checked"; break;
 		}
 	}
-}
+} 
 
 // group_age
-int[] checkedGroup_age = new int[5];
-if(!group_age.equals("")){
+/* int[] checkedGroup_age = new int[5];
+/* if(!group_age.equals("")){
 	String[] group_ageArr = group_age.split(",");
 	
 	for(int i = 0; i < group_ageArr.length; i++){
@@ -69,7 +69,7 @@ if(!group_age.equals("")){
 		}
 	}
 }
-
+ */ 
 %> 
 <!DOCTYPE html>
 <html>

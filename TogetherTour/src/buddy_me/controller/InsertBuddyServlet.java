@@ -46,7 +46,7 @@ public class InsertBuddyServlet extends HttpServlet {
 		if(result > 0) {
 			page = "/detail.buddy";
 			request.setAttribute("headC", headC);
-			request.setAttribute("msg","참가 되었습니다.");
+			request.setAttribute("msg","참가 되었습니다."); 
 		} else {
 			page = "views/common/errorPage.jsp";
 			request.setAttribute("msg", "동행참가에 실패했습니다.");

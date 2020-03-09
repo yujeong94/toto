@@ -173,9 +173,9 @@
 						$('#detailForm').submit();
 					}
 				}
-				
+				 
 		
-				// 참가 버튼 클릭시
+				// 참가 버튼 클릭시 
 				 function join(){
 					var headCnt = <%= b.getHead_cnt() %> + 1;
 					console.log(headCnt);
