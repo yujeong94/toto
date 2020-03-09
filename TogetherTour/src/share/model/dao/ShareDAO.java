@@ -57,7 +57,7 @@ public	class ShareDAO {
 		} return result ;
 	}
 	
-	public	int		insertSattachment(Connection conn, ArrayList<Sattachment> fileList, Share share) {
+	public int insertSattachment(Connection conn, ArrayList<Sattachment> fileList, Share share) {
 		PreparedStatement ptmt = null ;
 		int result = 0 ;
 		String query = prop.getProperty("insertSattachment") ;
@@ -120,7 +120,7 @@ public	class ShareDAO {
 		} return list ;
 	}
 
-	public ArrayList selectFList(Connection conn) {
+	public ArrayList<Sattachment> selectFList(Connection conn) {
 		Statement stmt = null ;
 		ResultSet rset = null ;
 		ArrayList<Sattachment> list = null ;

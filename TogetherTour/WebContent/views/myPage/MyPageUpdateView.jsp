@@ -45,13 +45,17 @@
 					}
 				</script>
 				<form action="<%= request.getContextPath() %>/update.myPage" method=post id=joinForm onsubmit="return validate();" encType="multipart/form-data">
-					<div id="profileArea" style="border:1px solid black;" onclick="">
-						<img id="profile" src="">
-					</div>
-					<div style="text-align:center;">
-						<input type=file id=ImgBtn name=ImgBtn onchange="LoadImg(this)">
-					</div><br><br><br>
 					<table id="contentArea">
+						<tr>
+							<td colspan="5">
+								<div id="profileArea" style="border:1px solid black;" onclick="">
+									<img id="profile" src="">
+								</div>
+								<div style="text-align:center;">
+									<input type=file id=ImgBtn name=ImgBtn onchange="LoadImg(this)" required>
+								</div><br><br>
+							</td>
+						</tr>
 						<tr>
 							<th>아이디</th>
 							<td colspan="4"><input type=text name=joinUserId id=joinUserId style="width:100%; background-color:#E6E6E6;" value="<%=loginUser.getmId()%>" readonly></td>
@@ -60,6 +64,16 @@
 							<th rowspan="2">닉네임</th>
 							<td colspan="4"><input type=text name=nickName id=nickName style="width:100%;" value="<%=loginUser.getNickName()%>" required></td> </tr> <tr>
 							<td colspan="4"><span id=checkNick>(영문소문자 또는 한글, 2자~12자)</span></td>
+						</tr>
+						<tr>
+							<th rowspan="2">비밀번호 </th>
+							<td colspan="4"><input type=password name=joinUserPwd id=joinUserPwd style="width:100%;" value="<%=loginUser.getPwd()%> %>" required></td> </tr> <tr>
+							<td colspan="4"><span id=checkPwd>(영문 대소문자/숫자/특수문자 각 1가지 이상의 조합, 8자~16자)</span></td>
+						</tr>
+						<tr>
+							<th rowspan="2">비밀번호 확인 </th>
+							<td colspan="4"><input type=password name=pwd2 id=pwd2 style="width:100%;" required></td> </tr> <tr>
+							<td colspan="4"><span id=checkPwd2></span></td>
 						</tr>
 						<tr>
 							<th>이름</th>
