@@ -41,7 +41,7 @@ public class buddyBoardService {
 
 	// 동행자 게시글 등록
 	public int insertBoard(String writer, buddyBoard board) {
-		Connection conn = getConnection();
+		Connection conn = getConnection();	
 		buddyBoardDAO dao = new buddyBoardDAO();
 		
 		int result = dao.insertBoard(conn, writer, board);
@@ -97,7 +97,7 @@ public class buddyBoardService {
 		return result;
 	}
 	
-	// 여기까진 일단 ㅇㅇ  아래 복붙한거임
+	
 	public int updateBoard(buddyBoard b) {
 		Connection conn = getConnection();
 		buddyBoardDAO bDAO = new buddyBoardDAO();
