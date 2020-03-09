@@ -65,7 +65,6 @@ public class MyPageUpdateServlet extends HttpServlet {
 			String userName = multipartRequest.getParameter("userName") ;
 			String email = multipartRequest.getParameter("email") ;
 			String gender = multipartRequest.getParameter("gender") ;
-			System.out.println("[Info] [UpdateMember Servlet] [Gender : '"+gender+"']") ;
 			String age = multipartRequest.getParameter("age") ;
 			String userType = multipartRequest.getParameter("userType") ;
 			int typeInt = 0 ;
@@ -74,7 +73,6 @@ public class MyPageUpdateServlet extends HttpServlet {
 			
 			Member member = new Member(joinUserId, nickName, joinUserPwd, userName, gender, email, typeInt, age) ;
 			int result = new MemberService().updateMember(member,userImg) ;
-			System.out.println("Result : "+result) ;
 			String page = null ;
 			if(result > 0) {
 				page="viewSelf.myPage" ;

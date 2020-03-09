@@ -59,6 +59,17 @@
 					window.open('views/myPage/memberProfile.jsp?userNick='+userNick,'profileForm','width=500, height=700');
 				}) ;
 			}) ;
+			
+			$(function() {
+				if(<%=loginUser.getmKind()%>==2) {
+					$('#followList').css('display','none') ;
+					$('#buddyList').css('display','none') ;
+				} else {
+					$('#followList').click(function() {
+						location.href = "<%= request.getContextPath() %>/list.follow" ;
+					}) ;
+				}
+			}) ;
 		</script>
 		<!--E:footer-->
 		<!--S:footer-->

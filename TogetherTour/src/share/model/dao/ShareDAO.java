@@ -45,7 +45,6 @@ public	class ShareDAO {
 			ptmt.setString(7, share.getCountry()) ;
 			ptmt.setString(8, share.getCity()) ;
 			result = ptmt.executeUpdate() ;
-			System.out.println("result : ["+result+"]") ;
 		} catch (SQLException e) {
 			System.out.println("\n---------------------------[ERROR]---------------------------") ;
 			System.out.println(e.getMessage()) ;
@@ -82,7 +81,7 @@ public	class ShareDAO {
 		} return result ;
 	}
 
-	public ArrayList selectSList(Connection conn) {
+	public ArrayList<Share> selectSList(Connection conn) {
 		Statement stmt = null ;
 		ResultSet rset = null ;
 		ArrayList<Share> list = null ;
@@ -119,32 +118,7 @@ public	class ShareDAO {
 			close(stmt) ;
 		} return list ;
 	}
-
-	public ArrayList<Sattachment> selectFList(Connection conn) {
-		Statement stmt = null ;
-		ResultSet rset = null ;
-		ArrayList<Sattachment> list = null ;
-		
-		String query = prop.getProperty("selectFList") ;
-		try {
-			stmt = conn.createStatement() ;
-			rset = stmt.executeQuery(query) ;
-			list = new ArrayList<Sattachment>() ;
-			
-			while(rset.next())
-				list.add(new Sattachment(rset.getInt("fid"), rset.getString("change_name"))) ;
-		} catch (SQLException e) {
-			System.out.println("\n---------------------------[ERROR]---------------------------") ;
-			System.out.println(e.getMessage()) ;
-			System.out.println("-------------------------------------------------------------") ;
-			e.printStackTrace() ;
-			System.out.println("-------------------------------------------------------------") ;
-		} finally {
-			close(rset) ;
-			close(stmt) ;
-		} return list ;
-	}
-
+	
 	public int updateCount(Connection conn, int sbNum) {
 		PreparedStatement ptmt = null ;
 		int result = 0 ;
@@ -393,7 +367,6 @@ public	class ShareDAO {
 		PreparedStatement ptmt = null ;
 		int result = 0 ;
 		String query = prop.getProperty("deleteReply") ;
-		System.out.println("deleteReply dao 입장") ; 
 		try {
 			ptmt = conn.prepareStatement(query) ;
 			ptmt.setInt(1, rId) ;

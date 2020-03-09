@@ -29,7 +29,6 @@ public class FollowService {
 
 	public ArrayList<Member> selectFollowList(String mId) {
 		Connection conn = getConnection() ;
-		System.out.println("[Info] [Follow List Service] [MID : ("+mId+")]") ;
 		ArrayList<Member> mList = new FollowDAO().selectFollowList(conn,mId) ;
 		close(conn) ;
 		return mList ;

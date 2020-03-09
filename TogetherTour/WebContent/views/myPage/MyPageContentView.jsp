@@ -124,6 +124,7 @@
 		$(function() {
 			if(<%=loginUser.getmKind()%>==2) {
 				$('#followList').css('display','none') ;
+				$('#buddyList').css('display','none') ;
 			} else {
 				$('#followList').click(function() {
 					location.href = "<%= request.getContextPath() %>/list.follow" ;

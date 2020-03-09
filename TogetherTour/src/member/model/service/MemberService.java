@@ -88,8 +88,6 @@ public class MemberService {
 		if(resultM>0 && resultA>0)	commit(conn) ;
 		else						rollback(conn) ;
 		
-		System.out.println("[Info] [UpdateMember : MemberService] [Result Member : "+resultM+"]") ;
-		System.out.println("[Info] [UpdateMember : MemberService] [Result Attachment : "+resultA+"]") ;
 		close(conn) ;
 		return resultA ;
 	}

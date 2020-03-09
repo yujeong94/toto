@@ -62,7 +62,6 @@ public class FollowDAO {
 		ArrayList<Member> mList = null ;
 		Member member = null ;
 		String query = prop.getProperty("selectFollowList") ;
-		System.out.println("[Info] [Follow List Service] [MID : ("+mId+")]") ;
 		try {
 			ptmt = conn.prepareStatement(query) ;
 			ptmt.setString(1, mId) ;
