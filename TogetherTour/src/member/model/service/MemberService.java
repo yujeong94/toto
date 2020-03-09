@@ -6,6 +6,7 @@ import static common.JDBCTemplate.getConnection;
 import static common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import member.model.dao.MemberDAO;
 import member.model.vo.Member;
@@ -80,16 +81,13 @@ public class MemberService {
 	}
 	// 관호 시작
 	public int updateMember(Member member, mAttachment userImg) {
-		Connection conn = getConnection();
+		Connection conn = getConnection() ;
 		int resultM = new MemberDAO().updateMember(conn, member) ;
-		int resultA = 0 ;
-		if(resultM > 0) {
-			resultA = new MemberDAO().updateUserImg(conn, member, userImg);
-			if(resultA>0) commit(conn) ;
-			else        rollback(conn) ;
-		} else {
-			rollback(conn) ;
-		}
+		int resultA = new MemberDAO().updateUserImg(conn, member, userImg); ;
+		
+		if(resultM>0 && resultA>0)	commit(conn) ;
+		else						rollback(conn) ;
+		
 		System.out.println("[Info] [UpdateMember : MemberService] [Result Member : "+resultM+"]") ;
 		System.out.println("[Info] [UpdateMember : MemberService] [Result Attachment : "+resultA+"]") ;
 		close(conn) ;
