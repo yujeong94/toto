@@ -12,14 +12,15 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-	table{margin-top:100px; margin-left:30px; height:300px;}
+	table{margin-left:30px; height:300px;}
 	#loginForm{width: 500px; margin:auto; margin-bottom:100px; padding:20px}
 	td{height:10px; margin-left:50px;}
-	.loginArea{border: 1px solid black; width:600px; height:600px; 
-	           margin:auto; background:lightyellow;}
+	.loginArea{width:600px; height:600px; 
+	           margin:auto;}
 	#btnArea{margin-top:10px; font-size:13px;}
-	#loginBtn{width:80px; margin-bottom:20px;}
+	#loginBtn{width:80px; margin-bottom:20px; background:#F7BE81; border: 0px; box-shadow:none; color:white;}
 	#loginBtn,#enrollBtn,.find{cursor:pointer;}
+	.inputStyle{border: 0px; box-shadow:none; border-bottom:1px solid black;}
 </style>
 </head>
 <body>
@@ -32,14 +33,11 @@
 		<table>
 			<tr>
 				<th><label>ID</label></th>
-				<td><input type=text name=loginUserId id=loginUserId size=30px></td>
+				<td><input type=text name=loginUserId id=loginUserId size=30px class=inputStyle></td>
 			</tr>
 			<tr>
 				<th><label>Password</label></th>
-				<td><input type=password name=loginUserPwd id=loginUserPwd size=30px></td>
-			</tr>
-			<tr>
-				<td colspan=2 style="padding:20px;"><input type=checkbox><label>아이디저장</label></td>
+				<td><input type=password name=loginUserPwd id=loginUserPwd size=30px class=inputStyle></td>
 			</tr>
 		</table>
 		<div id=btnArea align=center>
