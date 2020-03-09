@@ -169,7 +169,7 @@
 	$(function(){
 		<% if(!list.isEmpty()){ %>
 			$('#listView td').mouseenter(function(){
-				$(this).parent().css({'background':'lightgray'});
+				$(this).parent().css({'background':'#F6E3CE'});
 			}).mouseout(function(){
 				$(this).parent().css('background','none');
 			});
