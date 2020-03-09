@@ -4,7 +4,15 @@
 	buddyBoard b = (buddyBoard)request.getAttribute("board") ; 
 	
 	/* String strKind = null; */
-
+	
+	String group_age = null;
+	switch(b.getGroup_age()){
+	case 10: group_age = "10대"; break;
+	case 20: group_age = "20대 이상"; break;
+	case 30: group_age = "30대 이상"; break;
+	case 40: group_age = "40대 이상"; break;
+	default: group_age = "상관없음"; 
+	}
 
 	String kind = null;
 	if(b != null){
@@ -39,12 +47,11 @@
 <head>
 <meta charset="UTF-8">
 <title>동행자 상세조회 | 투투</title>
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/index.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/common_sub.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/buddy/buddyInsertForm.css">
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/common_sub.css">
+	
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/buddy/buddyInsertForm.css">
+	
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.min.js"></script>
 <style>
 	table{width:100%; align:center}
@@ -126,7 +133,7 @@
 				<tr>
 					<th rowspan="3">동행자 모집</th>
 					<td colspan="3" style="font-weight:bold;">모집인원
-						<input type=hidden name=head_cnt value="<%= b.getHead_cnt() %>"> &nbsp; <%= b.getHead_cnt() %> 명
+					<input type=hidden name=head_cnt value="<%= b.getHead_cnt() %>"> &nbsp; <%= b.getHead_cnt() %> 명
 					</td>
 				</tr>
 				<tr>
@@ -135,15 +142,17 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3" name="group_age" style="font-weight:bold;">연령대
-					&nbsp;
-						<input type=hidden name=group_age value="<%= b.getGroup_age()%>"><%= b.getGroup_age()%>
+					<td colspan="3" name="group_age" style="font-weight:bold;">연령대 &nbsp;
+						<input type=hidden name=group_age value="<%=group_age%>"><%= group_age%>
 					</td>
 				</tr>
 				<tr>
-						<th><label>오픈카카오톡주소</label></th>
-						<td colspan="3"><input type=hidden name=kakao value="<%= b.getKakao() %>"><%= b.getKakao()%></td>
-					</tr>
+					<th><label>오픈카카오톡주소</label></th>
+					<td colspan="3">
+						<a href='<%= b.getKakao() %>'><%= b.getKakao() %></a>
+						<input type=hidden  value="<%= b.getKakao() %>"name=kakao>
+					</td>					
+				</tr>
 				<tr>
 					<th>여행소개</th>
 					<td colspan="3" ><textarea rows="8" cols="80" style="resize:none"; name="content" readonly><%=b.getContent() %></textarea></td>

@@ -30,35 +30,19 @@
 <head>
 <meta charset="UTF-8">
 <title>동행자 리스트 | 투투</title>
-v
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/index.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/common_sub.css">
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/common_sub.css">
 
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.min.js"></script>
 <style>
 
-#listBtn {padding : 9px 20px;
-		  border : none;
-		  background: #999999;
-		  color: #fff;
-		  box-sizing: border-box;
-		  display: inline-block;
-		  align-items: flex-start;
-		  letter-spacing: normal;
-		  word-spacing: normal;
-		  text-rendering: auto;
-		  cursor: pointer;
-		  vertical-align: middle;
-		  font: inherit;
-		  margin-top:20px;
-		  float:right;}
+#listBtn {padding : 9px 20px; border : none; background: #999999;
+		  color: #fff; box-sizing: border-box; display: inline-block;
+		  align-items: flex-start; letter-spacing: normal; word-spacing: normal;
+		  text-rendering: auto; cursor: pointer; vertical-align: middle;
+		  font: inherit; margin-top:20px; float:right;}
 		  
-table {border-top: 1px solid;
-	   border-bottom: 1px solid;
-	   margin-bottom:50px;
-	   }
+table {border-top: 1px solid; border-bottom: 1px solid; margin-bottom:50px;}
 	   
 th {border-bottom: 1px solid; height:30px;}
 	
@@ -75,14 +59,12 @@ td {text-align:center; cursor:default;}
 label{vertical-align:middle;}
 	
 #priceLabel{margin-left:30px; margin-right:10px;}	    
+
 </style>
 
 </head>
 <body> 
-	<%@ include file="../common/header.jsp"%>
-	<br><br><br>
-	<hr>
-	
+	<%@ include file="../common/header.jsp"%>	
 	<div class="contents">
 		<div id="BuddyList">
 			<h2><span>동행자 리스트</span></h2>
@@ -152,10 +134,10 @@ label{vertical-align:middle;}
 		<div class='pagingArea' align="center">
 			<% if(!list.isEmpty()){ %>
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=1'">&lt;&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=1'" id="firstBtn" class="icon-fast-backward"></button>
 	
 			<!-- 이전 페이지로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= currentPage-1 %>'" id="beforeBtn" class="icon-to-start"></button>
 			<script>
 				if(<%= currentPage %> <= 1){
 					var before = $('#beforeBtn');
@@ -174,7 +156,7 @@ label{vertical-align:middle;}
 			<% } %>
 			
 			<!-- 다음 페이지로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= currentPage + 1 %>'" id="afterBtn" class="icon-to-end"></button>
 			<script>
 				if(<%= currentPage %> >= <%= maxPage %>){
 					var after = $("#afterBtn");
@@ -183,7 +165,7 @@ label{vertical-align:middle;}
 			</script>			
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= maxPage %>'">&gt;&gt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= maxPage %>'" id="lastBtn" class="icon-fast-forward"></button>
 			<% } %>
 		</div>
 		
@@ -196,7 +178,7 @@ label{vertical-align:middle;}
 		<script>
 			$(function(){
 				$('#listArea td').mouseenter(function(){
-					$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
+					$(this).parent().css({'background':'#F6E3CE', 'cursor':'pointer'});
 						}).mouseout(function(){
 								$(this).parent().css('background', 'none');
 							});
@@ -221,7 +203,7 @@ label{vertical-align:middle;}
 				});	
 			});
 		</script> 
-
+	
 		<%@ include file="../common/footer.jsp"%>
 		<br> <br>
 	</div>
