@@ -155,10 +155,10 @@
 			<% } else { %>
 			<% if(!list.isEmpty()){ %>
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=1'" id=firstBtn class="icon-fast-backward">&lt;&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=1'" id=firstBtn class="icon-fast-backward"></button>
 			
 			<!-- 이전 페이지 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage-1 %>'" id=beforeBtn class="icon-to-start">&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage-1 %>'" id=beforeBtn class="icon-to-start"></button>
 			<script>
 				if(<%= currentPage %> <= 1){
 					var first = $('#firstBtn');
@@ -178,10 +178,10 @@
 				}%>
 				
 			<!-- 다음 페이지 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage + 1%>'" id=afterBtn class="icon-to-end">&gt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage + 1%>'" id=afterBtn class="icon-to-end"></button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= maxPage %>'" id=lastBtn class="icon-fast-forward">&gt;&gt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= maxPage %>'" id=lastBtn class="icon-fast-forward"></button>
 			<% } %>
 			<script>
 				if(<%= currentPage %> >= <%= maxPage %>){
