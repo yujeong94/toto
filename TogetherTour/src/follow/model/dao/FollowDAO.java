@@ -59,7 +59,7 @@ public class FollowDAO {
 	public ArrayList<Member> selectFollowList(Connection conn, String mId) {
 		PreparedStatement ptmt = null ;
 		ResultSet rset = null ;
-		ArrayList<Member> mList = null ;
+		ArrayList<Member> mList = new ArrayList<Member>() ; ;
 		Member member = null ;
 		int grade = 0 ;
 		
@@ -72,7 +72,6 @@ public class FollowDAO {
 				if(rset.getInt("GCOUNT") == 0)	grade = 0 ;
 				else							grade = Math.round(rset.getInt("grade")/rset.getInt("gCount")) ;
 				member = new Member() ;
-				mList  = new ArrayList<Member>() ;
 				member.setNickName(rset.getString("FNICK")) ;
 				member.setEmail(rset.getString("EMAIL")) ;
 				member.setGender(rset.getString("GENDER")) ;

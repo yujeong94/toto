@@ -28,12 +28,17 @@ public class ViewSelfServlet extends HttpServlet {
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession() ;
-		String userNick = ((Member)session.getAttribute("loginUser")).getNickName() ;
-		
-		mAttachment mAttach = new MyPageService().profileImg(userNick) ;
+		String mId = ((Member)session.getAttribute("loginUser")).getmId() ;
+		System.out.println(mId) ;
+		mAttachment mAttach = new MyPageService().profileImg(mId) ;
 		String page = null ;
-		page = "views/myPage/MyPageContentView.jsp" ;
-		request.setAttribute("mAttach", mAttach) ;
+		if(mAttach != null) {
+			page = "views/myPage/MyPageContentView.jsp" ;
+			request.setAttribute("mAttach", mAttach) ;
+		} else {
+			page = "views/common/errorPage.jsp" ;
+			request.setAttribute("msg", "회원조회에 실패하였습니다.") ;
+		}
 		RequestDispatcher view = request.getRequestDispatcher(page) ;
 		view.forward(request, response) ;
 	}

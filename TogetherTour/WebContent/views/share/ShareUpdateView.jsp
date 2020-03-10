@@ -11,13 +11,13 @@
 	String country = request.getParameter("country") ;
 	String city = request.getParameter("city") ;
 	
-	String[] selected = new String[2];
-	if(kind.equals("국내")){
-		selected[0] = "selected";
-		selected[1] = "";
+	String[] selected = new String[2] ;
+	if(kind.equals("국내")) {
+		selected[0] = "selected" ;
+		selected[1] = "" ;
 	} else {
-		selected[0] = "";
-		selected[1] = "selected";
+		selected[0] = "" ;
+		selected[1] = "selected" ;
 	}
 %>
 <!DOCTYPE html>
@@ -29,13 +29,12 @@
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/common_sub.css">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/share/share_board.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head> 
+</head>
 <body>
 	<div id="wrapper">
 		<%@ include file="../common/header.jsp"%>
 		<div class="contents">
-			<h2><span>나눔 게시판 수정</span></h2>
-			<hr>
+			<h2><span>나눔 게시판 수정</span></h2><hr>
 			<form id="uptForm" enctype="multipart/form-data" action="<%= request.getContextPath() %>/update.share?sbNum=<%=sbNum%>" method="post">
 				<table id="wrtArea">
 					<tr>
@@ -98,7 +97,7 @@
 					<tr>
 						<th id="wrtList">오픈채팅방 주소</th>
 						<td colspan="4">
-							<input type="text" placeholder="연락처 입력" id="kakao" name="kakao" class="wrtInput" value="<%=kakao%>" style="width:100%;">
+							<input type="text" placeholder="연락처 입력" id="kakao" name="kakao" class="wrtInput" value="<%=kakao%>" style="width:100% ;">
 						</td>
 					</tr>
 					<tr>
@@ -146,34 +145,25 @@
 					</tr>
 				</table><br>
 				<div id="wrtButton">
-					<input type="button" id="button" class="wrt" value="수정하기" onclick="submitCheck();">
+					<input type="button" id="button" class="wrt" value="수정하기" onclick="submitCheck() ;">
 					<input type="button" id="button" class="wrt" onclick="location.href='<%=request.getContextPath()%>/detail.share?sbNum=<%=sbNum%>'" value="취소하기">
 				</div><hr>
 			</form>
 			<script>
 				$(function() {
-					$.ajax({
+					$.ajax( {
 						url: '<%= request.getContextPath() %>/list.loca',
 					 	type: 'post',
 					 	success: function(data) {
 					 		$selectKind = $('#kindList') ;
-							$selectCountry = $('#country') ;
-							$selectCity = $('#city') ;
-							for(var i in data[0]) {
-								var $option = $('<option>') ;
-								$option.val(data[0][i]) ;
-								var con = null ;
-								if(data[0][i] == 1)	con = "국내";
-								else				con = "해외";
-								$option.text(con) ;
-								$selectKind.append($option) ;
-							}
-							
+							$selectCountry = $('#countryList') ;
+							$selectCity = $('#cityList') ;
+						
 							// county변경
 							$('#kindList').change(function() {
 								var kindSel = $('#kindList option:selected').text() ;
 								if(kindSel == "국내") {
-									$('#country').find('option').remove() ;
+									$('#countryList').find('option').remove() ;
 									var $option = $('<option>') ;
 									$option.val('국가') ;
 									$option.text('국가') ;
@@ -183,7 +173,7 @@
 									$option.text('한국') ;
 									$selectCountry.append($option) ;
 								} else if(kindSel == "해외") {
-									$('#country').find('option').remove() ;
+									$('#countryList').find('option').remove() ;
 									var $option = $('<option>') ;
 									$option.val('국가') ;
 									$option.text('국가') ;
@@ -191,20 +181,21 @@
 									for(var i in data[1]) {
 										var $option = $('<option>') ;
 										$option.val(data[1][i]) ;
-										$option.text(data[1][i]) 
+										$option.text(data[1][i]) ;
 										$selectCountry.append($option) ;
 									}
 								} else {
-									$('#country').find('option').remove() ;
+									$('#countryList').find('option').remove() ;
 									var $option = $('<option>') ;
 									$option.text('국가') ;
 									$selectCountry.append($option) ;
 								}
 							}) ;
+							
 							// 해외city변경
-							$('#country').change(function() { 
-								var countrySel = $('#country option:selected').text() ;
-								$('#city').find('option').remove() ;
+							$('#countryList').change(function() { 
+								var countrySel = $('#countryList option:selected').text() ;
+								$('#cityList').find('option').remove() ;
 								for(var i in data[2]) {
 									if(data[2][i].country == countrySel) {
 										var $option = $('<option>') ;
@@ -214,7 +205,7 @@
 									}
 								}
 								$('#kindList').change(function() {
-									$('#city').find('option').remove() ;
+									$('#cityList').find('option').remove() ;
 									var $option = $('<option>') ;
 									$option.val('도시') ;
 									$option.text('도시') ;

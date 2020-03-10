@@ -157,8 +157,8 @@
 			function deleteReviewReply(){
 				var bool = confirm('댓글을 정말로 삭제하시겠습니까?');
 				if(bool){
-					$('#ReplyForm').attr('action', '<%= request.getContextPath() %>/Rdelete.rv');
-					$('#ReplyForm').submit();
+					$('#ReplyForm').attr('action', '<%= request.getContextPath() %>/Rdelete.share') ;
+					$('#ReplyForm').submit() ;
 				}
 			}
 			
@@ -166,33 +166,28 @@
 				var writer ='<%= loginUser.getmId() %>' ;
 				var sbNum = <%= share.getSbNum() %> ;
 				var content = $('#replyContent').val() ;
-				if(!content) {
-					alert('내용을 입력하세요.') ;
-					$('#replyContent').focus() ;
-				} else {
-					$.ajax({
-						url: '<%= request.getContextPath() %>/insertReply.share',
-					 	type: 'post',
-					 	data: {writer:writer, content:content, sbNum:sbNum},
-					 	success: function(data) {
-					 		$replyTable = $('#replySelectTable') ;
-					 		$replyTable.html("") ;
-					 		
-					 		for(var key in data) {
-					 			var $tr = $('<tr>') ;
-					 			var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px') ;
-					 			var $contentTd = $('<td>').text(data[key].rContent).css('width','400px') ;
-					 			var $dateTd = $('<td>').text(data[key].createDate).css('width','200px') ;
-					 			
-					 			$tr.append($writerTd) ;
-					 			$tr.append($contentTd) ;
-					 			$tr.append($dateTd) ;
-					 			$replyTable.append($tr) ;
-					 		}
-					 		$('#replyContent').val('') ;
+				$.ajax({
+					url: '<%= request.getContextPath() %>/insertReply.share',
+				 	type: 'post',
+				 	data: {writer:writer, content:content, sbNum:sbNum},
+				 	success: function(data) {
+				 		$replyTable = $('#replySelectTable') ;
+				 		$replyTable.html("") ;
+				 		
+				 		for(var key in data) {
+				 			var $tr = $('<tr>') ;
+				 			var $writerTd = $('<td>').text(data[key].rWriter).css('width','100px') ;
+				 			var $contentTd = $('<td>').text(data[key].rContent).css('width','400px') ;
+				 			var $dateTd = $('<td>').text(data[key].createDate).css('width','200px') ;
+				 			
+				 			$tr.append($writerTd) ;
+				 			$tr.append($contentTd) ;
+				 			$tr.append($dateTd) ;
+				 			$replyTable.append($tr) ;
 				 		}
-					}) ;
-				}
+				 		$('#replyContent').val('') ;
+			 		}
+				}) ;
 			}) ;
 		</script>
 	</div>
