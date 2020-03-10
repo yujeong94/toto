@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="review.model.vo.*, java.util.ArrayList, member.model.vo.*, follow.model.vo.*"%>
     
@@ -32,7 +33,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
 	.ImgArea{display:inline-block; border:1px dashed rgb(203,203,203); width:200px; height:200px; margin-right:10px;}
@@ -133,19 +133,9 @@
 				 
 				<tr>
 					<th>팔로우 신청</th>
-					
-					<%-- <% if(count == 0) {%> --%>
-					
 					<td>
 						<input type="button" id="follow" value= "팔로우하기">
 					</td>
-					
-					<%-- <%} else{ %>
-					<td>
-						<input type="button" id="follow" value= "팔로우 됨" disabled>
-					</td>
-					<%} %> --%>
-					
 				</tr>
 				<%} %>
 				
@@ -154,8 +144,8 @@
 					<th>사진 </th>
 					<td colspan="3">
 						<% for(int i = 0; i<fileList.size(); i++){ %>
-						<div class="ImgArea" >
-						<img id="detailImg" class="detailImg" src="<%= request.getContextPath() %>/uploadFiles/<%=fileList.get(i).getChangeName() %>">
+						<div class="ImgArea" style="overflow:hidden" >
+						<img id="detailImg" class="detailImg" src="<%= request.getContextPath() %>/uploadFiles/<%=fileList.get(i).getChangeName() %>" width="200" height="200">
 						<input type="hidden" value="<%= fileList.get(i).getChangeName() %>" name="detailImg<%= i %>">
 						<input type="hidden" value="<%= fileList.get(i).getfId() %>" name="detailImgId<%= i %>">
 						</div>
@@ -308,6 +298,7 @@
 							var $contentTd = $('<td>').text(data[key].rContent).css('width','300px');
 							var $dateTd = $('<td>').text(data[key].createDate).css('width','100px');
 							
+							
 							$tr.append($writerTd);
 							$tr.append($contentTd);
 							$tr.append($dateTd);
@@ -320,6 +311,9 @@
 							$replyTable.append($tr);
 						} 
 						$('#replyContent').val('');
+
+
+						window.location.reload();
 					}
 				});
 			});

@@ -38,10 +38,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
-	.ImgArea{display:inline-block; border:1px dashed rgb(203,203,203); width:120px; height:100px; margin-right:10px;}
+	.ImgArea{display:inline-block; border:1px dashed rgb(203,203,203); width:200px; height:200px; margin-right:10px;}
 </style>
 </head>
 <body>
@@ -91,7 +90,7 @@
 						<td colspan="3">
 							<% for(int i = 0; i < 3; i++){ %>
 							<div id="contentImgArea<%=i%>" class="ImgArea">
-								<img id="contentImg<%=i%>" width="120" height="100" <%= images.get(i) %>> 
+								<img id="contentImg<%=i%>" width="200" height="200" <%= images.get(i) %>> 
 								<input type="hidden" id="detailImgId<%=i%>" name="detailImgId<%=i%>" value="<%= fIds.get(i) %>"> 
 								<input type="hidden" id="cContent<%= i %>" name="cContent<%= i %>">
 							</div>

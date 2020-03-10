@@ -81,7 +81,6 @@ public class mainSearchDAO {
 			
 			rset = pstmt.executeQuery();
 			list = new ArrayList<buddyBoard>();
-	
 			
 			while(rset.next()) {
 				list.add(new buddyBoard(
@@ -103,7 +102,6 @@ public class mainSearchDAO {
 			close(rset);
 			close(pstmt);
 		}
-		 
 		return list;
 	}
 
@@ -154,7 +152,6 @@ public class mainSearchDAO {
 			
 			rset = pstmt.executeQuery();
 			list = new ArrayList<buddyBoard>();
-	
 			
 			while(rset.next()) {
 				list.add(new buddyBoard(

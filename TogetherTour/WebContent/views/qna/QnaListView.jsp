@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
 	th{border-bottom: 1px solid; height:30px;}
+	.titleBar{background:#F2F2F2;}
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -39,7 +40,7 @@
 			</div>
 			
 			<table id="listArea">
-				<tr>	
+				<tr class="titleBar">	
 					<th width="100px">No</th>
 					<th width="50px">답변상태</th>
 					<th width="200px">글제목</th>
@@ -49,7 +50,7 @@
 				</tr>
 				<% if(list.isEmpty()){ %>
 				<tr>
-					<td colspan="5" align="center">존재하는 질문게시글이 없습니다.</td>
+					<td colspan="6" align="center">존재하는 질문게시글이 없습니다.</td>
 				</tr>
 				<% } else {  
 					for(Qna q : list) { 
@@ -80,10 +81,10 @@
 		<div class='pagingArea' align='center'>	
 			<% if(!list.isEmpty() && maxPage !=1){ %>
 					<!-- 맨 처음으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=1'">&lt;&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=1'" id="firstBtn" class="icon-fast-backward">&lt;&lt;</button>
 					
 					<!-- 이전 페이지로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=<%= currentPage-1 %>'" id="beforeBtn" class="icon-to-start">&lt;</button>
 					<script>
 						if(<%= currentPage %> <= 1){
 							var before = $('#beforeBtn');
@@ -101,7 +102,7 @@
 					<% } %>
 					
 					<!-- 다음 페이지로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=<%= currentPage + 1 %>'" id="afterBtn" class="icon-to-end">&gt;</button>
 					
 					<script>
 						if(<%= currentPage %> >= <%= maxPage %>){
@@ -111,7 +112,7 @@
 					</script>
 					
 					<!-- 맨 끝으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=<%= maxPage %>'">&gt;&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.sh?currentPage=<%= maxPage %>'" id="lastBtn" class="icon-fast-forward">&gt;&gt;</button>
 					
 				<% } %>	
 			
@@ -120,7 +121,7 @@
 		$(function(){
 			<% if(!list.isEmpty()){ %>
 			$('#listArea td').mouseenter(function(){
-				$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
+				$(this).parent().css({'background':'#F6E3CE', 'cursor':'pointer'});
 			}).mouseout(function(){
 				$(this).parent().css('background', 'none');
 			}).click(function(){
