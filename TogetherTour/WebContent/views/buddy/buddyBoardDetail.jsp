@@ -77,6 +77,7 @@
  
 </head>
 <body>
+<div class="wrapper">
 	<%@ include file="../common/header.jsp"%>
 	<div class="contents">
 		<h2><span>동행자 상세조회</span></h2>
@@ -94,7 +95,7 @@
 					<th><label>여행지역</label></th>
 					<td>국내/해외
 						<label><%= kind %></label>
-						<input type="hidden" name="kind" value="<%=b.getKind() %>">
+						<input type="hidden" name="kind" value="<%= kind %>">
 					</td>
 					<td>국가
 						<lable><%= b.getCountry() %></lable>
@@ -155,15 +156,16 @@
 			 <div id=btnArea align="center">
 				 <% if(b.getNick().equals(loginUser.getNickName())){ %>
 				<button type="submit" id="alterBtn">수정하기</button>				
-				<% if(b.getNick().equals(loginUser.getNickName()) || loginUser.getmId().equals("amdin")) { %>
+					<% } %>
+				<% if(b.getNick().equals(loginUser.getNickName()) || loginUser.getmId().equals("admin")) { %>
 				<button type=button id=delete onclick="deleteBoard();">삭제하기</button><br>
-				<% } %>
-				<div onclick='location.href="<%= request.getContextPath() %>/list.buddy"' id=listBtn>목록으로</div>
-				<% } else { %> 
+				<%-- <div onclick='location.href="<%= request.getContextPath() %>/list.buddy"' id=listBtn style="background:#005952;">목록으로</div> --%>
+					<% } else { %> 
 				<div onclick="join();" id=joinBtn>참가하기</div>
-				<div onclick='location.href="<%= request.getContextPath() %>/list.buddy"' id=listBtn>목록으로</div>
-				<% } %>
+					<% } %>
+				<div onclick='location.href="<%= request.getContextPath() %>/list.buddy"' id=listBtn style="background:#005952"; >목록으로</div>
 			</div>
+			
 			<script>
 				function deleteBoard(){
 					var bool = confirm('정말로 삭제하시겠습니까?');
@@ -197,11 +199,11 @@
 				
 			</script>
 	</form>
-		<%System.out.println(b.getBnum()); %>
+	</div>
 	
 		<%@ include file="../common/footer.jsp" %> 
-		<br> <br>
 		
+	
 	</div>
 </body>
 </html>

@@ -125,9 +125,7 @@
 				});
 			});
 		</script>
-		<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br><br> <br> <br> <br>
 		<%@ include file="../common/footer.jsp"%>
-		<br> <br>
 
 
 	<!-- LOCATION SCRIPT  -->

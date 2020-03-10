@@ -53,7 +53,7 @@ public class buddyBoardServlet extends HttpServlet {
 		
 		limit = 10;
 		maxPage = (int)((double)listCount/limit + 0.9);
-		// 0.9를 해주어야 .1 페이지가 생겼을때에도 새로운 페이지가 하나 생성된다.
+		
 	startPage = (((int)((double)currentPage/limit + 0.9)) - 1) * limit + 1;
 	endPage = startPage + limit - 1;
 	if(maxPage < endPage) {
@@ -62,8 +62,8 @@ public class buddyBoardServlet extends HttpServlet {
 	
 	PageInfo pi = new PageInfo(currentPage, listCount, limit, maxPage, startPage, endPage);
 	
-	ArrayList<buddyBoard> list = service.selectList(currentPage);
-	System.out.println("서ㅂㄹ릿 확인 : "  + list);
+	ArrayList<buddyBoard> list = service.selectList(currentPage); // 서블릿 확인
+
 	String page = null;
 	if(list != null) {
 		page = "views/buddy/buddyListView.jsp";
