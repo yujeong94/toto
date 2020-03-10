@@ -84,11 +84,11 @@
 								<option value="국내" <%= selected[0] %>>국내</option>
 								<option value="해외" <%= selected[1] %>>해외</option>
 							</select>
-							<select name=country id=country class="location" required>
+							<select name=country id=countryList class="location" required>
 <!-- 								<option value="0">국가</option> -->
 								<option><%= country %></option>
 							</select>
-							<select name=city id=city class="location">
+							<select name=city id=cityList class="location">
 <!-- 								<option value="0">도시</option> -->
 								<option><%= city %></option>
 							</select>
@@ -214,10 +214,10 @@
 							}) ;
 							
 							// 국내 city : 서울 자동선택
-							$('#country').change(function() {
-								var countryVal = $('#country').val() ;
+							$('#countryList').change(function() {
+								var countryVal = $('#countryList').val() ;
 								if(countryVal == '한국')
-									$('#city option:eq(4)').prop('selected',true) ;
+									$('#cityList option:eq(4)').prop('selected',true) ;
 							}) ;
 					 	},
 					 	error: function(data) {
