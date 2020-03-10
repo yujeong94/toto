@@ -22,7 +22,7 @@ if(kind.equals("국내")){
 	selected[0] = "";
 	selected[1] = "selected";
 }	 
- 
+  
 //theme
 String[] checkedTheme = new String[6];
 if(!theme.equals("")){
@@ -78,7 +78,7 @@ if(kakao == null){
 #cancleBtn{
 	 	padding : 9px 20px;
 		border : none;
-	    background: #999999;
+	    background: #005952;
 	    color: #fff;
 	    box-sizing: border-box;
 	    display: inline-block;
@@ -124,7 +124,7 @@ if(kakao == null){
 								<option><%= city %></option>
 								<!-- <option>도시</option> -->
 							</select>
-						</td>
+						</td> 
 					</tr> 
 					<tr>
 						<th>동행 날짜</th>
@@ -207,86 +207,76 @@ if(kakao == null){
 
 	<!-- LOCATION SCRIPT  -->
 	<script>
-		$(function(){
-			$.ajax({
-				url: '<%= request.getContextPath() %>/list.loca',
-			 	type: 'post',
-			 	success: function(data){
-			 		$selectKind = $('#kindList');
-					$selectCountry = $('#countryList');
-					$selectCity = $('#cityList');
-					for(var i in data[0]){
+	$(function(){
+		$.ajax({
+			url: '<%= request.getContextPath() %>/list.loca',
+		 	type: 'post',
+		 	success: function(data){
+		 		$selectKind = $('#kindList');
+				$selectCountry = $('#countryList');
+				$selectCity = $('#cityList');
+				
+				// county변경
+				$('#kindList').change(function(){
+					var kindSel = $('#kindList option:selected').text();
+					if(kindSel == "국내"){
+						$('#countryList').find('option').remove();
 						var $option = $('<option>');
-						$option.val(data[0][i]);
-						var con = null;
-						if(data[0][i] == 1){
-							con = "국내";
-						} else {
-							con = "해외";
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						var $option = $('<option>');
+						$option.val('한국');
+						$option.text('한국');
+						$selectCountry.append($option);
+					} else if(kindSel == "해외"){
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.val('국가');
+						$option.text('국가');
+						$selectCountry.append($option);
+						for(var i in data[1]){
+							var $option = $('<option>');
+							$option.val(data[1][i]);
+							$option.text(data[1][i]);
+							$selectCountry.append($option);
 						}
-						$option.text(con);
-						$selectKind.append($option);
+					} else {
+						$('#countryList').find('option').remove();
+						var $option = $('<option>');
+						$option.text('국가');
+						$selectCountry.append($option);
 					}
-					
-					// county변경
-					$('#kindList').change(function(){
-						var kindSel = $('#kindList option:selected').text();
-						if(kindSel == "국내"){
-							$('#countryList').find('option').remove();
-							var $option = $('<option>');
-							$option.val('국가');
-							$option.text('국가');
-							$selectCountry.append($option);
-							var $option = $('<option>');
-							$option.val('한국');
-							$option.text('한국');
-							$selectCountry.append($option);
-						} else if(kindSel == "해외"){
-							$('#countryList').find('option').remove();
-							var $option = $('<option>');
-							$option.val('국가');
-							$option.text('국가');
-							$selectCountry.append($option);
-							for(var i in data[1]){
+				});
+					// 해외city변경
+					$('#countryList').change(function(){ 
+						var countrySel = $('#countryList option:selected').text();
+						$('#cityList').find('option').remove();
+						for(var i in data[2]){
+							if(data[2][i].country == countrySel){
 								var $option = $('<option>');
-								$option.val(data[1][i]);
-								$option.text(data[1][i]);
-								$selectCountry.append($option);
-							}
-						} else {
-							$('#countryList').find('option').remove();
-							var $option = $('<option>');
-							$option.text('국가');
-							$selectCountry.append($option);
-						}
-					});
-						// 해외city변경
-						$('#countryList').change(function(){ 
-							var countrySel = $('#countryList option:selected').text();
-							$('#cityList').find('option').remove();
-							for(var i in data[2]){
-								if(data[2][i].country == countrySel){
-									var $option = $('<option>');
-									$option.val(data[2][i].city);
-									$option.text(data[2][i].city);
-									$selectCity.append($option);
-								}
-							}
-							$('#kindList').change(function(){
-								$('#cityList').find('option').remove();
-								var $option = $('<option>');
-								$option.val('도시');
-								$option.text('도시');
+								$option.val(data[2][i].city);
+								$option.text(data[2][i].city);
 								$selectCity.append($option);
-							});
+							}
+						}
+						$('#kindList').change(function(){
+							$('#cityList').find('option').remove();
+							var $option = $('<option>');
+							$option.val('도시');
+							$option.text('도시');
+							$selectCity.append($option);
 						});
-			 	},
-			 	error: function(data){
-			 		console.log('error');
-			 	}
-			});
+					});
+					
+		 	},
+		 	error: function(data){
+		 		console.log('error');
+		 	}
 		});
-	</script>
+	});
+	
+</script>
 </body>
 </html>
 

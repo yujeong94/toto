@@ -19,7 +19,7 @@
 		startPage = pi.getStartPage();
 		endPage = pi.getEndPage();
 	}
-
+ 
 	// 검색엔진
 	String search = (String)request.getAttribute("search");
 	String menu = (String)request.getAttribute("menu");
@@ -60,10 +60,13 @@ label{vertical-align:middle;}
 	
 #priceLabel{margin-left:30px; margin-right:10px;}	    
 
+
+
 </style>
 
 </head>
 <body> 
+<div class="wrqpper">
 	<%@ include file="../common/header.jsp"%>	
 	<div class="contents">
 		<div id="BuddyList">
@@ -107,7 +110,7 @@ label{vertical-align:middle;}
 			</tr>
 			<%
 				} else {
-
+ 
 					for (buddyBoard b : list) {
 			%>
 			<tr>
@@ -127,9 +130,7 @@ label{vertical-align:middle;}
 				}
 			%>
 		</table>
-		<br>
-		<br>
-		<br>
+		
 		<!-- 페이징 -->
 		<div class='pagingArea' align="center">
 			<% if(!list.isEmpty()){ %>
@@ -167,13 +168,17 @@ label{vertical-align:middle;}
 			<!-- 맨 끝으로 -->
 			<button onclick="location.href='<%= request.getContextPath() %>/list.buddy?currentPage=<%= maxPage %>'" id="lastBtn" class="icon-fast-forward"></button>
 			<% } %>
+		
 		</div>
 		
-				<div class='insertBtn' align='right'>
-				<% if(loginUser != null){ %> 
-				<button onclick='location.href="views/buddy/buddyInsertForm.jsp"'>동행 등록하기</button>
-				<% } %> 
-				</div>
+		<br>
+		<div class='insertBtn' align='center'>
+			<% if(loginUser != null){ %> 
+			<button onclick='location.href="views/buddy/buddyInsertForm.jsp"'>동행 등록하기</button>
+			<% } %> 
+		</div>
+		
+			
 	</div>
 		<script>
 			$(function(){
@@ -205,7 +210,6 @@ label{vertical-align:middle;}
 		</script> 
 	
 		<%@ include file="../common/footer.jsp"%>
-		<br> <br>
 	</div>
 
 </body>
