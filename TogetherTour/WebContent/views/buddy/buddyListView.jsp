@@ -170,9 +170,7 @@ label{vertical-align:middle;}
 			<% } %>
 		
 		</div>
-		
-		<br>
-		<div class='insertBtn' align='center'>
+		<div class='insertBtn' align='right'>
 			<% if(loginUser != null){ %> 
 			<button onclick='location.href="views/buddy/buddyInsertForm.jsp"'>동행 등록하기</button>
 			<% } %> 

@@ -202,7 +202,7 @@
 					}
 				</script>
 			</div>
-			<div class='insertBtnArea' align='center'>
+			<div class='insertBtnArea' align='right'>
 			<% if(loginUser != null){ %>
 				<button class="confirm" onclick='location.href="views/trip_plan/TplanWrite.jsp"'>일정 등록하기</button>
 			<% } %>
