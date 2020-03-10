@@ -31,16 +31,6 @@
 		KaKao = kakao;
 	}
 	
-	String headC = (String)request.getAttribute("headC");
-	System.out.println("jsp:" + headC);
-	int headC2 = 0;
-	if(headC != null){
-		headC2 = Integer.parseInt(headC);
-	}
-	
-	System.out.println("headC 어디에 찍히지?" + "headC");
-	String msg = (String)request.getAttribute("msg");
-
 %>
 <!DOCTYPE html>
 <html>
@@ -186,20 +176,23 @@
 		
 				// 참가 버튼 클릭시 
 				 function join(){
-					var headCnt = <%= b.getHead_cnt() %> + 1;
-					console.log(headCnt);
-					if(<%= headC2 %> >= headCnt) {
-						alert('동행이 마감되었습니다.');
-					} else {
-					 	var bnum = <%= b.getBnum() %>;
-					 	var userId = '<%= b.getMid() %>';
-					 	var head_cnt = <%= b.getHead_cnt() %>;
-					 	var msg = "<%= msg %>";
-						location.href="<%= request.getContextPath() %>/insert.myBuddy?bnum=" + bnum + "&userId=" + userId;  
-						if(msg != 'null'){
-							alert(msg);
+					 var bnum = <%= b.getBnum() %>;
+					 var userId = '<%= b.getMid() %>';
+					 var head_cnt = <%= b.getHead_cnt() %>;
+					 var gender = '<%= b.getGender() %>';
+					 var age = '<%=group_age%>';
+					 var buddyInfo = {bnum:bnum, userId:userId, head_cnt:head_cnt, gender:gender, age:age};
+					$.ajax({
+						url: "<%= request.getContextPath() %>/insert.myBuddy",
+						type: 'post',
+						data: buddyInfo,
+						success: function(data){
+							alert(data);
+						},
+						error: function(data){
+							alert("문제발생");
 						}
-					}
+					});	
 				}   
 				
 				

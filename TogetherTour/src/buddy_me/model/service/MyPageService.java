@@ -93,34 +93,42 @@ public class MyPageService {
 		return headC;
 	}
 
-	public int insertBuddy(int bnum, String userId, String buddyId) {
+	public int insertBuddy(int bnum, int ageNum, ArrayList<String> infoArr) {
 		Connection conn = getConnection();
 		MyPageDAO dao = new MyPageDAO();
-		Buddy b = new Buddy();
-		// 작성자 들어갔는지 조회
-		int check = dao.selectWriter(conn,bnum,userId);
 		
-		// 작성자 존재여부에 따라 작성자도 넣거나, 동행자만 넣거나
+		// 동행자 조건 확인
+		int okay = dao.checkInfo(conn,ageNum,infoArr);
+		
+		String userId = infoArr.get(0);
+		String buddyId = infoArr.get(2);
 		int result = 0;
-		if(check > 0) {
-			//동행자만
-			b.setbNum(bnum);
-			b.setmId(buddyId);
-			result = dao.insertBuddy(conn,b);
-			commit(conn);
-		} else if(check == 0){
-			//작성자도 같이
-			b.setbNum(bnum);
-			b.setmId(buddyId);
-			b.setWriter_mid(userId);
-			result = dao.insertAll(conn,b);
-			commit(conn);
+		
+		if(okay > 0) { //조건 맞음 
+			Buddy b = new Buddy();
+			// 작성자 들어갔는지 조회
+			int check = dao.selectWriter(conn,bnum,userId);
+			
+			// 작성자 존재여부에 따라 작성자도 넣거나, 동행자만 넣거나
+			if(check > 0) {
+				//동행자만
+				b.setbNum(bnum);
+				b.setmId(buddyId);
+				result = dao.insertBuddy(conn,b);
+				commit(conn);
+			} else {
+				//작성자도 같이
+				b.setbNum(bnum);
+				b.setmId(buddyId);
+				b.setWriter_mid(userId);
+				result = dao.insertAll(conn,b);
+				commit(conn);
+			}
 		} else {
 			rollback(conn);
 		}
+		
 		close(conn);
 		return result;
 	}
-
-
 }

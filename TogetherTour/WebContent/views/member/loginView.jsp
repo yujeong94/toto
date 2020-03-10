@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
