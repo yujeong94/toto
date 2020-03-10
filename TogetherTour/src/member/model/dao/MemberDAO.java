@@ -257,12 +257,13 @@ public class MemberDAO {
 		try {
 			pstmt = conn.prepareStatement(query) ;
 			pstmt.setString(1, member.getNickName()) ;
-			pstmt.setString(2, member.getUserName()) ;
-			pstmt.setString(3, member.getGender()) ;
-			pstmt.setString(4, member.getEmail()) ;
-			pstmt.setInt(5, member.getmKind()) ;
-			pstmt.setString(6, member.getAge()) ;
-			pstmt.setString(7, member.getmId()) ;
+			pstmt.setString(2, member.getPwd()) ;
+			pstmt.setString(3, member.getUserName()) ;
+			pstmt.setString(4, member.getGender()) ;
+			pstmt.setString(5, member.getEmail()) ;
+			pstmt.setInt(6, member.getmKind()) ;
+			pstmt.setString(7, member.getAge()) ;
+			pstmt.setString(8, member.getmId()) ;
 			result = pstmt.executeUpdate() ;
 		} catch (SQLException e) {
 			System.out.println("\n---------------------------[ERROR]---------------------------") ;

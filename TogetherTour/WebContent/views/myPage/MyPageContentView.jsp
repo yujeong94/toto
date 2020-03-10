@@ -74,12 +74,6 @@
 						</td>
 					</tr>
 					<tr>
-						<th>팔로워 수(Follower)</th>
-						<td colspan="4">
-							<input id="follow" class="myContent" type="text" value="<%=loginUser.getFollow()%>명" readonly>
-						</td>
-					</tr>
-					<tr>
 						<td colspan="5">
 							<input type="submit" id="updateBtn" value="수정하기" style="background:#005952; color:white;">
 						</td>
