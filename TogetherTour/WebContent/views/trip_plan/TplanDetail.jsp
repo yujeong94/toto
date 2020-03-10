@@ -154,7 +154,7 @@
 						<tr>
 							<th>여행지역</th>
 							<td colspan="5">
-								<input type="hidden" name="kind" value="<%= t.getKind() %>">
+								<input type="hidden" name="kind" value="<%= tKind %>">
 								<input type="hidden" name="country" value="<%= t.getCountry() %>">
 								<input type="hidden" name="city" value="<%= t.getCity() %>">
 								<%= tKind %> / <%= t.getCountry() %> / <%= t.getCity() %>
