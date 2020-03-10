@@ -66,7 +66,7 @@
 						</tr>
 						<tr>
 							<th rowspan="2">비밀번호 </th>
-							<td colspan="4"><input type=password name=joinUserPwd id=joinUserPwd style="width:100%;" value="<%=loginUser.getPwd()%> %>" required></td> </tr> <tr>
+							<td colspan="4"><input type=password name=joinUserPwd id=joinUserPwd style="width:100%;" value="<%=loginUser.getPwd()%>" required></td> </tr> <tr>
 							<td colspan="4"><span id=checkPwd>(영문 대소문자/숫자/특수문자 각 1가지 이상의 조합, 8자~16자)</span></td>
 						</tr>
 						<tr>
@@ -139,12 +139,17 @@
 		var isIdChecked = false ; // 아이디 중복체크를 한 적이 있는지 , 중복체크하고나서 값을 다시 바꾸면 다시 중복체크할수있도록
 		// 닉네임 중복 확인 
 		var isNickChecked = false ;
+		// 닉네임 변경 여부
+		var isNickChanged = false ;
 		
 		$('#nickName').on('change paste keyup', function() {
-		//                값이 바꼈거나 붙여넣기했거나 키보드로 다시 썼을때
+		//                값이 바뀌었거나 붙여넣기했거나 키보드로 다시 썼을때
 			isIdChecked = false ;
 			isNickChecked = false ;
-		});
+			
+			if($('#nickName').val()!="<%=loginUser.getNickName()%>") isNickChanged = true ;
+			else													 isNickChanged = false ;
+		}) ;
 		
 		// 아이디 중복확인
 		$('#nickName').change(function() {
@@ -153,7 +158,7 @@
 			// --------- 닉네임 중복확인
 			if(reg2.test(userNick) == false) {
 				$('#checkNick').text('알맞은 닉네임을 입력하세요.') ;
-			}else if(userNick.trim().length != 0 && reg2.test(userNick)) {
+			} else if(userNick.trim().length != 0 && reg2.test(userNick) && isNickChanged==true) {
 				$.ajax({
 					url: "<%= request.getContextPath() %>/NickCheck.me",
 					type: 'post',
@@ -205,12 +210,11 @@
 			} else if($('#pwd2').val().trim().length == 0) {
 				alert("비밀번호확인을 입력해주세요.") ;
 				$(this).focus() ;
-			} else if(isNickUsable == false || isNickChecked == false) {
+			} else if(isNickChanged && (isNickUsable == false || isNickChecked == false)) {
 				alert('닉네임 중복확인을 해주세요.') ;
 				$('#nickName').focus() ;
-			} else if($('#age') == "") {
-				alert('생년월일을 입력해 주세요.') ;
-				$('#age').focus() ;
+			} else if($('#ImgBtn').val() == "") {
+				alert('프로필 사진을 입력해 주세요.') ;
 			} else {
 				$('#updateForm').submit() ;
 			}

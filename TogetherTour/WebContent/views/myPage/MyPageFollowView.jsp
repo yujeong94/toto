@@ -22,13 +22,16 @@
 		<div class="contents">
 			<!--S:MyPageMenu-->
 			<h2><span>마이페이지</span></h2>
-			<p style="margin-top:-40px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내가 팔로우한 사용자 리스트</p><hr>
+			<p style="margin-top:-40px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center; background:#F2F2F2;">내가 팔로우한 사용자 리스트</p><hr>
 			<%@ include file="../myPage/MyPageMenu.jsp"%><hr><br><br>
 			<!--E:MyPageMenu-->
 			<!--S:MyPageContent:Follow-->
 			<div>
 				<table>
-					<tr>
+					<% if(!mList.isEmpty()) { %>
+						<tr><td colspan="5" style="text-align:center; font-size:1.7rem; font-weight:bold; border-bottom:1px solid;  border-top:1px solid; background:#E6E6E6;">팔로워 수 : <%=mList.size()%>명</td></tr>
+					<% } %>
+					<tr style="border-bottom:1px solid; background:#F2F2F2;">
 						<th>닉네임</th><th>이메일</th><th>성별</th><th>팔로워 수</th><th>평점(x/5, x명)</th>
 					</tr>
 					<% if(mList.isEmpty()) { %>
@@ -51,7 +54,7 @@
 		<script>
 			$(function() {
 				$('.listArea').mouseenter(function() {
-					$(this).css({'background':'#D8D8D8','cursor':'pointer'}) ;
+					$(this).css({'background':'rgb(246, 227, 206)','cursor':'pointer'}) ;
 				}).mouseout(function() {
 					$(this).css({'background':'none','cursor':'normal'}) ;
 				}).click(function() {
