@@ -62,8 +62,8 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 	
 	$('.deleteBtn').click(function(){
 		var bool = confirm("정말 탈퇴시키겠습니까?");
-		var userId = $('.userId').text();
-		var rkey = $('.rkey').text();
+		var userId = $(this).parent().children('.userId').text();
+		var rkey = $(this).parent().children('.rkey').text();
 		console.log(userId, rkey);
 		if(bool){
 			$.ajax({
@@ -79,6 +79,7 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 					} else {
 						alert("회원을 탈퇴시키는데 실패했습니다.");
 					}
+					window.location.reload();
 				},
 				error: function(data){
 					console.log("문제발생");
