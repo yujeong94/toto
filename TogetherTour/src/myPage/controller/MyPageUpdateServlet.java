@@ -59,23 +59,23 @@ public class MyPageUpdateServlet extends HttpServlet {
 			userImg.setOriginName(originFile) ;
 			userImg.setChangeName(saveFile) ;
 			
-			String joinUserPwd = multipartRequest.getParameter("joinUserPwd") ;
 			String joinUserId = multipartRequest.getParameter("joinUserId") ;
 			String nickName = multipartRequest.getParameter("nickName") ;
+			String joinUserPwd = multipartRequest.getParameter("joinUserPwd") ;
 			String userName = multipartRequest.getParameter("userName") ;
-			String email = multipartRequest.getParameter("email") ;
 			String gender = multipartRequest.getParameter("gender") ;
-			String age = multipartRequest.getParameter("age") ;
+			String email = multipartRequest.getParameter("email") ;
 			String userType = multipartRequest.getParameter("userType") ;
 			int typeInt = 0 ;
 			if(userType.equals("general"))	typeInt = 1 ;
 			else							typeInt = 2 ;
+			String age = multipartRequest.getParameter("age") ;
 			
 			Member member = new Member(joinUserId, nickName, joinUserPwd, userName, gender, email, typeInt, age) ;
 			int result = new MemberService().updateMember(member,userImg) ;
 			String page = null ;
 			if(result > 0) {
-				page="viewSelf.myPage" ;
+				page="index.jsp" ;
 				request.setAttribute("msg", "회원수정에 성공했습니다.") ;
 			} else {
 				page="index.jsp" ;

@@ -28,7 +28,6 @@
 				<script>
 					// 사진 등록 버튼
 					$(function(){
-// 						$('#ImgBtn').hide() ;
 						$('#Btn').click(function(){
 							$('#ImgBtn').click() ;	
 						}) ;
@@ -44,12 +43,12 @@
 						}
 					}
 				</script>
-				<form action="<%= request.getContextPath() %>/update.myPage" method=post id=joinForm onsubmit="return validate();" encType="multipart/form-data">
+				<form action="<%= request.getContextPath() %>/update.myPage" method=post id=updateForm encType="multipart/form-data">
 					<table id="contentArea">
 						<tr>
 							<td colspan="5">
 								<div id="profileArea" style="border:1px solid black;" onclick="">
-									<img id="profile" src="">
+									<img id="profile">
 								</div>
 								<div style="text-align:center;">
 									<input type=file id=ImgBtn name=ImgBtn onchange="LoadImg(this)" required>
@@ -73,7 +72,7 @@
 						<tr>
 							<th rowspan="2">비밀번호 확인 </th>
 							<td colspan="4"><input type=password name=pwd2 id=pwd2 style="width:100%;" required></td> </tr> <tr>
-							<td colspan="4"><span id=checkPwd2></span></td>
+							<td colspan="4"><span id=checkPwd2>비밀번호가 일치해야 합니다.</span></td>
 						</tr>
 						<tr>
 							<th>이름</th>
@@ -89,7 +88,6 @@
 								<script>
 									$(function() {
 										var gender = "<%=loginUser.getGender()%>" ;
-										console.log("[Gender] : ["+gender+"]") ;
 										if(gender == "M")
 											$("#gender-M").prop('checked', true) ;
 										else
@@ -102,7 +100,7 @@
 						</tr>
 						<tr>
 							<th>생년월일</th>
-							<td colspan="4"><input type=date name=age value="<%=loginUser.getAge()%> %>" style="width:100%;" required></td>
+							<td colspan="4"><input type=date name=age id=age value="<%=loginUser.getAge()%>" style="width:100%;" required></td>
 						</tr>
 						<tr>
 							<th>회원구분</th>
@@ -110,7 +108,6 @@
 								<script>
 									$(function() {
 										var mKind = <%=loginUser.getmKind()%> ;
-										console.log("[mKind] : ["+mKind+"]") ;
 										if(mKind == 1)
 											$("#general").prop('checked', true) ;
 										else
@@ -123,7 +120,7 @@
 						</tr>
 						<tr>
 							<td colspan="5">
-								<button id="updateBtn" onclick="submitCheck();">수정하기</button>
+								<button type="button" id="button" class="wrt" onclick="submitCheck() ;">수정하기</button>
 							</td>
 						</tr>
 					</table>
@@ -136,56 +133,86 @@
 		<!--E:footer-->
 	</div>
 	<script>
-		function detailGrade() {
-			window.open("detailGradeView.jsp", "checkNickForm", "width=500, height=300") ;
-		}
+		// 아이디, 닉네임 중복 확인과  조건 체크
+		var isNickUsable = false ;
+		// 아이디 중복 확인
+		var isIdChecked = false ; // 아이디 중복체크를 한 적이 있는지 , 중복체크하고나서 값을 다시 바꾸면 다시 중복체크할수있도록
+		// 닉네임 중복 확인 
+		var isNickChecked = false ;
 		
+		$('#nickName').on('change paste keyup', function() {
+		//                값이 바꼈거나 붙여넣기했거나 키보드로 다시 썼을때
+			isIdChecked = false ;
+			isNickChecked = false ;
+		});
+		
+		// 아이디 중복확인
 		$('#nickName').change(function() {
 			var userNick = $('#nickName').val() ;
-			var reg2 = /^[a-z가-힣].{1,11}$/ ;
+			var reg2 = /^[a-z가-힣]{2,12}$/ ;
 			// --------- 닉네임 중복확인
 			if(reg2.test(userNick) == false) {
 				$('#checkNick').text('알맞은 닉네임을 입력하세요.') ;
-			} else if(userNick.trim().length != 0 && reg2.test(userNick)) {
+			}else if(userNick.trim().length != 0 && reg2.test(userNick)) {
 				$.ajax({
 					url: "<%= request.getContextPath() %>/NickCheck.me",
 					type: 'post',
 					data: {userNick: userNick},
-					success: function(data) {
+					success: function(data){
 						if(data == 'success') {
 							$('#checkNick').text("사용가능한 닉네임입니다.") ;
-							isUsable = true ;
+							isNickUsable = true ;
 							isNickChecked = true ;
 						} else {
 							$('#checkNick').text("이미 사용중인 닉네임입니다.") ;
-							isUsable = false ;
+							isNickUsable = false ;
 							isNickChecked = false ;
-							$('#nickName').focus() ;
 						}
 					}
-				});
+				}) ;
 			}
+		}) ;
+			
+		$(function(){
+			$('#joinUserPwd').blur(function() {
+				var input = $(this).val() ;
+				var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/ ;
+				if(reg.test(input) == false){
+					$('#checkPwd').text('알맞은 비밀번호를 입력하세요.') ;
+				} else {
+					$('#checkPwd').text('사용 가능한 비밀번호입니다.') ;
+				}
+			}) ;
+			
+			$('#pwd2').keyup(function() {
+				var pwd1 = $('#joinUserPwd').val() ;
+				var pwd2 = $(this).val() ;
+				if(pwd1!=pwd2)	$('#checkPwd2').text('비밀번호가 일치하지 않습니다.') ;
+				else			$('#checkPwd2').text('비밀번호가 일치합니다.') ;
+			}) ;
 		}) ;
 		
 		function submitCheck() {
 			if($('#nickName').val().trim().length == 0) {
-				alert("닉네임을 입력해주세요.");
-				$(this).focus();
-				return false;
+				alert("닉네임을 입력해주세요.") ;
+				$(this).focus() ;
 			} else if($('#userName').val().trim().length == 0) {
-				alert("이름을 입력해주세요.");
-				$(this).focus();
-				return false;
-			} else if(!isUsable || !isIdChecked || !isNickChecked) {
-				console.log(isUable) ;
-				console.log(isIdChecked) ;
-				console.log(isNickChecked) ;
-				alert('중복확인을 해주세요.') ;
-			} else if($('#profile').val() == "") {
-				alert($('#profile').val()) ;
-				alert("프로필 사진을 추가해 주세요.") ;
+				alert("이름을 입력해주세요.") ;
+				$(this).focus() ;
+			} else if($('#joinUserPwd').val().trim().length == 0) {
+				alert("비밀번호를 입력해주세요.") ;
+				$(this).focus() ;
+			} else if($('#pwd2').val().trim().length == 0) {
+				alert("비밀번호확인을 입력해주세요.") ;
+				$(this).focus() ;
+			} else if(isNickUsable == false || isNickChecked == false) {
+				alert('닉네임 중복확인을 해주세요.') ;
+				$('#nickName').focus() ;
+			} else if($('#age') == "") {
+				alert('생년월일을 입력해 주세요.') ;
+				$('#age').focus() ;
 			} else {
-				location.href='<%=request.getContextPath()%>/update.myPage' ;
+				$('#updateForm').submit() ;
 			}
 		}
 		

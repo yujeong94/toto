@@ -19,11 +19,12 @@
 		<!--S:contents-->
 		<div class="contents">
 			<h2><span>마이페이지</span></h2>
-			<p style="margin-top:-85px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내 정보 보기</p><hr>
+			<p style="margin-top:-40px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내 정보 보기</p><hr>
 			<%@ include file="../myPage/MyPageMenu.jsp"%><hr><br><br>
-			<div id="myInfoArea">
+			<form id="myInfoArea" method="post" action="<%=request.getContextPath()%>/views/myPage/MyPageUpdateView.jsp">
 				<div id="profileArea" onclick="" style="border:1px solid black;">
 					<img id="profile" src="<%=request.getContextPath()%>/uploadFiles/<%=profileImg.getChangeName()%>">
+					<input type="hidden" value="<%=profileImg.getChangeName()%>" id="profileImgName" name="profileImgName">
 				</div><br>
 				<table id="contentArea">
 					<tr>
@@ -80,10 +81,12 @@
 					</tr>
 					<tr>
 						<td colspan="5">
-							<button id="updateBtn" onclick="location.href='<%=request.getContextPath()%>/views/myPage/MyPageUpdateView.jsp'">수정하기</button>
+							<input type="submit" id="updateBtn" value="수정하기" style="background:#005952; color:white;">
 						</td>
 					</tr>
 				</table><br><br><br><hr><br><br><br><br><br><br><br>
+			</form>
+			<div>
 				<p id="starTitle">나의 평점</p>
 				<table id="contentArea">
 					<tr>
@@ -131,11 +134,6 @@
 				}) ;
 			}
 		}) ;
-		
-// 		$(function() {
-<%-- 			$('#profile').attr('src',') ; --%>
-// 		}) ;
 	</script>
 </body>
-
 </html>

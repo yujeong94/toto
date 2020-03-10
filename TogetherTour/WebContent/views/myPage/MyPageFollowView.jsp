@@ -22,7 +22,7 @@
 		<div class="contents">
 			<!--S:MyPageMenu-->
 			<h2><span>마이페이지</span></h2>
-			<p style="margin-top:-85px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내가 팔로우한 사용자 리스트</p><hr>
+			<p style="margin-top:-40px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내가 팔로우한 사용자 리스트</p><hr>
 			<%@ include file="../myPage/MyPageMenu.jsp"%><hr><br><br>
 			<!--E:MyPageMenu-->
 			<!--S:MyPageContent:Follow-->

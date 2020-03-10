@@ -90,10 +90,10 @@
 								<input type="text" value="작성자가 업로드한 사진이 없습니다." style="width:100% ; font-weight:bold ;" readonly>
 							<% } else {%>
 								<% for(int i=0 ; i<fileList.size() ; i++) {%>
-									<div style="width:<%=100/fileList.size()%>% ;">
-										<img src="<%=request.getContextPath()%>/uploadFiles/<%=fileList.get(i).getChangeName()%>" id="detailImage<%=i%>">
-										<input type="hidden" value="<%=fileList.get(i).getChangeName()%>" name="detailImg<%=i%>">
-										<input type="hidden" value="<%=fileList.get(i).getfId()%>" name="detailImgId<%=i%>"><br>
+									<div style="width:40%;">
+										<img src="<%=request.getContextPath()%>/uploadFiles/<%=fileList.get(i).getChangeName()%>" id="detailImage<%=i%>" name="detailImage<%=i%>">
+										<input type="hidden" value="<%=fileList.get(i).getChangeName()%>" id="detailImg<%=i%>" name="detailImg<%=i%>">
+										<input type="hidden" value="<%=fileList.get(i).getfId()%>" id="detailImgId<%=i%>" name="detailImgId<%=i%>"><br>
 									</div>
 								<% }%>
 							<% }%>
@@ -147,10 +147,18 @@
 			function deleteShare() {
 				var bool = confirm('정말로 삭제하시겠습니까?') ;
 				if(bool) {
-					$('#detailForm').attr('action', '<%= request.getContextPath() %>/Rdelete.share') ;
+					$('#detailForm').attr('action', '<%= request.getContextPath() %>/delete.share') ;
 					$('#detailForm').submit() ;
 				} else {
 					alert('취소하셨습니다.') ;
+				}
+			}
+			
+			function deleteReviewReply(){
+				var bool = confirm('댓글을 정말로 삭제하시겠습니까?');
+				if(bool){
+					$('#ReplyForm').attr('action', '<%= request.getContextPath() %>/Rdelete.rv');
+					$('#ReplyForm').submit();
 				}
 			}
 			

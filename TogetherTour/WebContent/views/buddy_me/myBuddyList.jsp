@@ -23,7 +23,7 @@
 		<%@ include file="../common/header.jsp" %>
 		<div class=contents>
 			<h2 align=center><span>마이페이지</span></h2>
-			<p style="margin-top:-85px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내 동행자 리스트</p><hr>
+			<p style="margin-top:-40px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내 동행자 리스트</p><hr>
 			<%@ include file="../myPage/MyPageMenu.jsp"%><hr><br><br>
 			<form method=post id=buddyListForm>
 				<table id="buddyList">

@@ -4,13 +4,12 @@
 
 #pageName {display:inline;}
 
-#button 	{border:1px solid black; background:#119AFD; color:white;
-			 width:100px; height:30px; text-align:center; vertical-align:middle;}
+#button 	{background:#005952; color:white;}
 
 #schArea	{width:100%; align:center;}
 .schLogo	{border:1px solid black; color:white; text-align:center;
 			 width:100px; height:30px; algin:center;}
-#schKind	{}
+#schKind	{}	
 #schTitle	{}
 #schWrite	{}
 #schLook	{}

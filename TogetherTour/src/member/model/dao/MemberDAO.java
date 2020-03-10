@@ -33,6 +33,7 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Member loginUser = null;
+		int grade = 0 ;
 		
 		String query = prop.getProperty("loginMember");
 		
@@ -43,6 +44,8 @@ public class MemberDAO {
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
+				if(rset.getInt("gCount") == 0)	grade = 0 ;
+				else							grade = Math.round(rset.getInt("grade")/rset.getInt("gCount")) ;
 				loginUser = new Member(rset.getString("mid"),
 										rset.getString("nick"),
 										rset.getString("pwd"),
@@ -51,7 +54,7 @@ public class MemberDAO {
 										rset.getString("email"),
 										rset.getInt("mkind"),
 										rset.getInt("follow"),
-										rset.getInt("grade"),
+										grade,
 										rset.getString("age"),
 										rset.getInt("gcount"));
 			}
@@ -276,7 +279,7 @@ public class MemberDAO {
 		PreparedStatement pstmt = null ;
 		int result = 0 ;
 		
-		String query = prop.getProperty("updateUserImg");
+		String query = prop.getProperty("updateUserImg") ;
 		
 		try {
 			pstmt = conn.prepareStatement(query) ;
