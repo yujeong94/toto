@@ -200,6 +200,7 @@
 		 			$tr.append($contentTd);
 		 			$tr.append($dateTd);
 		 			$replyTable.append($tr);
+		 			window.location.reload();
 		 		}
 		 		$('#replyContent').val('');
 		 	}
