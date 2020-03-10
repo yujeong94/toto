@@ -12,13 +12,12 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-	table{margin-left:30px; height:300px;}
+	table{height:200px; margin-bottom:100px;}
 	#loginForm{width: 500px; margin:auto; margin-bottom:100px; padding:20px}
-	td{height:10px; margin-left:50px;}
 	.loginArea{width:600px; height:600px; 
 	           margin:auto;}
 	#btnArea{margin-top:10px; font-size:13px;}
-	#loginBtn{width:80px; margin-bottom:20px; background:#000/* background:#F7BE81 */; border: 0px; box-shadow:none; color:white;}
+	#loginBtn{width:80px; margin-bottom:20px; background:#000; border: 0px; box-shadow:none; color:white;}
 	#loginBtn,#enrollBtn,.find{cursor:pointer;}
 	.inputStyle{border: 0px; box-shadow:none; border-bottom:1px solid black;}
 </style>
