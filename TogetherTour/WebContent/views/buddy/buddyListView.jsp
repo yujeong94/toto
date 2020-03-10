@@ -19,7 +19,7 @@
 		startPage = pi.getStartPage();
 		endPage = pi.getEndPage();
 	}
-
+ 
 	// 검색엔진
 	String search = (String)request.getAttribute("search");
 	String menu = (String)request.getAttribute("menu");
@@ -110,7 +110,7 @@ label{vertical-align:middle;}
 			</tr>
 			<%
 				} else {
-
+ 
 					for (buddyBoard b : list) {
 			%>
 			<tr>

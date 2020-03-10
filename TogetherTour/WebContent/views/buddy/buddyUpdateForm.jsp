@@ -22,7 +22,7 @@ if(kind.equals("국내")){
 	selected[0] = "";
 	selected[1] = "selected";
 }	 
- 
+  
 //theme
 String[] checkedTheme = new String[6];
 if(!theme.equals("")){
@@ -124,7 +124,7 @@ if(kakao == null){
 								<option><%= city %></option>
 								<!-- <option>도시</option> -->
 							</select>
-						</td>
+						</td> 
 					</tr> 
 					<tr>
 						<th>동행 날짜</th>

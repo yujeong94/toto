@@ -19,7 +19,7 @@
 .tableArea tr:last-child th, .tableArea tr:last-child td {
 			border-bottom : 1px solid #000;
 		}
-</style>
+</style> 
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>

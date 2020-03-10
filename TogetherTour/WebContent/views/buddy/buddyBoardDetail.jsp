@@ -13,7 +13,7 @@
 	case 40: group_age = "40대 이상"; break;
 	default: group_age = "상관없음"; 
 	}
-
+ 
 	String kind = null;
 	if(b != null){
 		if(b.getKind() == 1){
@@ -120,7 +120,7 @@
 						<input type=hidden name=theme value="<%= b.getTheme() %>" ><%= b.getTheme() %>
 						<%System.out.println("★theme null값인가?: " + b.getTheme()); %>
 					</td>
-				</tr>
+				</tr> 
 				<tr>
 					<th rowspan="3">동행자 모집</th>
 					<td colspan="3" style="font-weight:bold;">모집인원
