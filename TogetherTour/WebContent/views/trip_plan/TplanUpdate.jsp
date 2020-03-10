@@ -8,7 +8,7 @@
 	String city = request.getParameter("city");
 	
 	String[] selected = new String[2];
-	if(kind.equals("1")){
+	if(kind.equals("국내")){
 		selected[0] = "selected";
 		selected[1] = "";
 	} else {
@@ -175,15 +175,17 @@
 					<button type=submit id=tBtn>수정완료</button>
 					<div onclick='location.href="javascript:history.go(-1);"' id=cancleBtn>취소</div>
 				</div>
-			</div>	
+				
 			</fieldset>
 		
 		</form>
-	</div>
+	</div><!-- E:contents -->
 	<!--S:footer-->
 	<%@ include file="../common/footer.jsp" %>
 	<!--E:footer-->
-	</div>
+	</div> <!-- E:wrapper -->
+	
+	
 	<script>
 	
 	// 여행 시작일과 여행 종료일이 정해지면 일차가 계산되는 함수
@@ -192,14 +194,6 @@
 	document.getElementById("tDay1").value = betweenDay;
 	var tStart = "";
 	var tEnd = "";
-	
-	<%-- <% for(int i = 0; i < tContentsArr.length; i++){ %>
-		$("#makePlan").append("<div class='date-box-date'><span>" 
-			+ <%= i+1 %> + "일차</span></div><textarea name='tContents' class='date-box-content' rows='10' cols='140' style='resize:none;' placeholder='" 
-			+ <%= i %> + "일차 일정을 입력하세요'><%= tContentsArr[i] %></textarea>"); 
-	
-	<% } %> --%>
-	
 	
 	function tplanConfirm(){
 		
@@ -226,6 +220,10 @@
 			
 		} 
 		
+		if(tStart > tEnd) {
+			alert("여행 종료일도 수정하세요.\n여행 종료일은 여행 시작일보다 같거나 늦어야 합니다.");
+		}
+		
 		$.ajax({
 			
 			url : '<%= request.getContextPath() %>/updateContents.trip',
@@ -235,13 +233,15 @@
 				
 				$("#makePlan").html("");
 				for(var i = 0; i <= betweenDay-1; i++){
+					if(typeof(data[i]) == "undefined"){
+						data[i] = " ";
+					}
+					
 					$("#makePlan").append("<div class='date-box-date'><span>[ " 
 												+ (i+1) + "일차 ]</span></div><textarea name='tContents' class='date-box-content' rows='10' cols='140' style='resize:none;'>" + data[i] + "</textarea>");
 			
-					console.log(data[i]);
-					if(data[i] == "undefined"){
-						data[i] = "zero";
-					}
+					
+					
 				}
 				
 			}
@@ -258,18 +258,6 @@
 		 		$selectKind = $('#kindList');
 				$selectCountry = $('#countryList');
 				$selectCity = $('#cityList');
-				for(var i in data[0]){
-					var $option = $('<option>');
-					$option.val(data[0][i]);
-					var con = null;
-					if(data[0][i] == 1){
-						con = "국내";
-					} else {
-						con = "해외";
-					}
-					$option.text(con);
-					$selectKind.append($option);
-				}
 				
 				// county변경
 				$('#kindList').change(function(){
@@ -323,6 +311,7 @@
 							$selectCity.append($option);
 						});
 					});
+					
 		 	},
 		 	error: function(data){
 		 		console.log('error');

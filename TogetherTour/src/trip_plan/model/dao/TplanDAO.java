@@ -299,7 +299,7 @@ public class TplanDAO {
 		}
 		
 		try {
-			if(menu.equals("LOCATION")) {
+			if(menu.equals("location")) {
 				pstmt = conn.prepareStatement(query);
 				pstmt.setString(1, '%'+content+'%');
 				pstmt.setString(2, '%'+content+'%');
@@ -316,7 +316,7 @@ public class TplanDAO {
 			list = new ArrayList<Tplan>();
 			
 			while(rset.next()) {
-				Tplan t = new Tplan(rset.getInt("rNum"),
+				Tplan t = new Tplan(rset.getInt("tpnum"),
 									rset.getString("title"),
 									rset.getString("nick"),
 									rset.getInt("day"),

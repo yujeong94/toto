@@ -36,9 +36,7 @@ public class TplanUpdateContentsServlet extends HttpServlet {
 		if(tContents != null) {
 			tContentsArr = tContents.split("-");
 		
-		} else {
-			tContentsArr = null;
-		}
+		} 
 		
 		response.setContentType("application/json; charset=UTF-8");
 	    new Gson().toJson(tContentsArr, response.getWriter());
