@@ -68,8 +68,8 @@ public class mainDateSearchServlet extends HttpServlet {
 		}
 		
 		
-		System.out.println(sqlStartDate);
-		System.out.println(sqlLastDate);
+		//System.out.println(sqlStartDate);
+		//System.out.println(sqlLastDate);
 
 		
 		mainSearchService service = new mainSearchService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성

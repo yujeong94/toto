@@ -8,10 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
-	.ImgArea{display:inline-block; border:1px dashed rgb(203,203,203); width:120px; height:100px; margin-right:10px;}
+	.ImgArea{display:inline-block; border:1px dashed rgb(203,203,203); width:200px; height:200px; margin-right:10px;}
 </style>
 </head>
 <body>
@@ -70,16 +69,16 @@
 				<tr>
 					<th>사진 첨부</th>
 					<td colspan="3">  
-						<div id="contentImgArea1" class="ImgArea">
-							<img id="Img1"> 
+						<div id="contentImgArea1" class="ImgArea" style="overflow:hidden">
+							<img id="Img1" width="200" height="200"> 
 						</div>
 
-						<div id="contentImgArea2" class="ImgArea">
-							<img id="Img2"> 
+						<div id="contentImgArea2" class="ImgArea" style="overflow:hidden">
+							<img id="Img2" width="200" height="200"> 
 						</div>
 	
-						<div id="contentImgArea3" class="ImgArea">
-							<img id="Img3"> 
+						<div id="contentImgArea3" class="ImgArea" style="overflow:hidden">
+							<img id="Img3" width="200" height="200"> 
 						</div>
 					</td>
 				</tr>
@@ -233,7 +232,7 @@
 			$(function(){
 			   $('#insertBtn').click(function(){
 			      if($('#thumbnailImg1').val()== ''){
-			         alert('사진을 최소 1개이상 넣으주세요!');
+			         alert('사진을 최소 1개이상 넣어주세요!');
 			      } else{
 			         
 			      }

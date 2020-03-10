@@ -43,9 +43,8 @@ public class mainSearchServlet extends HttpServlet {
 		String country = request.getParameter("country");
 		String city = request.getParameter("city");
 		
-		System.out.println(kind + country + city);
+		//System.out.println(kind + country + city);
 
-		
 		mainSearchService service = new mainSearchService(); // 두 개의 서비스를 호출할 것이기 때문에 참조변수로 생성
 		
 		String search = "on";

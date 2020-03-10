@@ -23,15 +23,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <style>
 	td{text-align:center; cursor:default;}
 	.detailBtn,.profileBtn{cursor:pointer;}
 	th{border-bottom: 1px solid; height:30px;}
+	/* #search{background:black; color:white;} */
+	.titleBar{background:#F2F2F2;}
 </style>
 </head>
 <body>
+
+
 	<%@ include file="../common/header.jsp" %>
 	
 	<div class="contents">
@@ -64,15 +67,11 @@
 		<hr>
 		
 		
-		<div class='insertBtn' align='right'>
-		<% if(loginUser != null){ %> 
-		<button onclick='location.href="views/trip_review/reviewInsertForm.jsp"'>후기 작성하기</button>
-		<% } %> 
-		</div>
+		
 		
 		
 		<table id = "listArea">
-			<tr>
+			<tr class="titleBar">
 				<th width="100px">No</th>
 				<th width="200px">제목</th>
 				<!-- <th width="100px">여행지</th> -->
@@ -88,7 +87,7 @@
 			</tr>
 			<% if(list.isEmpty()){ %>
 			<tr>
-				<td colspan="8" align="center">조회된 후기 게시글이 없습니다.</td>
+				<td colspan="9" align="center">조회된 후기 게시글이 없습니다.</td>
 			</tr>
 			<% } else{
 					for(Review r : list) {
@@ -116,6 +115,12 @@
 			%>
 
 		</table>
+		
+		<div class='insertBtn' align='right'>
+		<% if(loginUser != null && loginUser.getmKind() != 2){ %> 
+		<button onclick='location.href="views/trip_review/reviewInsertForm.jsp"'>후기 작성하기</button>
+		<% } %> 
+		</div>
 	</div>
 	<br><br><br>
 	
@@ -124,10 +129,10 @@
 			<% if (search != null) {%>
 				<% if(!list.isEmpty() && maxPage !=1){ %>
 				<!-- 맨 처음으로 -->
-				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=1&menu=<%= menu%>&content=<%=content%>'">&lt;&lt;</button>
+				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=1&menu=<%= menu%>&content=<%=content%>'" id="firstBtn" class="icon-fast-backward">&lt;&lt;</button>
 				
 				<!-- 이전 페이지로 -->
-				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= currentPage-1 %>&menu=<%= menu%>&content=<%=content%>'" id="beforeBtn">&lt;</button>
+				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= currentPage-1 %>&menu=<%= menu%>&content=<%=content%>'" id="beforeBtn" class="icon-to-start">&lt;</button>
 				<script>
 					if(<%= currentPage %> <= 1){
 						var before = $('#beforeBtn');
@@ -140,12 +145,12 @@
 					<% if(p == currentPage){ %>
 						<button id="choosen" disabled><%= p %></button>
 					<% } else{ %>
-						<button id="numBtn" onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= p %>&menu=<%= menu%>&content=<%=content%>'"><%= p %></button>
+						<button id="numBtn" onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= p %>&menu=<%= menu%>&content=<%=content%>'" ><%= p %></button>
 					<% } %>
 				<% } %>
 				
 				<!-- 다음 페이지로 -->
-				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= currentPage + 1 %>&menu=<%= menu%>&content=<%=content%>'" id="afterBtn">&gt;</button>
+				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= currentPage + 1 %>&menu=<%= menu%>&content=<%=content%>'"  id="afterBtn" class="icon-to-end">&gt;</button>
 				
 				<script>
 					if(<%= currentPage %> >= <%= maxPage %>){
@@ -155,18 +160,18 @@
 				</script>
 				
 				<!-- 맨 끝으로 -->
-				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= maxPage %>&menu=<%= menu%>&content=<%=content%>'">&gt;&gt;</button>
+				<button onclick="location.href='<%= request.getContextPath() %>/search.rv?currentPage=<%= maxPage %>&menu=<%= menu%>&content=<%=content%>'" id="lastBtn" class="icon-fast-forward">&gt;&gt;</button>
 				
 				<% } %>
 				
 			<%} else{%>
 			
-				<% if(!list.isEmpty()){ %>
+				<% if(!list.isEmpty() && maxPage !=1){ %>
 					<!-- 맨 처음으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=1'">&lt;&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=1'" id="firstBtn" class="icon-fast-backward">&lt;&lt;</button>
 					
 					<!-- 이전 페이지로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= currentPage-1 %>'" id="beforeBtn">&lt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= currentPage-1 %>'" id="beforeBtn" class="icon-to-start">&lt;</button>
 					<script>
 						if(<%= currentPage %> <= 1){
 							var before = $('#beforeBtn');
@@ -184,7 +189,7 @@
 					<% } %>
 					
 					<!-- 다음 페이지로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= currentPage + 1 %>'" id="afterBtn">&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= currentPage + 1 %>'" id="afterBtn" class="icon-to-end">&gt;</button>
 					
 					<script>
 						if(<%= currentPage %> >= <%= maxPage %>){
@@ -194,7 +199,7 @@
 					</script>
 					
 					<!-- 맨 끝으로 -->
-					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= maxPage %>'">&gt;&gt;</button>
+					<button onclick="location.href='<%= request.getContextPath() %>/list.rv?currentPage=<%= maxPage %>'" id="lastBtn" class="icon-fast-forward">&gt;&gt;</button>
 					
 					
 				<% } %>
@@ -204,11 +209,12 @@
 		
 		
 		
+		
 	<script>
 	$(function(){
 		<% if(!list.isEmpty()){ %>
 		$('.detailBtn').mouseenter(function(){
-			$(this).parent().css({'background':'darkgray', 'cursor':'pointer'});
+			$(this).parent().css({'background':'#F6E3CE', 'cursor':'pointer'});
 		}).mouseout(function(){
 			$(this).parent().css('background', 'none');
 		}).click(function(){
@@ -236,12 +242,8 @@
 	
 	</script>	
 	
-	
-	
 		
-		
-	
-	
 	<%@ include file="../common/footer.jsp" %>
+
 </body>
 </html>
