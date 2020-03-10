@@ -31,6 +31,7 @@ public class MyPageService {
 		} else {
 			rollback(conn);
 		}
+		
 		close(conn);
 		
 		return mybuddyList;

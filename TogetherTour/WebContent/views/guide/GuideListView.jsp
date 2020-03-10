@@ -202,6 +202,7 @@
 	<%@ include file="../common/footer.jsp" %>
 </div>
 <script>
+
 	var msg = '<%= msg %>';
 	
 	$(function(){

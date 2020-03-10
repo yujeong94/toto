@@ -41,7 +41,6 @@ public class DeleteUserServlet extends HttpServlet {
 		if(result > 0) {
 			rkey2 = rkey;
 		}
-		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(rkey2,response.getWriter());
 	}

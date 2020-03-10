@@ -172,7 +172,6 @@
 						$('#detailForm').submit();
 					}
 				}
-				 
 		
 				// 참가 버튼 클릭시 
 				 function join(){

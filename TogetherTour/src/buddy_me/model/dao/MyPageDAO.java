@@ -245,6 +245,7 @@ public class MyPageDAO {
 			close(rset);
 			close(pstmt);
 		}
+		
 		return check;
 	}
 

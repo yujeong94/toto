@@ -80,7 +80,6 @@ public class InsertBuddyServlet extends HttpServlet {
 		}
 		response.setContentType("application/json; charset=UTF-8");
 	    new Gson().toJson(msg, response.getWriter());
-		
 	}
 
 	/**

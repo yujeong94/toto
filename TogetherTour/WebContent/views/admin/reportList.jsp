@@ -94,6 +94,7 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 			alert(msg);
 		}
 	});
+	
 </script>
 </body>	
 </html>
