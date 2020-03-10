@@ -68,20 +68,20 @@ public class MyPageDAO {
 				pstmt.setInt(1, bnumList.get(i));
 				pstmt.setString(2, userId);
 				rset = pstmt.executeQuery();
-			}
-			if(rset != null) {
-				while(rset.next()) {
-					mybuddyList.add(new Buddy(
-											  rset.getString("mid"),
-											  rset.getString("nick"),
-											  rset.getString("name"),
-											  rset.getString("writer_nick"),
-											  rset.getString("writer_name"),
-											  rset.getString("country"),
-											  rset.getString("city"),
-											  rset.getDate("start_date"),
-											  rset.getDate("end_date"),
-											  rset.getInt("head_cnt")));
+				if(rset != null) {
+					while(rset.next()) {
+						mybuddyList.add(new Buddy(
+												  rset.getString("mid"),
+												  rset.getString("nick"),
+												  rset.getString("name"),
+												  rset.getString("writer_nick"),
+												  rset.getString("writer_name"),
+												  rset.getString("country"),
+												  rset.getString("city"),
+												  rset.getDate("start_date"),
+												  rset.getDate("end_date"),
+												  rset.getInt("head_cnt")));
+					}
 				}
 			}
 		} catch (SQLException e) {
@@ -197,6 +197,32 @@ public class MyPageDAO {
 		}
 		return headC;
 	}
+	
+	public int checkInfo(Connection conn, int ageNum, ArrayList<String> infoArr) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = prop.getProperty("checkInfo");
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, infoArr.get(2));
+			pstmt.setString(2, infoArr.get(1));
+			pstmt.setInt(3, ageNum);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return result;
+	}
 
 	public int selectWriter(Connection conn, int bnum, String userId) {
 		PreparedStatement pstmt = null;
@@ -219,6 +245,7 @@ public class MyPageDAO {
 			close(rset);
 			close(pstmt);
 		}
+		
 		return check;
 	}
 
@@ -269,4 +296,5 @@ public class MyPageDAO {
 		
 		return result;
 	}
+
 }

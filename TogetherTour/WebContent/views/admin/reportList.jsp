@@ -4,13 +4,13 @@
 	ArrayList<Report> list = (ArrayList<Report>)request.getAttribute("report");
 
 	String msg = (String)request.getAttribute("msg");
+	String status = (String)request.getAttribute("status");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>신고자 리스트 | ToToAdmin</title>
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/index.css">
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/common_sub.css">
 <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-3.4.1.min.js"></script>
 <style>
@@ -43,12 +43,12 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 			<% } else { %>
 				<% for(Report r : list) { %>
 						<tr>
-							<td>r.getRkey()</td>
-							<td class=userId>r.getRmid()</td>
-							<td>r.getMid()</td>
-							<td>r.getRsNum()</td>
-							<td>r.getReason()</td>
-							<td>r.getStatus()</td>
+							<td class=rkey><%= r.getRkey() %></td>
+							<td class=userId><%= r.getRmid() %></td>
+							<td><%= r.getMid() %></td>
+							<td><%= r.getRsNum() %></td>
+							<td><%= r.getReason() %></td>
+							<td class=status><%= r.getStatus() %></td>
 							<td class=deleteBtn>강제탈퇴</td>
 						</tr>
 				<% } %>
@@ -63,8 +63,27 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 	$('.deleteBtn').click(function(){
 		var bool = confirm("정말 탈퇴시키겠습니까?");
 		var userId = $('.userId').text();
+		var rkey = $('.rkey').text();
+		console.log(userId, rkey);
 		if(bool){
-			location.href="<%= request.getContextPath() %>/delete.admin?userId="+userId;
+			$.ajax({
+				url: "<%= request.getContextPath() %>/delete.admin",
+				type: 'post',
+				data: {userId:userId,rkey:rkey},
+				success: function(data){
+					if(data != 0){
+						alert("회원을 성공적으로 탈퇴시켰습니다.");
+						if($('.rkey').text() == data){
+							$(this).parent().children('.status').text('Y');
+						}
+					} else {
+						alert("회원을 탈퇴시키는데 실패했습니다.");
+					}
+				},
+				error: function(data){
+					console.log("문제발생");
+				}
+			});
 		}
 	});
 	
@@ -75,6 +94,7 @@ td{border-bottom:1px solid lightgray; text-align:center;}
 			alert(msg);
 		}
 	});
+	
 </script>
 </body>	
 </html>

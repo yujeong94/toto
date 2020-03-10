@@ -15,11 +15,12 @@
 <style>
 	table{border:1px solid black; margin-top:100px;}
  	th{width:200px; text-align:right;}
- 	#userImgArea{border: 1px solid black; 
- 				 width:100px; height:100px; margin:0 auto; margin-top:100px;
+ 	#userImgArea{border: 1px solid black; border-radius:70%;
+ 				 width:150px; height:150px; margin:0 auto; margin-top:100px;
  				 overflow:hidden;}
  	#enrollArea{margin-top:20px;}
  	#enrollBtn{cursor:pointer;}
+ 	#joinNav{color:red;}
 </style>
 </head>
 <body>
@@ -27,7 +28,7 @@
 	<%@ include file="../common/header.jsp" %>
 	<div class=contents>
 	<h2><span>회원가입</span></h2>
-	<nav>모든 항목을 입력해주세요.</nav>
+	<nav id=joinNav>*모든 항목을 입력해주세요.</nav>
 	<hr>
 	<script>
 		// 사진 등록 버튼
@@ -128,7 +129,7 @@
 
 <script>
 	
-	// 아이디, 닉네임 중복 확인과  조건 체크
+	// 아이디, 닉네임 중복 확인
 	var isIdUsable = false;// 중복이 되었다, 되지 않았다 
 	var isNickUsable = false;
 	// 아이디 중복 확인
@@ -141,7 +142,10 @@
 		isIdChecked = false;
 		isNickChecked = false;
 	});
-
+	
+	// 아이디,닉네임 조건 체크 
+	var useId = false;
+	var useNick = false;
 	// 아이디 중복확인
 	$('#joinUserId,#nickName').change(function(){
 		var userId = $('#joinUserId').val();
@@ -149,7 +153,9 @@
 		
 		if(reg.test(userId) == false || userId.length < 4 || userId.length > 12) {
 			$('#checkId').text('알맞은 아이디를 입력하세요.');
+			useId = false;
 		} else if(userId.trim().length != 0 && reg.test(userId)){
+			useId = true;
 			$.ajax({
 				url: "<%= request.getContextPath() %>/idCheck.me",
 				type: 'post',
@@ -173,7 +179,9 @@
 		// --------- 닉네임 중복확인
 		if(reg2.test(userNick) == false){
 			$('#checkNick').text('알맞은 닉네임을 입력하세요.');
+			useNick = false;
 		}else if(userNick.trim().length != 0 && reg2.test(userNick)){
+			useNick = true;
 			$.ajax({
 				url: "<%= request.getContextPath() %>/NickCheck.me",
 				type: 'post',
@@ -193,14 +201,30 @@
 		}
 	});
 	
+	var pwdUsable = false;
+	var pwdUsable2 = false;
+	
+	var pwdChecked = false;
+	var pwd2Checked = false;
+	
+	$('#joinUserPwd,#pwd2').on('change paste keyup', function(){
+		//                값이 바꼈거나 붙여넣기했거나 키보드로 다시 썼을때
+			pwdChecked = false;
+			pwd2Checked = false;
+	});
+	
 	$(function(){
 		$('#joinUserPwd').blur(function(){
 			var input = $(this).val();
 			var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
 			if(reg.test(input) == false){
 				$('#checkPwd').text('알맞은 비밀번호를 입력하세요.' + $('#checkPwd').val());
+				pwdUsable = false;
+				pwdChecked = false;
 			} else {
 				$('#checkPwd').text('사용 가능한 비밀번호입니다.');
+				pwdUsable = true;
+				pwdChecked = true;
 			}
 		});
 		$('#pwd2').keyup(function(){
@@ -208,8 +232,12 @@
 			var pwd2 = $(this).val();
 			if(pwd1 != pwd2) {
 				$('#checkPwd2').text('비밀번호가 일치하지 않습니다.');
+				pwdUsable2 = false;
+				pwd2Checked = false;
 			} else {
 				$('#checkPwd2').text('비밀번호가 일치합니다.');
+				pwdUsable2 = true;
+				pwd2Checked = true;
 			}
 		});
 	});
@@ -242,6 +270,30 @@
 			return false;
 		}
 		
+		if(pwdUsable == false){
+			alert("알맞은 비밀번호를 입력해주세요.");
+			$('#joinUserPwd').focus();
+			return false;
+		}
+		
+		if(pwdUsable2 == false){
+			alert("비밀번호가 일치하지 않습니다.");
+			$('#pwd2').focus();
+			return false;
+		}
+		
+		if(useId == false){
+			alert("알맞은 아이디를 입력해주세요");
+			$('#joinUserId').focus();
+			return false;
+		}
+		
+		if(useNick == false){
+			alert("알맞은 닉네임을 입력해주세요");
+			$('#nickName').focus();
+			return false;
+		}
+		
 		if(isIdUsable == false || isIdChecked == false){
 			alert('아이디 중복확인을 해주세요.');
 			$('#joinUserId').focus();
@@ -265,6 +317,15 @@
 			}
 		});
 	});
+	
+	$(function(){
+		$('#enrollBtn').click(function(){
+			if($('#ImgBtn').val()== ''){
+		         alert('사진을 첨부해주세요');
+		    }
+		});
+	});
+	
 </script>
 </body>
 </html>

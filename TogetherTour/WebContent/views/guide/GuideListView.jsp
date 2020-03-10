@@ -18,6 +18,10 @@
 		startPage = pi.getStartPage();
 		endPage = pi.getEndPage();
 	}
+	
+	String search = (String)request.getAttribute("search");
+	String menu = (String)request.getAttribute("menu");
+	String content = (String)request.getAttribute("content");
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +35,7 @@
 		  border-bottom: 1px solid;
 		  margin-bottom:50px;
 		  }
-	th{border-bottom: 1px solid; height:30px;}
+	th{border-bottom: 1px solid; height:30px; background:#F2F2F2;}
 	td{text-align:center; cursor:default;}
 	.detailBtn,.profileBtn{cursor:pointer;}
 	#checkArea{height:100px;}
@@ -109,12 +113,52 @@
 			</table>
 		</form>
 		<div class='pagingArea' align='center'>
-			<% if(!list.isEmpty()){ %>
+			<% if(search != null) { %>
+			<% if(!list.isEmpty() && maxPage != 1){ %>
 			<!-- 맨 처음으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=1'" id=firstBtn>&lt;&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/search.guide?currentPage=1&menu=<%= menu %>&content=<%= content %>'" id=firstBtn class="icon-fast-backward">&lt;&lt;</button>
 			
 			<!-- 이전 페이지 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage-1 %>'" id=beforeBtn>&lt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/search.guide?currentPage=<%= currentPage-1 %>&menu=<%= menu %>&content=<%= content %>'" id=beforeBtn class="icon-to-start">&lt;</button>
+			<script>
+				if(<%= currentPage %> <= 1){
+					var first = $('#firstBtn');
+					var before = $('#beforeBtn');
+					first.attr('disabled','true');
+					before.attr('disabled','true'); // 맨처음페이지일경우 클릭안되도록 
+				}
+			</script>
+			
+			<!-- 10개의 페이지 목록 -->
+			<% for(int p = startPage; p <= endPage; p++){ %>
+				<% if(p == currentPage){ %>
+					<button id=choosen disabled><%= p %></button>
+				<% } else { %>
+					<button id=numBtn onclick="location.href='<%= request.getContextPath() %>/search.guide?currentPage=<%= p %>&menu=<%= menu %>&content=<%= content %>'"><%= p %></button>
+				<% }
+				}%>
+				
+			<!-- 다음 페이지 -->
+			<button onclick="location.href='<%= request.getContextPath() %>/search.guide?currentPage=<%= currentPage + 1%>&menu=<%= menu %>&content=<%= content %>'" id=afterBtn class="icon-to-end">&gt;</button>
+			
+			<!-- 맨 끝으로 -->
+			<button onclick="location.href='<%= request.getContextPath() %>/search.guide?currentPage=<%= maxPage %>&menu=<%= menu %>&content=<%= content %>'" id=lastBtn class="icon-fast-forward">&gt;&gt;</button>
+			<% } %>
+			<script>
+				if(<%= currentPage %> >= <%= maxPage %>){
+					var after = $('#afterBtn');
+					var last = $('#lastBtn');
+					after.attr('disabled','true');
+					last.attr('disabled','true');
+				}
+			</script>
+			<% } else { %>
+			<% if(!list.isEmpty()){ %>
+			<!-- 맨 처음으로 -->
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=1'" id=firstBtn class="icon-fast-backward">&lt;&lt;</button>
+			
+			<!-- 이전 페이지 -->
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage-1 %>'" id=beforeBtn class="icon-to-start">&lt;</button>
 			<script>
 				if(<%= currentPage %> <= 1){
 					var first = $('#firstBtn');
@@ -134,10 +178,10 @@
 				}%>
 				
 			<!-- 다음 페이지 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage + 1%>'" id=afterBtn>&gt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= currentPage + 1%>'" id=afterBtn class="icon-to-end">&gt;</button>
 			
 			<!-- 맨 끝으로 -->
-			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= maxPage %>'" id=lastBtn>&gt;&gt;</button>
+			<button onclick="location.href='<%= request.getContextPath() %>/list.guide?currentPage=<%= maxPage %>'" id=lastBtn class="icon-fast-forward">&gt;&gt;</button>
 			<% } %>
 			<script>
 				if(<%= currentPage %> >= <%= maxPage %>){
@@ -147,7 +191,7 @@
 					last.attr('disabled','true');
 				}
 			</script>
-			
+			<% } %>
 		</div> 
 		<% if(loginUser != null && loginUser.getmKind() == 2) { %>
 		<div class=BtnArea align=right>
@@ -158,6 +202,7 @@
 	<%@ include file="../common/footer.jsp" %>
 </div>
 <script>
+
 	var msg = '<%= msg %>';
 	
 	$(function(){
