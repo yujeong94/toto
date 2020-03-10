@@ -6,6 +6,19 @@
 	String kakao = request.getParameter("kakao") ;
 	String content = request.getParameter("content") ;
 	String stName = request.getParameter("stName") ;
+	
+	String kind = request.getParameter("kind") ;
+	String country = request.getParameter("country") ;
+	String city = request.getParameter("city") ;
+	
+	String[] selected = new String[2];
+	if(kind.equals("국내")){
+		selected[0] = "selected";
+		selected[1] = "";
+	} else {
+		selected[0] = "";
+		selected[1] = "selected";
+	}
 %>
 <!DOCTYPE html>
 <html> 
@@ -69,12 +82,16 @@
 						<td colspan="4">
 							<select name=kind id=kindList class="location" required>
 								<option value="0">분류</option>
+								<option value="국내" <%= selected[0] %>>국내</option>
+								<option value="해외" <%= selected[1] %>>해외</option>
 							</select>
 							<select name=country id=country class="location" required>
-								<option value="0">국가</option>
+<!-- 								<option value="0">국가</option> -->
+								<option><%= country %></option>
 							</select>
 							<select name=city id=city class="location">
-								<option value="0">도시</option>
+<!-- 								<option value="0">도시</option> -->
+								<option><%= city %></option>
 							</select>
 						</td>
 					</tr>
@@ -113,16 +130,16 @@
 					<tr id="insertArea">
 						<th id="wrtList">첨부파일</th>
 						<td colspan="4">
-							<input type="file" id="shareImg1" name="shareImg1" accept=".gif, .jpg, .jpeg, .png" name="shareImg1" class="shareImg" onchange="LoadImg(this,1)">
-							<input type="file" id="shareImg2" name="shareImg2" accept=".gif, .jpg, .jpeg, .png" name="shareImg2" class="shareImg" onchange="LoadImg(this,2)">
-							<input type="file" id="shareImg3" name="shareImg3" accept=".gif, .jpg, .jpeg, .png" name="shareImg3" class="shareImg" onchange="LoadImg(this,3)">
-							<input type="file" id="shareImg4" name="shareImg4" accept=".gif, .jpg, .jpeg, .png" name="shareImg4" class="shareImg" onchange="LoadImg(this,4)">
-							<input type="file" id="shareImg5" name="shareImg5" accept=".gif, .jpg, .jpeg, .png" name="shareImg5" class="shareImg" onchange="LoadImg(this,5)"><br><br>
-							<img id="contentImg1" class="contentImg" src=""><br><br>
-							<img id="contentImg2" class="contentImg" src=""><br><br>
-							<img id="contentImg3" class="contentImg" src=""><br><br>
-							<img id="contentImg4" class="contentImg" src=""><br><br>
-							<img id="contentImg5" class="contentImg" src=""><br><br>
+							<input type="file" id="shareImg1" name="shareImg1" accept=".gif, .jpg, .jpeg, .png" class="shareImg" onchange="LoadImg(this,1)">
+							<input type="file" id="shareImg2" name="shareImg2" accept=".gif, .jpg, .jpeg, .png" class="shareImg" onchange="LoadImg(this,2)">
+							<input type="file" id="shareImg3" name="shareImg3" accept=".gif, .jpg, .jpeg, .png" class="shareImg" onchange="LoadImg(this,3)">
+							<input type="file" id="shareImg4" name="shareImg4" accept=".gif, .jpg, .jpeg, .png" class="shareImg" onchange="LoadImg(this,4)">
+							<input type="file" id="shareImg5" name="shareImg5" accept=".gif, .jpg, .jpeg, .png" class="shareImg" onchange="LoadImg(this,5)"><br><br>
+							<img id="contentImg1" class="contentImg"><br><br>
+							<img id="contentImg2" class="contentImg"><br><br>
+							<img id="contentImg3" class="contentImg"><br><br>
+							<img id="contentImg4" class="contentImg"><br><br>
+							<img id="contentImg5" class="contentImg"><br><br>
 							<p id="fileText">파일은 .jpg, .jpeg, .png, .gif 파일만 업로드 가능합니다. 최대 5개까지 입력 가능합니다.</p>
 							<input type="hidden" id="fileBool2" name="fileBool2" value="trueFiles">
 						</td>
@@ -225,11 +242,11 @@
 						
 						reader.onload = function(e) {								
 							switch(num) {
+							case 0 : $("#contentImg0").attr("src", e.target.result) ; break ;
 							case 1 : $("#contentImg1").attr("src", e.target.result) ; break ;
 							case 2 : $("#contentImg2").attr("src", e.target.result) ; break ;
 							case 3 : $("#contentImg3").attr("src", e.target.result) ; break ;
 							case 4 : $("#contentImg4").attr("src", e.target.result) ; break ;
-							case 5 : $("#contentImg5").attr("src", e.target.result) ; break ;
 							}
 						}
 						reader.readAsDataURL(value.files[0]) ;
@@ -268,6 +285,8 @@
 					
 					if(fileCheck1 == "" && fileCheck2 == "" && fileCheck3 == "" && fileCheck4 == "" && fileCheck5 == "") {
 						$('#fileBool2').val("falseFiles") ;
+						var bool2 = confirm("사진을 입력하지 않으셨습니다. 계속하시겠습니까?") ;
+						if(!bool2) bool = false ;
 					} else {
 						$('#fileBool2').val("trueFiles") ;
 					}

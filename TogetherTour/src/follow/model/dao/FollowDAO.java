@@ -61,12 +61,16 @@ public class FollowDAO {
 		ResultSet rset = null ;
 		ArrayList<Member> mList = null ;
 		Member member = null ;
+		int grade = 0 ;
+		
 		String query = prop.getProperty("selectFollowList") ;
 		try {
 			ptmt = conn.prepareStatement(query) ;
 			ptmt.setString(1, mId) ;
 			rset = ptmt.executeQuery() ;
 			while(rset.next()) {
+				if(rset.getInt("GCOUNT") == 0)	grade = 0 ;
+				else							grade = Math.round(rset.getInt("grade")/rset.getInt("gCount")) ;
 				member = new Member() ;
 				mList  = new ArrayList<Member>() ;
 				member.setNickName(rset.getString("FNICK")) ;
@@ -74,8 +78,8 @@ public class FollowDAO {
 				member.setGender(rset.getString("GENDER")) ;
 				member.setAge(rset.getString("AGE")) ;
 				member.setFollow(rset.getInt("FOLLOW")) ;
-				member.setFollow(rset.getInt("GRADE")) ;
-				member.setFollow(rset.getInt("GCOUNT")) ;
+				member.setGrade(grade) ;
+				member.setgCount(rset.getInt("GCOUNT")) ;
 				mList.add(member) ;
 			}
 		} catch (SQLException e) {

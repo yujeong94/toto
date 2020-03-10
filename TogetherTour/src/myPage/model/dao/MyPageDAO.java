@@ -71,7 +71,7 @@ public class MyPageDAO {
 		PreparedStatement ptmt = null;
 		ResultSet rset = null;
 		Member userProfile = null;
-		
+		int grade = 0 ;
 		String query = prop.getProperty("userProfile");
 		try {
 			ptmt = conn.prepareStatement(query);
@@ -80,10 +80,12 @@ public class MyPageDAO {
 			rset = ptmt.executeQuery();
 			
 			if(rset.next()) {
+				if(rset.getInt("gCount") == 0)	grade = 0 ;
+				else							grade = Math.round(rset.getInt("grade")/rset.getInt("gCount")) ;
 				userProfile = new Member(rset.getString("nick"),
 							rset.getString("name"),
 							rset.getString("gender"),
-							rset.getInt("grade"),
+							grade,
 							rset.getString("age"));
 			}
 		} catch (SQLException e) {

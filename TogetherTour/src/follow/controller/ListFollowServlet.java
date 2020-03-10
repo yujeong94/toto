@@ -32,11 +32,10 @@ public class ListFollowServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		ArrayList<Member> mList = null ;
 		String mId = ((Member)session.getAttribute("loginUser")).getmId() ;
-		
 		String page = "" ;
-		
 		mList = new FollowService().selectFollowList(mId) ;
-		
+		for(int i=0; i<mList.size(); i++)
+			System.out.println("mList["+i+"] nick : "+mList.get(i).getNickName()) ;
 		if(mList != null) {
 			page = "views/myPage/MyPageFollowView.jsp" ;
 			request.setAttribute("mList", mList) ;

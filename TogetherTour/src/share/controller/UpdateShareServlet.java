@@ -57,7 +57,10 @@ public class UpdateShareServlet extends HttpServlet {
 			String title = multipartRequest.getParameter("title") ;
 			String category = multipartRequest.getParameter("category") ;
 			String content = multipartRequest.getParameter("content") ;
-			int kind = Integer.parseInt(multipartRequest.getParameter("kind")) ;
+			String kind = multipartRequest.getParameter("kind") ;
+			int kindNum = 0 ;
+			if(kind.equals("국내"))	kindNum = 1 ;
+			else					kindNum = 2 ;
 			String country = multipartRequest.getParameter("country") ;
 			String city = multipartRequest.getParameter("city") ;
 			String kakao = multipartRequest.getParameter("kakao") ;
@@ -69,7 +72,7 @@ public class UpdateShareServlet extends HttpServlet {
 			share.setTitle(title) ;
 			share.setCategory(category) ;
 			share.setContent(content) ;
-			share.setKind(kind) ;
+			share.setKind(kindNum) ;
 			share.setCountry(country) ;
 			share.setStName(""+stNum) ;
 			share.setCity(city) ;

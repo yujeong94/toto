@@ -31,11 +31,9 @@ public class ViewSelfServlet extends HttpServlet {
 		String userNick = ((Member)session.getAttribute("loginUser")).getNickName() ;
 		
 		mAttachment mAttach = new MyPageService().profileImg(userNick) ;
-		
 		String page = null ;
 		page = "views/myPage/MyPageContentView.jsp" ;
 		request.setAttribute("mAttach", mAttach) ;
-		
 		RequestDispatcher view = request.getRequestDispatcher(page) ;
 		view.forward(request, response) ;
 	}

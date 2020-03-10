@@ -21,7 +21,7 @@
 		<%@ include file="../common/header.jsp" %>
 		<div class="contents">
 			<h2><span>나눔 게시판</span></h2>
-			<p style="margin-top:-70px; margin-bottom:30px; font-size:1.4rem; font-weight:normal; text-align:center;">여행하면서 서로 남은 물건들을 공유할 수 있는 곳입니다.</p>
+			<p style="margin-top:-30px; margin-bottom:30px; font-size:1.4rem; font-weight:normal; text-align:center;">여행하면서 서로 남은 물건들을 공유할 수 있는 곳입니다.</p>
 			<hr>
 			<form id="shareListForm">
 				<hr><br>
