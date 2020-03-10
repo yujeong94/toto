@@ -46,7 +46,7 @@
 					<tr>
 						<th>아이디(ID)</th>
 						<td colspan="4">
-							<input id="mId" name="mId" class="myContent" type="text" style="background-color:#D8D8D8;" value="<%= loginUser.getmId()%>" readonly>
+							<input id="mId" name="mId" class="myContent" type="text" style="background-color:#D8D8D8;" value="<%=loginUser.getmId()%>" readonly>
 						</td>
 					</tr>
 					<tr>

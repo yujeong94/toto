@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/share/share_board.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<style>
-		#lists {border:1px solid black;}
+		#lists {border-bottom:1px solid; border-top:1px solid; background:#F2F2F2;}
 	</style>
 </head>
 <body>
@@ -22,9 +22,7 @@
 		<div class="contents">
 			<h2><span>나눔 게시판</span></h2>
 			<p style="margin-top:-30px; margin-bottom:30px; font-size:1.4rem; font-weight:normal; text-align:center;">여행하면서 서로 남은 물건들을 공유할 수 있는 곳입니다.</p>
-			<hr>
-			<form id="shareListForm">
-				<hr><br>
+			<form id="shareListForm"><br>
 				<table id="shareContent" class="listArea">
 					<tr id="lists"><th width="7.5%">번호</th><th width="12.5%">나눔카테고리</th><th width="18%">게시글명</th><th width="18%">작성자</th><th width="10%">작성일</th><th width="19%">거래지</th><th width="7%">조회수</th><th width="8%">거래 상태</th></tr>
 					<% if(sList.size() == 0) { %>
@@ -77,7 +75,7 @@
 			$(function() {
 				<% if(!sList.isEmpty()){ %>
 					$('.listArea td').mouseenter(function() {
-						$(this).parent().css('background','#D8D8D8') ;
+						$(this).parent().css('background','rgb(246, 227, 206)') ;
 					}).mouseout(function() {
 						$(this).parent().css('background','none') ;
 					}) ;

@@ -30,19 +30,12 @@ public class ListFollowServlet extends HttpServlet {
 	/** @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response) */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		ArrayList<Member> mList = null ;
+		ArrayList<Member> mList = new ArrayList<Member>() ;
 		String mId = ((Member)session.getAttribute("loginUser")).getmId() ;
 		String page = "" ;
 		mList = new FollowService().selectFollowList(mId) ;
-		for(int i=0; i<mList.size(); i++)
-			System.out.println("mList["+i+"] nick : "+mList.get(i).getNickName()) ;
-		if(mList != null) {
-			page = "views/myPage/MyPageFollowView.jsp" ;
-			request.setAttribute("mList", mList) ;
-		} else {
-			page = "views/common/errorPage.jsp";
-			request.setAttribute("msg", "게시판 조회에 실패하였습니다.");
-		}
+		page = "views/myPage/MyPageFollowView.jsp" ;
+		request.setAttribute("mList", mList) ;
 		RequestDispatcher view = request.getRequestDispatcher(page) ;
 		view.forward(request, response) ;
 	}

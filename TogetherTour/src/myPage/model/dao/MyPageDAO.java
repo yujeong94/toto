@@ -34,24 +34,25 @@ public class MyPageDAO {
 			System.out.println("-------------------------------------------------------------") ;
 		}
 	}
-	public mAttachment profileImg(Connection conn, String userNick) {
-		PreparedStatement ptmt = null;
-		ResultSet rset = null;
-		mAttachment profileImg = null;
+	
+	public mAttachment profileImg(Connection conn, String mId) {
+		PreparedStatement ptmt = null ;
+		ResultSet rset = null ;
+		mAttachment profileImg = null ;
 		
-		String query = prop.getProperty("profileImg");
+		String query = prop.getProperty("profileImg") ;
 		try {
-			ptmt = conn.prepareStatement(query);
-			ptmt.setString(1,userNick);
+			ptmt = conn.prepareStatement(query) ;
+			ptmt.setString(1,mId) ;
 			
-			rset = ptmt.executeQuery();
+			rset = ptmt.executeQuery() ;
 			
 			if(rset.next()) {
 				profileImg = new mAttachment(rset.getInt("fid"),
 											 rset.getString("mid"),
 											 rset.getString("origin_name"),
 											 rset.getString("change_name"),
-											 rset.getString("file_path"));
+											 rset.getString("file_path")) ;
 			}
 		} catch (SQLException e) {
 			System.out.println("\n---------------------------[ERROR]---------------------------") ;
@@ -62,9 +63,7 @@ public class MyPageDAO {
 		} finally {
 			close(rset) ;
 			close(ptmt) ;
-		}
-		
-		return profileImg;
+		} return profileImg;
 	}
 	
 	public Member userProfile(Connection conn, String userNick) {

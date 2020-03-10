@@ -3,7 +3,6 @@ package myPage.controller ;
 import java.io.IOException ;
 import java.util.Enumeration ;
 
-import javax.servlet.RequestDispatcher ;
 import javax.servlet.ServletException ;
 import javax.servlet.annotation.WebServlet ;
 import javax.servlet.http.HttpServlet ;
@@ -73,17 +72,12 @@ public class MyPageUpdateServlet extends HttpServlet {
 			
 			Member member = new Member(joinUserId, nickName, joinUserPwd, userName, gender, email, typeInt, age) ;
 			int result = new MemberService().updateMember(member,userImg) ;
-			String page = null ;
-			if(result > 0) {
-				page="index.jsp" ;
-				request.setAttribute("msg", "회원수정에 성공했습니다.") ;
+			if(result>0) {
+				response.sendRedirect("viewSelf.myPage") ;
 			} else {
-				page="index.jsp" ;
-				request.setAttribute("msg", "회원수정에 실패했습니다.") ;
+				request.setAttribute("msg", "마이페이지 수정에 실패했습니다.") ;
+				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response) ;
 			}
-			
-			RequestDispatcher view = request.getRequestDispatcher(page) ;
-			view.forward(request, response) ;
 		}
 	}
 

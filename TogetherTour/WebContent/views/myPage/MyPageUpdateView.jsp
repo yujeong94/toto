@@ -22,7 +22,7 @@
 		<!--S:contents-->
 		<div class="contents">
 			<h2><span>마이페이지</span></h2>
-			<p style="margin-top:-85px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내 정보 수정하기</p><hr>
+			<p style="margin-top:-40px; margin-bottom:30px; font-size:2rem; font-weight:bold; text-align:center;">내 정보 수정하기</p><hr>
 			<%@ include file="../myPage/MyPageMenu.jsp"%><hr><br><br>
 			<div id="myInfoArea">
 				<script>

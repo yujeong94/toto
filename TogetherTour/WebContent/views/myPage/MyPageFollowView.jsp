@@ -31,8 +31,8 @@
 					<tr>
 						<th>닉네임</th><th>이메일</th><th>성별</th><th>팔로워 수</th><th>평점(x/5, x명)</th>
 					</tr>
-					<% if(mList.size() < 1) { %>
-						<tr><td colspan="5">내용이 없습니다.</td></tr>
+					<% if(mList.isEmpty()) { %>
+						<tr><td colspan="5" style="text-align:center;">내용이 없습니다.</td></tr>
 					<% } else { %>
 						<% for(int i=0; i<mList.size(); i++) { %>
 							<tr style="text-align:center;" class="listArea" id="member<%=i%>">
