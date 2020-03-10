@@ -57,7 +57,7 @@
 					<% } %>
 				</table>
 			</form><br><hr><br>
-			<div style="text-align:center;">
+			<div style="text-align:right;">
 				<% if(loginUser != null) { %>
 					<input type="button" onclick="location.href='<%=request.getContextPath()%>/views/share/ShareInsertView.jsp'" id="button" class="write" value="작성하기">
 				<% } else { %>
